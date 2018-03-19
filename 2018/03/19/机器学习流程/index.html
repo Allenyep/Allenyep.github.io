@@ -1,0 +1,33 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="author" content="Allenyep"><link rel="alternative" href="/atom.xml" title="Allen's XX" type="application/atom+xml"><link rel="icon" href="/img/favicon.png"><title>机器学习流程 - Allen's XX</title><link rel="stylesheet" href="/css/main.css"><link rel="stylesheet" href="/js/fancybox/jquery.fancybox.min.css"><!--[if lt IE 9]><script>(function(a,b){a="abbr article aside audio bdi canvas data datalist details dialog figcaption figure footer header hgroup main mark meter nav output progress section summary template time video".split(" ");for(b=a.length-1;b>=0;b--)document.createElement(a[b])})()</script><![endif]--><script src="/js/jquery-3.1.1.min.js"></script><script src="/js/fancybox/jquery.fancybox.min.js"></script></head><body style="opacity:0"><header class="head"><h1 class="head-title u-fl"><a href="/">Allen's XX</a></h1><nav class="head-nav u-fr"><ul class="head-nav__list"><li class="head-nav__item"><a class="head-nav__link" href="/archives">カタログ/（目录）</a></li></ul></nav></header><main class="main"><article class="post"><header class="post__head"> <time class="post__time" datetime="2018-03-19T13:16:33.000Z">三月 19, 2018</time><h1 class="post__title"><a href="/2018/03/19/机器学习流程/">机器学习流程</a></h1><div class="post__main echo"><p>使用python开始机器学习<br></p>
+<h2 id="定义问题"><a href="#定义问题" class="headerlink" title="定义问题"></a>定义问题</h2><p>主要是在导入机器学习项目中所需要的类库和数据集，以便完成机器学习的项目。包括导入Ptyhon的类库，类和方法，以及导入数据。同时这也是所有的配置参数的配置模块。当数据集过大时，可以在这里对数据集进行瘦身处理，理想状态是可以在一分钟内，甚至是在30秒内完成模型的建立或可视化数据集。</p>
+<h4 id="导入类库"><a href="#导入类库" class="headerlink" title="导入类库"></a>导入类库</h4><h4 id="导入数据集"><a href="#导入数据集" class="headerlink" title="导入数据集"></a>导入数据集</h4><p>===============</p>
+<h2 id="理解数据"><a href="#理解数据" class="headerlink" title="理解数据"></a>理解数据</h2><p>这是加强对数据理解的步骤，包括通过描述性统计来分析数据和通过可视化来观察数据。这一步需要花费时间多问几个问题，设定假设条件并调查分析，这对模型的建立有很大的帮助。</p>
+<h4 id="描述性统计"><a href="#描述性统计" class="headerlink" title="描述性统计"></a>描述性统计</h4><h4 id="数据可视化"><a href="#数据可视化" class="headerlink" title="数据可视化"></a>数据可视化</h4><p>===============</p>
+<h2 id="数据准备"><a href="#数据准备" class="headerlink" title="数据准备"></a>数据准备</h2><p>数据准备主要是预处理数据，以便让数据可以更好的展示问题，以及熟悉输入与输出的关系。包括：</p>
+<ul>
+<li>通过删除重复数据，标记错误数值，甚至标记错误的输入数据来清洗数据</li>
+<li>特征选择，包括移除多余的特征属性和增加新的特征属性</li>
+<li>数据转化，对数据尺度进行调整，或者调整数据分布，以便更好地展示问题<br>不断的重复这个步骤和下一个步骤，直到找到足够准确的算法生成模型</li>
+</ul>
+<h4 id="数据清洗"><a href="#数据清洗" class="headerlink" title="数据清洗"></a>数据清洗</h4><h4 id="数据选择"><a href="#数据选择" class="headerlink" title="数据选择"></a>数据选择</h4><h4 id="数据转换"><a href="#数据转换" class="headerlink" title="数据转换"></a>数据转换</h4><p>===============</p>
+<h2 id="评估算法"><a href="#评估算法" class="headerlink" title="评估算法"></a>评估算法</h2><p>评估算法主要是为了寻找最佳的算法子集，包括：</p>
+<ul>
+<li>分离出评估数据集，以便验证模型</li>
+<li>定义模型评估标准，用来评估算法模型</li>
+<li>抽样审查线性算法和非线性算法</li>
+<li>比较算法的准确度<br>找到3~5种准确度足够的算法为止</li>
+</ul>
+<h4 id="分离数据集"><a href="#分离数据集" class="headerlink" title="分离数据集"></a>分离数据集</h4><h4 id="定义模型评估标准"><a href="#定义模型评估标准" class="headerlink" title="定义模型评估标准"></a>定义模型评估标准</h4><h4 id="算法审查"><a href="#算法审查" class="headerlink" title="算法审查"></a>算法审查</h4><h4 id="算法比较"><a href="#算法比较" class="headerlink" title="算法比较"></a>算法比较</h4><p>===============</p>
+<h2 id="优化模型"><a href="#优化模型" class="headerlink" title="优化模型"></a>优化模型</h2><p>当得到一个准确度足够的算法之后，从中找出最合适的算法，两种方法提高算法的准确度：</p>
+<ul>
+<li>对每种算法进行调参，得到最佳结果</li>
+<li>使用集合算法来提高算法模型的准确度</li>
+</ul>
+<h4 id="算法调参"><a href="#算法调参" class="headerlink" title="算法调参"></a>算法调参</h4><h4 id="集成算法"><a href="#集成算法" class="headerlink" title="集成算法"></a>集成算法</h4><p>===============</p>
+<h2 id="结果部署"><a href="#结果部署" class="headerlink" title="结果部署"></a>结果部署</h2><p>一旦认为模型的准确度足够高，就可将这个模型序列化，以便有新数据时使用该模型来预测数据。</p>
+<ul>
+<li>通过验证数据集来验证被优化的模型</li>
+<li>通过整个数据集来生成模型</li>
+<li>将模型序列化，以便预测新数据</li>
+</ul>
+<h4 id="预测评估数据集"><a href="#预测评估数据集" class="headerlink" title="预测评估数据集"></a>预测评估数据集</h4><h4 id="利用整个数据集生成模型"><a href="#利用整个数据集生成模型" class="headerlink" title="利用整个数据集生成模型"></a>利用整个数据集生成模型</h4><h4 id="序列化模型"><a href="#序列化模型" class="headerlink" title="序列化模型"></a>序列化模型</h4></div></header><footer class="post__foot u-cf"><ul class="post__tag u-fl"><li class="post__tag__item"><a class="post__tag__link" href="/tags/机器学习/">机器学习</a></li></ul></footer></article><section class="reward"> <a class="btn-reward" href="#">打赏</a><div class="reward-wrapper clearfix"><img src="/img/wechat.png" title="微信"></div></section><div class="comments" id="lv-container" data-id="city" data-uid="your uid"><script>(function(d, s) {var j, e = d.getElementsByTagName(s)[0];if (typeof LivereTower === 'function') { return; } j = d.createElement(s);j.src = 'https://cdn-city.livere.com/js/embed.dist.js';j.async = true;e.parentNode.insertBefore(j, e);})(document, 'script');</script></div></main><footer class="foot"><div class="foot-copy">&copy; 2016-2018 Allenyep</div></footer><script src="/js/scroller.js"></script><script src="/js/main.js"></script></body></html>
