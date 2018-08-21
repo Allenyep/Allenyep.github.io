@@ -102,25 +102,27 @@
 
 
 
-  <meta name="description" content="被机器学习的代码搞得头大，简单的python硬是看不懂了。花了一整天时间整理学习python基础。">
-<meta name="keywords" content="python">
+  <meta name="description" content="跟着吴恩达老师一起学习，最近报名了coursera的机器学习课程。在week1中，Andrew总体介绍了这门课的作用和需要的知识前驱。">
+<meta name="keywords" content="机器学习,matlab">
 <meta property="og:type" content="article">
-<meta property="og:title" content="python基础总结">
-<meta property="og:url" content="http://yoursite.com/2018/04/17/python基础总结/index.html">
+<meta property="og:title" content="和Andrew一起机器学习week1">
+<meta property="og:url" content="http://yoursite.com/2018/05/16/和Andrew一起机器学习week1/index.html">
 <meta property="og:site_name" content="我是你遥远星河坠落在左下角的星星">
-<meta property="og:description" content="被机器学习的代码搞得头大，简单的python硬是看不懂了。花了一整天时间整理学习python基础。">
+<meta property="og:description" content="跟着吴恩达老师一起学习，最近报名了coursera的机器学习课程。在week1中，Andrew总体介绍了这门课的作用和需要的知识前驱。">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-04-25T11:11:59.928Z">
+<meta property="og:image" content="http://yoursite.com/2018/05/16/和Andrew一起机器学习week1/modelrepresentation.png">
+<meta property="og:updated_time" content="2018-05-17T03:33:14.831Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="python基础总结">
-<meta name="twitter:description" content="被机器学习的代码搞得头大，简单的python硬是看不懂了。花了一整天时间整理学习python基础。">
+<meta name="twitter:title" content="和Andrew一起机器学习week1">
+<meta name="twitter:description" content="跟着吴恩达老师一起学习，最近报名了coursera的机器学习课程。在week1中，Andrew总体介绍了这门课的作用和需要的知识前驱。">
+<meta name="twitter:image" content="http://yoursite.com/2018/05/16/和Andrew一起机器学习week1/modelrepresentation.png">
 
 
 
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2018/04/17/python基础总结/"/>
+  <link rel="canonical" href="http://yoursite.com/2018/05/16/和Andrew一起机器学习week1/"/>
 
 
 
@@ -130,7 +132,7 @@
   };
 </script>
 
-  <title>python基础总结 | 我是你遥远星河坠落在左下角的星星</title>
+  <title>和Andrew一起机器学习week1 | 我是你遥远星河坠落在左下角的星星</title>
   
 
 
@@ -294,7 +296,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/04/17/python基础总结/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/16/和Andrew一起机器学习week1/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Allenyep">
@@ -311,7 +313,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">python基础总结
+          <h1 class="post-title" itemprop="name headline">和Andrew一起机器学习week1
               
             
           </h1>
@@ -336,7 +338,7 @@
                 
               
 
-              <time title="创建时间：2018-04-17 16:21:52" itemprop="dateCreated datePublished" datetime="2018-04-17T16:21:52+08:00">2018-04-17</time>
+              <time title="创建时间：2018-05-16 18:02:38" itemprop="dateCreated datePublished" datetime="2018-05-16T18:02:38+08:00">2018-05-16</time>
             
 
             
@@ -353,7 +355,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2018-04-25 19:11:59" itemprop="dateModified" datetime="2018-04-25T19:11:59+08:00">2018-04-25</time>
+                <time title="修改时间：2018-05-17 11:33:14" itemprop="dateModified" datetime="2018-05-17T11:33:14+08:00">2018-05-17</time>
               
             
           </span>
@@ -367,9 +369,9 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2018/04/17/python基础总结/#comments" itemprop="discussionUrl">
+                <a href="/2018/05/16/和Andrew一起机器学习week1/#comments" itemprop="discussionUrl">
                   <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="2018/04/17/python基础总结/" itemprop="commentCount"></span>
+                        data-disqus-identifier="2018/05/16/和Andrew一起机器学习week1/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -397,14 +399,20 @@
       
 
       
-        <p>被机器学习的代码搞得头大，简单的python硬是看不懂了。花了一整天时间整理学习python基础。<br><a id="more"></a></p>
-<h2 id="数据类型和表达式"><a href="#数据类型和表达式" class="headerlink" title="数据类型和表达式"></a>数据类型和表达式</h2><p>基本数据类型：数值，布尔，字符串，空值<br>python的空值和java不一样，用None表示<br>整除用//<br>幂运算用 **<br>python <strong>所有数据都是对象</strong></p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">9</span>//<span class="number">2</span>==<span class="number">4.0</span></span><br><span class="line"><span class="number">3</span>**<span class="number">2</span>==<span class="number">9</span></span><br></pre></td></tr></table></figure>
-<h2 id="数据结构"><a href="#数据结构" class="headerlink" title="数据结构"></a>数据结构</h2><p>序列，列表：用[]表示，可以索引，切片操作<br>元组：用()表示，不可变<br>字典：用{}表示,类似java当中的Map</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">list=[<span class="number">1</span>,<span class="number">1.3</span>,<span class="string">'a'</span>]</span><br><span class="line">list[<span class="number">1</span>:<span class="number">2</span>] <span class="comment">#切片</span></span><br><span class="line">&gt;&gt;&gt;[<span class="number">1.3</span>]</span><br><span class="line">tup=(<span class="string">'a'</span>,<span class="string">'b'</span>)</span><br><span class="line">dict=&#123;<span class="string">'name'</span>:<span class="string">'allen'</span>,<span class="string">'age'</span>:<span class="number">16</span>&#125; <span class="comment">#键值不可变，只能用数，字符串，元组</span></span><br></pre></td></tr></table></figure>
-<h2 id="函数"><a href="#函数" class="headerlink" title="函数"></a>函数</h2><p>全局变量用global关键字<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">func</span><span class="params">()</span>:</span></span><br><span class="line">	<span class="keyword">global</span> x</span><br><span class="line">	print(x)</span><br><span class="line">x=<span class="number">50</span></span><br><span class="line">func() <span class="comment">#输出50</span></span><br></pre></td></tr></table></figure></p>
-<h2 id="面向对象"><a href="#面向对象" class="headerlink" title="面向对象"></a>面向对象</h2><p>对象有实例属性，即一个对象可以有无限多的属性<br>属性前下划线表明私有属性，如__name<br>python支持多重继承<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">People</span>:</span></span><br><span class="line">	name=<span class="string">'allen'</span></span><br><span class="line">	__age=<span class="number">16</span></span><br><span class="line"></span><br><span class="line">p=People()</span><br><span class="line">print(p.__age) <span class="comment">#错误，无法输出私有属性</span></span><br></pre></td></tr></table></figure></p>
-<p>后面的文件，网络，GUI和绘图模块暂时使用频率不高。如果之后有需要再进行总结。</p>
+        <p>跟着吴恩达老师一起学习，最近报名了coursera的机器学习课程。<br>在week1中，Andrew总体介绍了这门课的作用和需要的知识前驱。<br><a id="more"></a><br>机器学习的定义如下：<br>Arthur Samuel (1959). Machine Learning: Field of study that gives computers the ability to learn without being explicitly programmed.<br>Tom Mitchell (1998) Well-posed Learning Problem: A computer program is said to learn<br>from experience E with respect to some task T and some performance measure P, if its performance on T, as measured by P, improves with experience E. </p>
+<p>机器学习又被划分为两类算法，</p>
+<pre><code>- Supervised learning
+- Unsupervised learning
+其它还有强化学习（reinforcement learning）和推荐系统（recommender systems）。
+</code></pre><h2 id="监督学习-Supervised-learning"><a href="#监督学习-Supervised-learning" class="headerlink" title="监督学习(Supervised learning)"></a>监督学习(Supervised learning)</h2><p>we are given a data set and already know what our correct output should look like, having the idea that there is a relationship between the input and the output.<br>监督学习将问题分为”回归”和”分类”两类问题。前者解决连续的值的问题，后者解决离散的值的问题。例如，预测房价就是一个回归问题，而根据肿瘤的大小判断是否为恶性肿瘤则是一种分类问题。</p>
+<h2 id="无监督学习-Unsupervised-Learning"><a href="#无监督学习-Unsupervised-Learning" class="headerlink" title="无监督学习(Unsupervised Learning)"></a>无监督学习(Unsupervised Learning)</h2><p>Unsupervised learning allows us to approach problems with little or no idea what our results should look like. We can derive structure from data where we don’t necessarily know the effect of the variables.<br>非监督学习是一种学习机制，你给算法大量的数据，要求它找出数据中蕴含的类型结构。在非监督学习中，数据没有属性或者标签的概念，所有的数据都是一样的，没有任何区别（而你的目标就是找出区别，并且把数据分类）。<br>With unsupervised learning there is no feedback based on the prediction results.<br>非监督学习主要可以分为聚类算法问题和非聚类算法问题两种：</p>
+<h3 id="Clustering-Algorithm-聚类算法"><a href="#Clustering-Algorithm-聚类算法" class="headerlink" title="Clustering Algorithm 聚类算法"></a>Clustering Algorithm 聚类算法</h3><p>将一个数据集分成几个聚类，这就是聚类算法。<br>典型例子是google新闻，它把成千上万的新闻聚集起来，按照每个新闻的内容分成一个一个的专题。</p>
+<h3 id="Cocktail-Party-Algorithm-鸡尾酒会算法（Non-clustering-Algorithm-非聚类算法）"><a href="#Cocktail-Party-Algorithm-鸡尾酒会算法（Non-clustering-Algorithm-非聚类算法）" class="headerlink" title="Cocktail Party Algorithm 鸡尾酒会算法（Non-clustering Algorithm 非聚类算法）"></a>Cocktail Party Algorithm 鸡尾酒会算法（Non-clustering Algorithm 非聚类算法）</h3><p>有一个宴会，有一屋子的人，大家都坐在一起，而且在同时说话，有许多声音混杂在一起，因为每个人都是在同一时间说话的，在这种情况下你很难听清楚你面前的人说的话。因此，比如有这样一个场景，宴会上只有两个人，同时说话， 有两个麦克风，把它们放在房间里，然后因为这两个麦克风距离这两个人的距离不同，每个麦克风都记录下了来自两个人的声音的不同组合。A的声音在第一个麦克风里的声音会响一点，B的声音在第二个麦克风里会比较响一点，因为两个麦克风的位置相对于两个说话者的位置是不同的。但每个麦克风都会录到来自两个说话者的重叠部分的声音。<br>鸡尾酒会算法：找出其中蕴含的分类，算法还会分离出两个被叠加到一起的音频源。</p>
+<h2 id="模型表示-Model-Representation"><a href="#模型表示-Model-Representation" class="headerlink" title="模型表示(Model Representation)"></a>模型表示(Model Representation)</h2><img src="/2018/05/16/和Andrew一起机器学习week1/modelrepresentation.png" title="This is an model representation">
+<p>我们将训练集数据交给学习算法，将会得到一个函数，通常用h来表示,h则代表hypothesis 假设。对于函数h，输入变量x’s,得到输出y’s。</p>
+<h3 id="符号表示"><a href="#符号表示" class="headerlink" title="符号表示"></a>符号表示</h3><p>m = Number of training examples 训练样本的数目<br>x′s = “input” variable / features 输入变量/特征量<br>y′s = “output” variable / “target” variable 输出变量/目标变量<br>(x,y) = one training example 某一个训练样本（泛指）<br>(x(i),y(i)) ith training example 第i个训练样本（特指）<br>Training Set: a list of m training examples (x(i),y(i));i=1,…,m</p>
+<h3 id="代价函数-Cost-Function"><a href="#代价函数-Cost-Function" class="headerlink" title="代价函数(Cost Function)"></a>代价函数(Cost Function)</h3><p>We can measure the accuracy of our hypothesis function by using a cost function. This takes an average difference (actually a fancier version of an average) of all the results of the hypothesis with inputs from x’s and the actual output y’s.<br>$$<br>J(\theta_{0},\theta_{1})=\frac{1}{2m}\sum_{i=1}^{m}(\hat{y_{i}}-y_{i})^{2}=\frac{1}{2m}\sum_{i=1}^{m}(h_{\theta }(x_{i})-y_{i})^{2}<br>$$</p>
+<p>$$<br>\begin{eqnarray}<br>\nabla\cdot\vec{E} &amp;=&amp; \frac{\rho}{\epsilon_0} \\<br>\nabla\cdot\vec{B} &amp;=&amp; 0 \\<br>\nabla\times\vec{E} &amp;=&amp; -\frac{\partial B}{\partial t} \\<br>\nabla\times\vec{B} &amp;=&amp; \mu_0\left(\vec{J}+\epsilon_0\frac{\partial E}{\partial t} \right)<br>\end{eqnarray}<br>$$</p>
 
       
     </div>
@@ -425,7 +433,9 @@
       
         <div class="post-tags">
           
-            <a href="/tags/python/" rel="tag"># python</a>
+            <a href="/tags/机器学习/" rel="tag"># 机器学习</a>
+          
+            <a href="/tags/matlab/" rel="tag"># matlab</a>
           
         </div>
       
@@ -438,8 +448,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/04/15/好未来JAVA面试/" rel="next" title="好未来JAVA面试">
-                <i class="fa fa-chevron-left"></i> 好未来JAVA面试
+              <a href="/2018/04/17/python基础总结/" rel="next" title="python基础总结">
+                <i class="fa fa-chevron-left"></i> python基础总结
               </a>
             
           </div>
@@ -447,10 +457,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2018/05/16/和Andrew一起机器学习week1/" rel="prev" title="和Andrew一起机器学习week1">
-                和Andrew一起机器学习week1 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -623,7 +629,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#数据类型和表达式"><span class="nav-number">1.</span> <span class="nav-text">数据类型和表达式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数据结构"><span class="nav-number">2.</span> <span class="nav-text">数据结构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#函数"><span class="nav-number">3.</span> <span class="nav-text">函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#面向对象"><span class="nav-number">4.</span> <span class="nav-text">面向对象</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#监督学习-Supervised-learning"><span class="nav-number">1.</span> <span class="nav-text">监督学习(Supervised learning)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#无监督学习-Unsupervised-Learning"><span class="nav-number">2.</span> <span class="nav-text">无监督学习(Unsupervised Learning)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Clustering-Algorithm-聚类算法"><span class="nav-number">2.1.</span> <span class="nav-text">Clustering Algorithm 聚类算法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Cocktail-Party-Algorithm-鸡尾酒会算法（Non-clustering-Algorithm-非聚类算法）"><span class="nav-number">2.2.</span> <span class="nav-text">Cocktail Party Algorithm 鸡尾酒会算法（Non-clustering Algorithm 非聚类算法）</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#模型表示-Model-Representation"><span class="nav-number">3.</span> <span class="nav-text">模型表示(Model Representation)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#符号表示"><span class="nav-number">3.1.</span> <span class="nav-text">符号表示</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#代价函数-Cost-Function"><span class="nav-number">3.2.</span> <span class="nav-text">代价函数(Cost Function)</span></a></li></ol></li></ol></div>
             
 
           </div>
@@ -777,9 +783,9 @@
   
     <script type="text/javascript">
       var disqus_config = function () {
-        this.page.url = 'http://yoursite.com/2018/04/17/python基础总结/';
-        this.page.identifier = '2018/04/17/python基础总结/';
-        this.page.title = 'python基础总结';
+        this.page.url = 'http://yoursite.com/2018/05/16/和Andrew一起机器学习week1/';
+        this.page.identifier = '2018/05/16/和Andrew一起机器学习week1/';
+        this.page.title = '和Andrew一起机器学习week1';
       };
       function loadComments () {
         var d = document, s = d.createElement('script');
