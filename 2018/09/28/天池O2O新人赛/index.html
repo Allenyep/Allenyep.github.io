@@ -1,0 +1,873 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-CN">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=6.2.0" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.2.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.2.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.2.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.2.0" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '6.2.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="在实验室大腿的帮助下，成功参加了天池的新人赛">
+<meta name="keywords" content="机器学习,python">
+<meta property="og:type" content="article">
+<meta property="og:title" content="天池O2O新人赛">
+<meta property="og:url" content="www.allenyep.cn/2018/09/28/天池O2O新人赛/index.html">
+<meta property="og:site_name" content="Allenyep的博客">
+<meta property="og:description" content="在实验室大腿的帮助下，成功参加了天池的新人赛">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2018-09-29T02:53:30.929Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="天池O2O新人赛">
+<meta name="twitter:description" content="在实验室大腿的帮助下，成功参加了天池的新人赛">
+
+
+
+
+
+
+  <link rel="canonical" href="www.allenyep.cn/2018/09/28/天池O2O新人赛/"/>
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>天池O2O新人赛 | Allenyep的博客</title>
+  
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Allenyep的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">keep young,keep simple</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />首页</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+    <a href="/about/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-user"></i> <br />关于</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+    <a href="/tags/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />标签</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档</a>
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="www.allenyep.cn/2018/09/28/天池O2O新人赛/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Allenyep">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Allenyep的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">天池O2O新人赛
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-09-28 22:27:51" itemprop="dateCreated datePublished" datetime="2018-09-28T22:27:51+08:00">2018-09-28</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2018-09-29 10:53:30" itemprop="dateModified" datetime="2018-09-29T10:53:30+08:00">2018-09-29</time>
+              
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/09/28/天池O2O新人赛/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2018/09/28/天池O2O新人赛/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><center>在实验室大腿的帮助下，成功参加了天池的新人赛</center><br><a id="more"></a></p>
+<h2 id="步骤"><a href="#步骤" class="headerlink" title="步骤"></a>步骤</h2><p>参考《100行代码入门天池O2O优惠券使用新人赛》，比赛步骤如下：</p>
+<ul>
+<li>赛题介绍：本赛题目标是预测投放的优惠券是否核销。</li>
+<li>数据分析: 其中包含一些常见的数据处理，比如str to numeric。</li>
+<li>特征工程: 主要是简单的提取了折扣相关信息和时间信息。</li>
+<li>模型建立: 简单的线性模型。</li>
+</ul>
+<h2 id="Step1：赛题介绍"><a href="#Step1：赛题介绍" class="headerlink" title="Step1：赛题介绍"></a>Step1：赛题介绍</h2><p> 本次赛题为《生活大实惠：O2O优惠券使用预测》，个性化投放是提高优惠券核销率的重要技术，它可以让具有一定偏好的消费者得到真正的实惠，同时赋予商家更强的营销能力。本次大赛为参赛选手提供了O2O场景相关的丰富数据，希望参赛选手通过分析建模，精准预测用户是否会在规定时间内使用相应优惠券。</p>
+<p> 这个题目告诉我们O2O优惠劵需要准确被投放到具有相应偏好消费者手里。需要做到的是精准预测用户的使用行为。</p>
+<h2 id="Step2：数据说明及评价分析"><a href="#Step2：数据说明及评价分析" class="headerlink" title="Step2：数据说明及评价分析"></a>Step2：数据说明及评价分析</h2><h3 id="数据"><a href="#数据" class="headerlink" title="数据"></a>数据</h3><p>本赛题提供用户在2016年1月1日至2016年6月30日之间真实线上线下消费行为，预测用户在2016年7月领取优惠券后15天以内的使用情况。 </p>
+<h3 id="评价方式"><a href="#评价方式" class="headerlink" title="评价方式"></a>评价方式</h3><p>本赛题目标是预测投放的优惠券是否核销。针对此任务及一些相关背景知识，使用优惠券核销预测的平均AUC（ROC曲线下面积）作为评价标准。 即对每个优惠券coupon_id单独计算核销预测的AUC值，再对所有优惠券的AUC值求平均作为最终的评价标准。</p>
+<p>AUC是一个模型评价指标，用于二分类模型的评价。AUC值是一个概率值，随机挑选一个正样本以及一个负样本，当前的分类算法根据计算得到的Score值将这个正样本排在负样本前面的概率就是AUC值。读起来有些绕，其实就是说AUC值越大，正样本排在负样本前面的可能越大，即越有可能预测正确（更好的分类）。</p>
+<h2 id="Step3：特征工程"><a href="#Step3：特征工程" class="headerlink" title="Step3：特征工程"></a>Step3：特征工程</h2><p>赛题给了4部分数据，分别是线上优惠劵使用预测样本，线下优惠劵使用预测样本，用户线下优惠劵待预测集和提交样例。因为是才开始，所以只选用了线下样本和线下待预测集。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">train = pd.read_csv(<span class="string">'ccf_offline_stage1_train.csv'</span>)</span><br><span class="line">test = pd.read_csv(<span class="string">'ccf_offline_stage1_test_revised.csv'</span>)</span><br></pre></td></tr></table></figure>
+<h3 id="样本划分和数据清洗"><a href="#样本划分和数据清洗" class="headerlink" title="样本划分和数据清洗"></a>样本划分和数据清洗</h3><p>首先分析数据Date项特征，对样本进行打标。根据15内领取优惠券并购买相应商品标记为1，领取未消费标记为0，剩余标记为-1.打标完成后,清洗掉所有-1项。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_label</span><span class="params">(data)</span>:</span></span><br><span class="line">    <span class="keyword">if</span> pd.isnull(data.Date) == <span class="keyword">True</span> <span class="keyword">and</span> pd.isnull(data.Coupon_id) !=<span class="keyword">True</span>:</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span></span><br><span class="line">    <span class="keyword">elif</span> pd.isnull(data.Date) != <span class="keyword">True</span> <span class="keyword">and</span> pd.isnull(data.Coupon_id) !=<span class="keyword">True</span>:</span><br><span class="line">        <span class="keyword">if</span> (datetime.datetime.strptime(str(int(data.Date)),<span class="string">"%Y%m%d"</span>) - datetime.datetime.strptime(str(int(data.Date_received)),<span class="string">"%Y%m%d"</span>)).days &lt;= <span class="number">15</span>:</span><br><span class="line">            <span class="keyword">return</span> <span class="number">1</span></span><br><span class="line">        <span class="keyword">else</span>: </span><br><span class="line">            <span class="keyword">return</span> <span class="number">0</span></span><br><span class="line">    <span class="keyword">return</span> <span class="number">-1</span></span><br></pre></td></tr></table></figure>
+<h3 id="折扣特征"><a href="#折扣特征" class="headerlink" title="折扣特征"></a>折扣特征</h3><p>然后开始对折扣特征Discount_rate进行分析，将折扣分为直接打折和满减两种打标，同时计算折扣率，添加满值和减值。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#type 1满减  0打折</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_discount_type</span><span class="params">(row)</span>:</span></span><br><span class="line">    <span class="keyword">if</span> pd.isnull(row):</span><br><span class="line">        <span class="keyword">return</span> np.nan</span><br><span class="line">    <span class="keyword">elif</span> <span class="string">':'</span> <span class="keyword">in</span> row:</span><br><span class="line">        <span class="keyword">return</span> <span class="number">1</span></span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">convert_rate</span><span class="params">(row)</span>:</span></span><br><span class="line">    <span class="keyword">if</span> pd.isnull(row):</span><br><span class="line">        <span class="keyword">return</span> <span class="number">1.0</span></span><br><span class="line">    <span class="keyword">elif</span> <span class="string">':'</span> <span class="keyword">in</span> row:</span><br><span class="line">        rows = row.split(<span class="string">':'</span>)</span><br><span class="line">        <span class="keyword">return</span> <span class="number">1.0</span> - float(rows[<span class="number">1</span>])/float(rows[<span class="number">0</span>])</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="keyword">return</span> float(row)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_discount_man</span><span class="params">(row)</span>:</span></span><br><span class="line">    <span class="keyword">if</span> <span class="string">':'</span> <span class="keyword">in</span> row:</span><br><span class="line">        <span class="keyword">return</span> int(row.split(<span class="string">':'</span>)[<span class="number">0</span>])</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_discount_jian</span><span class="params">(row)</span>:</span></span><br><span class="line">    <span class="keyword">if</span> <span class="string">':'</span> <span class="keyword">in</span> row:</span><br><span class="line">        <span class="keyword">return</span> int(row.split(<span class="string">':'</span>)[<span class="number">1</span>])</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span></span><br></pre></td></tr></table></figure></p>
+<h3 id="周末日期特征"><a href="#周末日期特征" class="headerlink" title="周末日期特征"></a>周末日期特征</h3><p>分析周末特征,即领取优惠券周几，是否为周末做标签。将领取优惠券日期转换为独热码。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_weekday</span><span class="params">(row)</span>:</span></span><br><span class="line">    <span class="keyword">if</span> row == <span class="string">'nan'</span>:</span><br><span class="line">        <span class="keyword">return</span> np.nan</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="keyword">return</span> date(int(row[<span class="number">0</span>:<span class="number">4</span>]), int(row[<span class="number">4</span>:<span class="number">6</span>]), int(row[<span class="number">6</span>:<span class="number">8</span>])).weekday() + <span class="number">1</span></span><br><span class="line"></span><br><span class="line">train_new_process[<span class="string">'weekday'</span>] = train_new_process[<span class="string">'Date_received'</span>].astype(str).apply(get_weekday)</span><br><span class="line"><span class="comment">#weekday_type 周末为1 其他为0</span></span><br><span class="line">train_new_process[<span class="string">'weekday_type'</span>] = train_new_process[<span class="string">'weekday'</span>].apply(<span class="keyword">lambda</span> x: <span class="number">1</span> <span class="keyword">if</span> x <span class="keyword">in</span> [<span class="number">6</span>,<span class="number">7</span>] <span class="keyword">else</span> <span class="number">0</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">#领取日期转换 独热码</span></span><br><span class="line">weekdaycols = [<span class="string">'weekday_'</span> + str(i) <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>,<span class="number">8</span>)]</span><br><span class="line">temp = pd.get_dummies(train_new_process[<span class="string">'weekday'</span>].replace(<span class="string">'nan'</span>,np.nan))</span><br><span class="line">temp.columns = weekdaycols</span><br><span class="line">train_new_process[weekdaycols] = temp</span><br></pre></td></tr></table></figure></p>
+<h2 id="Step4：模型建立"><a href="#Step4：模型建立" class="headerlink" title="Step4：模型建立"></a>Step4：模型建立</h2><p>将数据按日期划分，5月16日以前作为训练集，5月16至6月16之间作为验证集。训练特征分别为折扣率，打折类型，满减价格，距离，领取日期，是否周末。模型使用随机梯度下降的线性分类器。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#特征</span></span><br><span class="line">original_feature = [<span class="string">'rate'</span>,<span class="string">'type'</span>,<span class="string">'man'</span>,<span class="string">'jian'</span>,<span class="string">'distance'</span>,<span class="string">'weekday'</span>,<span class="string">'weekday_type'</span>] + weekdaycols</span><br><span class="line">print(<span class="string">'----------train-----------'</span>)</span><br><span class="line">model = SGDClassifier(</span><br><span class="line">    loss=<span class="string">'log'</span>,</span><br><span class="line">    penalty=<span class="string">'elasticnet'</span>,</span><br><span class="line">    fit_intercept=<span class="keyword">True</span>,</span><br><span class="line">    max_iter=<span class="number">100</span>,</span><br><span class="line">    shuffle=<span class="keyword">True</span>,</span><br><span class="line">    alpha = <span class="number">0.01</span>,</span><br><span class="line">    l1_ratio = <span class="number">0.01</span>,</span><br><span class="line">    n_jobs=<span class="number">1</span>,</span><br><span class="line">    class_weight=<span class="keyword">None</span></span><br><span class="line">)</span><br><span class="line">model.fit(train_set[original_feature],train_set[<span class="string">'label'</span>])</span><br></pre></td></tr></table></figure>
+<p>训练完成之后将模型放入测试集进行分类预测。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">print(<span class="string">'----predict-----'</span>)</span><br><span class="line"><span class="comment">#TODO 修改训练集格式，输出</span></span><br><span class="line">test_predict = model.predict_proba(test_new[original_feature])</span><br><span class="line">test_pre_new = test_new[[<span class="string">'User_id'</span>,<span class="string">'Coupon_id'</span>,<span class="string">'Date_received'</span>]].copy()</span><br><span class="line">test_pre_new[<span class="string">'label'</span>] = test_predict[:,<span class="number">1</span>]</span><br><span class="line">test_pre_new.to_csv(<span class="string">'submit1.csv'</span>, index=<span class="keyword">False</span>, header=<span class="keyword">False</span>)</span><br><span class="line">test_pre_new.head()</span><br></pre></td></tr></table></figure></p>
+<p>当然，由于特征选取较少，提取比较粗糙。通过AUC评价得分并不会太高。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>作为初次踏入数据分析的项目中，参考别人项目完整走完一次数据分析实战流程，让我感受颇多。使用python进行数据处理，还有很长的路等我学习。</p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/机器学习/" rel="tag"># 机器学习</a>
+          
+            <a href="/tags/python/" rel="tag"># python</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/05/16/和Andrew一起机器学习week1/" rel="next" title="和Andrew一起机器学习week1">
+                <i class="fa fa-chevron-left"></i> 和Andrew一起机器学习week1
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.png"
+                alt="Allenyep" />
+            
+              <p class="site-author-name" itemprop="name">Allenyep</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">12</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">10</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/Allenyep" target="_blank" title="GitHub"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="https://instagram.com/Allenyep" target="_blank" title="Instagram"><i class="fa fa-fw fa-instagram"></i>Instagram</a>
+                  
+                </span>
+              
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#步骤"><span class="nav-number">1.</span> <span class="nav-text">步骤</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Step1：赛题介绍"><span class="nav-number">2.</span> <span class="nav-text">Step1：赛题介绍</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Step2：数据说明及评价分析"><span class="nav-number">3.</span> <span class="nav-text">Step2：数据说明及评价分析</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#数据"><span class="nav-number">3.1.</span> <span class="nav-text">数据</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#评价方式"><span class="nav-number">3.2.</span> <span class="nav-text">评价方式</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Step3：特征工程"><span class="nav-number">4.</span> <span class="nav-text">Step3：特征工程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#样本划分和数据清洗"><span class="nav-number">4.1.</span> <span class="nav-text">样本划分和数据清洗</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#折扣特征"><span class="nav-number">4.2.</span> <span class="nav-text">折扣特征</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#周末日期特征"><span class="nav-number">4.3.</span> <span class="nav-text">周末日期特征</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Step4：模型建立"><span class="nav-number">5.</span> <span class="nav-text">Step4：模型建立</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-number">6.</span> <span class="nav-text">总结</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2017 &mdash; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Allenyep</span>
+
+  
+
+  
+</div>
+
+
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动 v3.6.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/theme-next/hexo-theme-next">NexT.Muse</a> v6.2.0</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.2.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.2.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.2.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.2.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.2.0"></script>
+
+
+
+  
+
+  
+    <script id="dsq-count-scr" src="https://allen.disqus.com/count.js" async></script>
+  
+
+  
+    <script type="text/javascript">
+      var disqus_config = function () {
+        this.page.url = 'www.allenyep.cn/2018/09/28/天池O2O新人赛/';
+        this.page.identifier = '2018/09/28/天池O2O新人赛/';
+        this.page.title = '天池O2O新人赛';
+      };
+      function loadComments () {
+        var d = document, s = d.createElement('script');
+        s.src = 'https://allen.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      }
+      
+        loadComments();
+      
+    </script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+
+  
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+<script type="text/javascript">
+    var host = "allenyep.cn";
+    if ((host == window.location.host) && (window.location.protocol != "https:"))
+        window.location.protocol = "https";
+</script>
+</html>
