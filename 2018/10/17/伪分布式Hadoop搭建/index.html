@@ -110,7 +110,7 @@
 <meta property="og:site_name" content="Allenyep的博客">
 <meta property="og:description" content="从零开始的Hadoop搭建,从单价到伪分布式再到迫真分布式">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-10-17T11:00:33.480Z">
+<meta property="og:updated_time" content="2018-10-17T11:25:13.291Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="伪分布式Hadoop搭建">
 <meta name="twitter:description" content="从零开始的Hadoop搭建,从单价到伪分布式再到迫真分布式">
@@ -336,7 +336,7 @@
                 
               
 
-              <time title="创建时间：2018-10-17 15:15:04 / 修改时间：19:00:33" itemprop="dateCreated datePublished" datetime="2018-10-17T15:15:04+08:00">2018-10-17</time>
+              <time title="创建时间：2018-10-17 15:15:04 / 修改时间：19:25:13" itemprop="dateCreated datePublished" datetime="2018-10-17T15:15:04+08:00">2018-10-17</time>
             
 
             
@@ -389,8 +389,8 @@
 <h2 id="版本选择"><a href="#版本选择" class="headerlink" title="版本选择"></a>版本选择</h2><p>操作系统：ubuntu18.04</p>
 <p>hadoop版本：2.9.1</p>
 <p>JAVA版本：1.8.0_181</p>
-<h2 id="更新APT包安装SSH"><a href="#更新APT包安装SSH" class="headerlink" title="更新APT包安装SSH"></a>更新APT包安装SSH</h2><p>更新apt<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get update</span><br></pre></td></tr></table></figure></p>
-<p>安装SSH<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install openssh-server</span><br></pre></td></tr></table></figure></p>
+<h2 id="更新APT包安装SSH"><a href="#更新APT包安装SSH" class="headerlink" title="更新APT包安装SSH"></a>更新APT包安装SSH</h2><p>更新apt<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get update</span><br></pre></td></tr></table></figure></p>
+<p>安装SSH<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install openssh-server</span><br></pre></td></tr></table></figure></p>
 <p>配置SSH<br>首先进行本地登录，创建.ssh文件夹，然后进入该文件夹。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cd ~/.ssh/</span><br></pre></td></tr></table></figure></p>
 <p>使用rsa算法生成秘钥和公钥对：<br>ssh-keygen -t rsa</p>
 <p>把公钥加入授权：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat ./id_rsa.pub &gt;&gt; ./authorized_keys</span><br></pre></td></tr></table></figure></p>
@@ -462,6 +462,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/10/28/快速搭建Spring-Boot/" rel="prev" title="快速搭建Spring-Boot">
+                快速搭建Spring-Boot <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -549,7 +553,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">13</span>
+                    <span class="site-state-item-count">14</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -588,7 +592,11 @@
                     
                       
                     
-                    <span class="site-state-item-count">12</span>
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">14</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>
