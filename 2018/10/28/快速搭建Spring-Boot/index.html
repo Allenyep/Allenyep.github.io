@@ -103,7 +103,7 @@
 
 
   <meta name="description" content="近期因为项目原因开始使用spring-boot搭建后台环境，这里开始记录一下。">
-<meta name="keywords" content="java,教程,spring,web">
+<meta name="keywords" content="java,spring,web,教程">
 <meta property="og:type" content="article">
 <meta property="og:title" content="快速搭建Spring-Boot">
 <meta property="og:url" content="www.allenyep.cn/2018/10/28/快速搭建Spring-Boot/index.html">
@@ -111,8 +111,6 @@
 <meta property="og:description" content="近期因为项目原因开始使用spring-boot搭建后台环境，这里开始记录一下。">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="/2018/10/28/快速搭建Spring-Boot/1.png">
-<meta property="og:image" content="/2018/10/28/快速搭建Spring-Boot/2.png">
-<meta property="og:image" content="/2018/10/28/快速搭建Spring-Boot/3.png">
 <meta property="og:updated_time" content="2018-10-28T06:38:28.609Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="快速搭建Spring-Boot">
@@ -396,9 +394,9 @@
 <img src="/2018/10/28/快速搭建Spring-Boot/1.png" title="项目依赖">
 <h2 id="项目Demo"><a href="#项目Demo" class="headerlink" title="项目Demo"></a>项目Demo</h2><p>项目开发使用两种从处理方式。在POST请求中使用传统web MVC的方式，在GET请求当中web Flux处理请求(spring 2.0的新特性)</p>
 <p>传统搭建基于MVC模式，分别有model层，repository层，service层和web层。即使是基于多模块的Spring-boot搭建也是如此。</p>
-<img src="/2018/10/28/快速搭建Spring-Boot/2.png" title="项目结构">
+
 <p>多模块项目依赖和SSM框架中的多模块依赖相同，在pom.xml文件当中配置依赖项：web(controller)-&gt;repository-&gt;model，通过这种方式实现多模块化的spring-boot框架。</p>
-<h3 id="关于web-Flux"><a href="#关于web-Flux" class="headerlink" title="关于web Flux"></a>关于web Flux</h3><img src="/2018/10/28/快速搭建Spring-Boot/3.png" title="通过web Flux实现转发请求">
+<h3 id="关于web-Flux"><a href="#关于web-Flux" class="headerlink" title="关于web Flux"></a>关于web Flux</h3>
 <h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>Springboot项目框架搭建总的来说比较简单，相比较于传统Spring框架，尽可能的减少了xml的编写，如果springboot绑定上mybatis还有会有xml的编写。基本上简单的框架搭建就到这里，基本都是采用前后端分离的模式，整个框架就留下接口供前台调用即可。使用POSTMAN进行后端测试就OK。</p>
 
       
@@ -422,11 +420,11 @@
           
             <a href="/tags/java/" rel="tag"># java</a>
           
-            <a href="/tags/教程/" rel="tag"># 教程</a>
-          
             <a href="/tags/spring/" rel="tag"># spring</a>
           
             <a href="/tags/web/" rel="tag"># web</a>
+          
+            <a href="/tags/教程/" rel="tag"># 教程</a>
           
         </div>
       
@@ -448,6 +446,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/11/05/20181105胶片/" rel="prev" title="20181105胶片">
+                20181105胶片 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -535,7 +537,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">14</span>
+                    <span class="site-state-item-count">15</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -578,7 +580,9 @@
                     
                       
                     
-                    <span class="site-state-item-count">14</span>
+                      
+                    
+                    <span class="site-state-item-count">15</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>
