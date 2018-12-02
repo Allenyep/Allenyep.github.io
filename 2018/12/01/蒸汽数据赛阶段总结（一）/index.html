@@ -1,0 +1,924 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-CN">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=6.2.0" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.2.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.2.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.2.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.2.0" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '6.2.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="最近在玩蒸汽工业新人赛，这里总结一下">
+<meta name="keywords" content="机器学习,python,数据挖掘">
+<meta property="og:type" content="article">
+<meta property="og:title" content="蒸汽数据赛阶段总结（一）">
+<meta property="og:url" content="www.allenyep.cn/2018/12/01/蒸汽数据赛阶段总结（一）/index.html">
+<meta property="og:site_name" content="Allenyep的博客">
+<meta property="og:description" content="最近在玩蒸汽工业新人赛，这里总结一下">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="/2018/12/01/蒸汽数据赛阶段总结（一）/1.png">
+<meta property="og:image" content="/2018/12/01/蒸汽数据赛阶段总结（一）/2.png">
+<meta property="og:image" content="/2018/12/01/蒸汽数据赛阶段总结（一）/3.png">
+<meta property="og:image" content="/2018/12/01/蒸汽数据赛阶段总结（一）/4.png">
+<meta property="og:updated_time" content="2018-12-02T07:31:47.316Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="蒸汽数据赛阶段总结（一）">
+<meta name="twitter:description" content="最近在玩蒸汽工业新人赛，这里总结一下">
+<meta name="twitter:image" content="/2018/12/01/蒸汽数据赛阶段总结（一）/1.png">
+
+
+
+
+
+
+  <link rel="canonical" href="www.allenyep.cn/2018/12/01/蒸汽数据赛阶段总结（一）/"/>
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>蒸汽数据赛阶段总结（一） | Allenyep的博客</title>
+  
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Allenyep的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">keep young,keep simple</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />首页</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+    <a href="/about/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-user"></i> <br />关于</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+    <a href="/tags/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />标签</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档</a>
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="www.allenyep.cn/2018/12/01/蒸汽数据赛阶段总结（一）/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Allenyep">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Allenyep的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">蒸汽数据赛阶段总结（一）
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-12-01 19:26:48" itemprop="dateCreated datePublished" datetime="2018-12-01T19:26:48+08:00">2018-12-01</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2018-12-02 15:31:47" itemprop="dateModified" datetime="2018-12-02T15:31:47+08:00">2018-12-02</time>
+              
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/12/01/蒸汽数据赛阶段总结（一）/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2018/12/01/蒸汽数据赛阶段总结（一）/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><center>最近在玩蒸汽工业新人赛，这里总结一下</center><br><a id="more"></a></p>
+<h2 id="比赛介绍"><a href="#比赛介绍" class="headerlink" title="比赛介绍"></a>比赛介绍</h2><p>这个比赛是阿里天池的新人赛，基本算是数据挖机的入门比赛。数据是火力发电采集到的数据，没有给出数据说明。每条数据给出了38个特征，需要预测目标值。评判预测结果的标准为MSE（mean square error）均方误差。</p>
+<p>mse为预测值与真实值之差的平方除以样本数。</p>
+<p><a href="http://https://tianchi.aliyun.com/competition/information.htm?spm=5176.100067.5678.2.367a11517W8LVm&amp;raceId=231693" target="_blank" rel="noopener">比赛链接</a></p>
+<h2 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h2><p>拿到题发现，这是一道回归问题，直接预测target值。就先用最简单的线性回归测试了一下。（数据预处理和绘图分析都没做2333）</p>
+<p>测完线性回归，从模型扩展（岭回归，Lasso，神经网络），特征处理（PCA，特征缩放，特征选择）两个方向出发，分别寻找更优的方法。实在不行再试试模型融合。</p>
+<h3 id="线性回归"><a href="#线性回归" class="headerlink" title="线性回归"></a>线性回归</h3><p>这东西也叫最小二乘，线性回归寻找参数<em>w</em>和<em>b</em>，使得对训练集与真实的回归目标值<em>y</em>之间的MSE最小。理论推导就不写了，核心代码先列出来。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">'''线性回归'''</span></span><br><span class="line">X_train, X_test, Y_train, Y_test = train_test_split(X_pca, y, test_size=<span class="number">0.2</span>, random_state=<span class="number">40</span>)</span><br><span class="line">clfL = linear_model.LinearRegression()</span><br><span class="line">clfL.fit(X_train,Y_train)</span><br><span class="line">y_true, y_pred = Y_test, clfL.predict(X_test)</span><br><span class="line">print(mean_squared_error(y_true, y_pred))</span><br><span class="line"></span><br><span class="line">ansLiner = clfL.predict(X1_pca)</span><br><span class="line">print(ansLiner.shape)</span><br><span class="line">df = pd.DataFrame(ansLiner)</span><br><span class="line">df.to_csv(<span class="string">'./LineR&amp;PCA&amp;Scaler.txt'</span>,index=<span class="keyword">False</span>,header=<span class="keyword">False</span>)</span><br></pre></td></tr></table></figure>
+<p>直接用这个线下可以很高，但是因为数据样本太少，容易过拟合。而且又没有对数据做预处理。所以首先要对数据做预处理，看了一下论坛，发现有人的baseline使用了PCA。</p>
+<h3 id="主成分分析-PCA"><a href="#主成分分析-PCA" class="headerlink" title="主成分分析(PCA)"></a>主成分分析(PCA)</h3><p>PCA将<em>n</em>个特征降维到<em>k</em>个，换句话说对数据进行了降维处理。在降维的同时最大程度上保持了原有数据的信息。PCA在处理过程中不需要人为干预，处理只与原数据相关。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># PCA数据处理-降维</span></span><br><span class="line">mypca = PCA(n_components=<span class="number">0.95</span>)</span><br><span class="line">mypca.fit(X)</span><br><span class="line">X_pca = mypca.transform(X)</span><br><span class="line">X1_pca = mypca.transform(zhengqi_test)</span><br></pre></td></tr></table></figure>
+<p>使用PCA过后，再利用线性回归进行预测，线上MSE就能达到0.14，但还是没有进榜。</p>
+<p>于是开始进行特征分析，绘制数据图像。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">plt.figure(figsize=(<span class="number">20</span>, <span class="number">16</span>))  <span class="comment"># 指定绘图对象宽度和高度</span></span><br><span class="line">colnm = zhengqi_train.columns.tolist()[:<span class="number">39</span>]  <span class="comment"># 列表头</span></span><br><span class="line">mcorr = zhengqi_train[colnm].corr()  <span class="comment"># 相关系数矩阵，即给出了任意两个变量之间的相关系数</span></span><br><span class="line">mask = np.zeros_like(mcorr, dtype=np.bool)  <span class="comment"># 构造与mcorr同维数矩阵 为bool型</span></span><br><span class="line">mask[np.triu_indices_from(mask)] = <span class="keyword">True</span>  <span class="comment"># 角分线右侧为True</span></span><br><span class="line">cmap = sns.diverging_palette(<span class="number">220</span>, <span class="number">10</span>, as_cmap=<span class="keyword">True</span>)  <span class="comment"># 返回matplotlib colormap对象</span></span><br><span class="line">g = sns.heatmap(mcorr, mask=mask, cmap=cmap, square=<span class="keyword">True</span>, annot=<span class="keyword">True</span>, fmt=<span class="string">'0.2f'</span>)  <span class="comment"># 热力图（看两两相似度）</span></span><br><span class="line">plt.show()</span><br><span class="line"></span><br><span class="line"><span class="comment"># 画正太分布图</span></span><br><span class="line">sns.distplot(zhengqi_train[<span class="string">'target'</span>], fit=norm)</span><br><span class="line">(mu, sigma) = norm.fit(zhengqi_train[<span class="string">'target'</span>])</span><br><span class="line">print(<span class="string">'\n mu = &#123;:.2f&#125; and sigma = &#123;:.2f&#125;\n'</span>.format(mu, sigma))</span><br><span class="line">plt.legend([<span class="string">'Normal dist. ($\mu=$ &#123;:.2f&#125; and $\sigma=$ &#123;:.2f&#125; )'</span>.format(mu, sigma)], loc=<span class="string">'best'</span>)</span><br><span class="line">plt.ylabel(<span class="string">'Frequency'</span>)</span><br><span class="line">fig = plt.figure()</span><br><span class="line">res = stats.probplot(zhengqi_train[<span class="string">'target'</span>], plot=plt)</span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure></p>
+<img src="/2018/12/01/蒸汽数据赛阶段总结（一）/1.png" title="热力图">
+<img src="/2018/12/01/蒸汽数据赛阶段总结（一）/2.png" title="预测值正态分布">
+<img src="/2018/12/01/蒸汽数据赛阶段总结（一）/3.png" title="Q-Q图">
+<p>热力图是特征之间的相关性分析，是一个38维的矩阵，保存了两两间相关系数值。然后对target值用正态分布进行极大似然估计，求出对应的mu和sigma值。</p>
+<p>这里发现有几个特征相关性特别高，不管是正负相关。相关系数该怎么利用，这是我下一步准备做的。然后观察target的分布，看mu值和sigma值和预测集的进行对比。</p>
+<h3 id="岭回归"><a href="#岭回归" class="headerlink" title="岭回归"></a>岭回归</h3><p>在特征提取之前，为了得到更好的结果，我开始寻找更好的线性模型。岭回归也是一种用于回归的线性模型。但是在岭回归中，对系数<em>w</em>的选择尽可能的小，即应接近于0。这种约束是<strong>正则化</strong>的。这种方式对模型做显示约束以避免过拟合，岭回归用到的方法也被称为L2正则化。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">'''岭回归'''</span></span><br><span class="line">X_train, X_test, Y_train, Y_test = train_test_split(X_pca, y, test_size=<span class="number">0.2</span>, random_state=<span class="number">40</span>)</span><br><span class="line">ridge_model = Ridge(alpha=<span class="number">0.1</span>)</span><br><span class="line">ridge_model = RidgeCV(alphas=[<span class="number">0.1</span>, <span class="number">1.0</span>, <span class="number">10.0</span>]) </span><br><span class="line">ridge_model.fit(X_train,Y_train)</span><br><span class="line">Y_pred = ridge_model.predict(X_test)</span><br><span class="line">print(<span class="string">'系数矩阵:\n'</span>,ridge_model.coef_)</span><br><span class="line">print(<span class="string">'线性回归模型:\n'</span>,ridge_model)</span><br><span class="line">print(mean_squared_error(Y_test, Y_pred))</span><br></pre></td></tr></table></figure>
+<p>RidgeCV是一种用于自动选择最优<script type="math/tex">\alpha</script>的方法，增加<script type="math/tex">\alpha</script>会使得系数<em>w</em>更加趋向于0，从而降低训练集性能，但会提升泛化性能。</p>
+<h3 id="Lasso"><a href="#Lasso" class="headerlink" title="Lasso"></a>Lasso</h3><p>Lasso也是约束系数使得其接近于0，但用到的方法与岭回归不同，叫做L1正则化。即某些系数为0时，特征被模型完全忽略，可以将其看作一种自动化特征选择的方法，更能展示更重要的模型特征。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">'''lasso'''</span></span><br><span class="line">X_train, X_test, Y_train, Y_test = train_test_split(X_pca, y, test_size=<span class="number">0.2</span>, random_state=<span class="number">40</span>)</span><br><span class="line">lasso_model = Lasso(max_iter=<span class="number">100000</span>)</span><br><span class="line">lasso_model = LassoCV()</span><br><span class="line">lasso_model.fit(X_train,Y_train)</span><br><span class="line">print(<span class="string">'最佳的alpha：'</span>,lasso_model.alpha_)</span><br><span class="line">Y_pred = lasso_model.predict(X_test)</span><br><span class="line">print(mean_squared_error(Y_test, Y_pred))</span><br></pre></td></tr></table></figure></p>
+<p>如果特征很多，或者只有其中几个是重要的，那么Lasso的效果可能更好。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>目前为止，单模型效果最好的方案是PCA+Lasso，线上结果为0.1386。写博客的顺序打算按照我自己的比赛思路来走，所以下一篇将总结使用树模型的GBR，LGB等方法，以及模型融合，特征处理的思路及方法。<br><img src="/2018/12/01/蒸汽数据赛阶段总结（一）/4.png"></p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/机器学习/" rel="tag"># 机器学习</a>
+          
+            <a href="/tags/python/" rel="tag"># python</a>
+          
+            <a href="/tags/数据挖掘/" rel="tag"># 数据挖掘</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/11/30/假如在学校里不想吃食堂/" rel="next" title="假如在学校里不想吃食堂">
+                <i class="fa fa-chevron-left"></i> 假如在学校里不想吃食堂
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.png"
+                alt="Allenyep" />
+            
+              <p class="site-author-name" itemprop="name">Allenyep</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">17</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">15</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/Allenyep" target="_blank" title="GitHub"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="https://instagram.com/Allenyep" target="_blank" title="Instagram"><i class="fa fa-fw fa-instagram"></i>Instagram</a>
+                  
+                </span>
+              
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#比赛介绍"><span class="nav-number">1.</span> <span class="nav-text">比赛介绍</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#思路"><span class="nav-number">2.</span> <span class="nav-text">思路</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#线性回归"><span class="nav-number">2.1.</span> <span class="nav-text">线性回归</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#主成分分析-PCA"><span class="nav-number">2.2.</span> <span class="nav-text">主成分分析(PCA)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#岭回归"><span class="nav-number">2.3.</span> <span class="nav-text">岭回归</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Lasso"><span class="nav-number">2.4.</span> <span class="nav-text">Lasso</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-number">3.</span> <span class="nav-text">总结</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2017 &mdash; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Allenyep</span>
+
+  
+
+  
+</div>
+
+
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动 v3.6.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/theme-next/hexo-theme-next">NexT.Muse</a> v6.2.0</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.2.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.2.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.2.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.2.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.2.0"></script>
+
+
+
+  
+
+  
+    <script id="dsq-count-scr" src="https://allen.disqus.com/count.js" async></script>
+  
+
+  
+    <script type="text/javascript">
+      var disqus_config = function () {
+        this.page.url = 'www.allenyep.cn/2018/12/01/蒸汽数据赛阶段总结（一）/';
+        this.page.identifier = '2018/12/01/蒸汽数据赛阶段总结（一）/';
+        this.page.title = '蒸汽数据赛阶段总结（一）';
+      };
+      function loadComments () {
+        var d = document, s = d.createElement('script');
+        s.src = 'https://allen.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      }
+      
+        loadComments();
+      
+    </script>
+  
+
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+
+  
+    
+      <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+<script type="text/javascript" src="//cdn.jsdelivr.net/npm/mathjax@2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+    
+  
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+<script type="text/javascript">
+    var host = "allenyep.cn";
+    if ((host == window.location.host) && (window.location.protocol != "https:"))
+        window.location.protocol = "https";
+</script>
+</html>
