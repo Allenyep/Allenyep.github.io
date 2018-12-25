@@ -1,0 +1,939 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-CN">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=6.2.0" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.2.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.2.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.2.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.2.0" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '6.2.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="这可能是第二简单的手写BP神经网络教程">
+<meta name="keywords" content="机器学习,python,神经网络">
+<meta property="og:type" content="article">
+<meta property="og:title" content="BP神经网络的实现">
+<meta property="og:url" content="www.allenyep.cn/2018/12/24/BP神经网络的实现/index.html">
+<meta property="og:site_name" content="Allenyep的博客">
+<meta property="og:description" content="这可能是第二简单的手写BP神经网络教程">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="/2018/12/24/BP神经网络的实现/1.png">
+<meta property="og:image" content="/2018/12/24/BP神经网络的实现/2.png">
+<meta property="og:image" content="/2018/12/24/BP神经网络的实现/3.png">
+<meta property="og:image" content="/2018/12/24/BP神经网络的实现/4.png">
+<meta property="og:image" content="/2018/12/24/BP神经网络的实现/5.png">
+<meta property="og:image" content="/2018/12/24/BP神经网络的实现/6.png">
+<meta property="og:image" content="/2018/12/24/BP神经网络的实现/7.png">
+<meta property="og:image" content="/2018/12/24/BP神经网络的实现/8.png">
+<meta property="og:image" content="/2018/12/24/BP神经网络的实现/9.png">
+<meta property="og:image" content="/2018/12/24/BP神经网络的实现/10.png">
+<meta property="og:updated_time" content="2018-12-25T04:56:31.154Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="BP神经网络的实现">
+<meta name="twitter:description" content="这可能是第二简单的手写BP神经网络教程">
+<meta name="twitter:image" content="/2018/12/24/BP神经网络的实现/1.png">
+
+
+
+
+
+
+  <link rel="canonical" href="www.allenyep.cn/2018/12/24/BP神经网络的实现/"/>
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>BP神经网络的实现 | Allenyep的博客</title>
+  
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Allenyep的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">keep young,keep simple</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />首页</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+    <a href="/about/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-user"></i> <br />关于</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+    <a href="/tags/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />标签</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档</a>
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="www.allenyep.cn/2018/12/24/BP神经网络的实现/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Allenyep">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Allenyep的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">BP神经网络的实现
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-12-24 17:35:22" itemprop="dateCreated datePublished" datetime="2018-12-24T17:35:22+08:00">2018-12-24</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2018-12-25 12:56:31" itemprop="dateModified" datetime="2018-12-25T12:56:31+08:00">2018-12-25</time>
+              
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/12/24/BP神经网络的实现/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2018/12/24/BP神经网络的实现/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><center>这可能是第二简单的手写BP神经网络教程</center><br><a id="more"></a><br>本科生毕业设计想出来一个题目，用CNN来手写体识别。出了题目之后，发现对NN的知识都忘光了，现在重新手写NN来再学一次。</p>
+<h2 id="什么是神经网络-Neural-Network"><a href="#什么是神经网络-Neural-Network" class="headerlink" title="什么是神经网络(Neural Network)"></a>什么是神经网络(Neural Network)</h2><p>计算机处理数字计算十分简单，然而处理图像数据却十分困难。通过利用生物学的设计构建一个使计算机能处理高维数据的模型，从而产生了神经网络这样的技术。<br>假设有这样一台机器，接受一个问题进行思考，然后得出答案。对于人类而言就是这样一个过程，对于计算机来说。这样的过程变成了：输入-&gt;计算-&gt;输出。但是从流程上看起来他们是相似的。<br><img src="/2018/12/24/BP神经网络的实现/1.png" title="预测机"><br><img src="/2018/12/24/BP神经网络的实现/2.png" title="神经元"><br>生物大脑的基本单元是神经元，虽然有各种形式，但是他们的本质就是将电信号从一端传递到另一端，从一个神经元传递到另一个神经元。然而，每个神经元的输入信号可能是单个，也可能是多个。有时候单个信号的输入并不能很好的解决某些问题（例如异或情况的分类）。<br><img src="/2018/12/24/BP神经网络的实现/3.png" title="多个信号的输入"><br><img src="/2018/12/24/BP神经网络的实现/4.png" title="异或XOR的分类"><br>但是与传统函数的输入输出不同，神经元对于微小的噪声信号直接忽略，只有在输入信号高于<strong>阈值(threshold)</strong>才会产生输出。因此多个信号输入之后进行累加求和，当求和总量达到某个阈值后，神经元被激活，产生输出结果。这就是神经元。<br><img src="/2018/12/24/BP神经网络的实现/5.png" title="激活神经元"><br>关于阈值的判断，需要一个名为<strong>激活函数(activtion function)</strong>的模型来对信号进行处理。激活函数的种类十分多，普遍比较多的是Sigmoid函数。</p>
+<script type="math/tex; mode=display">
+sigmoid(x)=\frac{1}{1+e^{-x}}</script><p>这个函数相比较于阶跃函数比较平滑。<br>通过多个神经元之间的连接，构造一种名为神经网络的模型方法，对于计算机识别高维度的数据而言具有良好的适用性。<br><img src="/2018/12/24/BP神经网络的实现/6.png" title="生物神经网络"></p>
+<h2 id="神经网络的工作原理"><a href="#神经网络的工作原理" class="headerlink" title="神经网络的工作原理"></a>神经网络的工作原理</h2><img src="/2018/12/24/BP神经网络的实现/7.png" title="神经网络模型">
+<p>传统的神经网络分为三层，<strong>输入层(input layer)</strong>，<strong>隐藏层(hidden layer)</strong>，<strong>输出层(output layer)</strong>。隐藏层可以有多层网络构建，每层之间依靠连接权值进行连接。</p>
+<h3 id="正向传值"><a href="#正向传值" class="headerlink" title="正向传值"></a>正向传值</h3><p>现在开始考虑正向传值计算，即从<strong>输入-&gt;输入层-&gt;隐藏层-&gt;输出层</strong>的过程。从单个神经元开始分析，从输入层开始，当输入值进入输入层时，输入值就只是单纯赋值给输入层节点，即输入值=输入单元，无需进行计算。<br>从输入层进入隐藏层开始，引入了权值的概念。即输入*权值的过程。<br><img src="/2018/12/24/BP神经网络的实现/8.png" title="隐藏层神经元"><br>再将得到的值经过激活函数进行调节，这样就能得到隐藏层每个节点的输入结果。将得到的结果放入输出层再次进行计算，这样子我们就得到了一个完整的正向传播过程。<br>为了计算方便，引入矩阵来进行计算。令输入层数据为<script type="math/tex">I</script>，输入层权值矩阵为<script type="math/tex">W_{ih}</script>。则进入隐藏层的和值为：</p>
+<script type="math/tex; mode=display">
+X_{hidden}=W_{ih}I</script><p>再将这个和值通过对应的激活函数进行激活得到隐藏层的输出，在这里我们使用Sigmoid函数作为激活函数(此时计算出来的<script type="math/tex">X</script>为值向量，长度为隐藏层神经元的个数)，输出值为：</p>
+<script type="math/tex; mode=display">
+O_{hidden}=Sigmoid(X_{hidden})</script><p>然后将隐藏层输出值<script type="math/tex">O_{hidden}</script>放入到输出层重复以上步骤输出，得到输出矩阵<script type="math/tex">O_{output}</script>。</p>
+<h3 id="反向传播-BackPropagation"><a href="#反向传播-BackPropagation" class="headerlink" title="反向传播(BackPropagation)"></a>反向传播(BackPropagation)</h3><p>单次的正向传播得出的结果和实际结果相差可能会很大，现在需要做的就是使用这个<strong>误差</strong>来调整神经网络本身，进而改进输出值。<br>误差值的修正，是通过权值来进行实现的。当我们得到正向计算矩阵<script type="math/tex">O_{output}</script>之后，可以求得输出误差<script type="math/tex">E_{output}=T-O_{output}</script>，通过来自多个节点的权重进行反馈传播，这里还是要用到矩阵的计算，首先将隐藏输出系数矩阵<script type="math/tex">W_{ho}</script>进行转置，然后和输出误差点乘，公式如下：</p>
+<script type="math/tex; mode=display">
+E_{hidden}=W_{ho}^{T}E_{output}</script><p>使用这样的方式是将误差分割，按照权值的比例进行分配给不同的神经元。虽然也有其他的分配方式(如均匀分配)，但是按权分配是比较合理的做法。<br><img src="/2018/12/24/BP神经网络的实现/9.png" title="误差反馈"></p>
+<h4 id="更新权重"><a href="#更新权重" class="headerlink" title="更新权重"></a>更新权重</h4><p>虽然得到了每个神经元的误差值，但是还是没有解决如何更新权值的问题。在这里我们使用最简明且有效的方法：<strong>梯度下降(Gradient Descent)</strong>。关于梯度下降的过程，在手写线性回归的实现那章当中我有写，这里就不再描述了。<br>我们的目标是求得<script type="math/tex">\frac{\partial E}{\partial w_{ij}}</script>的极小值。这里使用链式法则并将每个项展开。</p>
+<script type="math/tex; mode=display">
+\frac{\partial E}{\partial w_{ij}}=\frac{\partial E}{\partial o_{k}}\times\frac{\partial o_{k}}{\partial w_{ij}}     \\
+
+E=\sum _{n}(t_{n}-o_{n})^{2}    \\
+
+o_{k}=sigmoid(\sum_{j} w_{jk} o_{j})</script><p>sigmoid函数求导过程十分复杂，这里不赘述。将上式化简得：</p>
+<script type="math/tex; mode=display">
+\frac{\partial E}{\partial w_{ij}}=-(e_{j})    \times sigmoid(\sum_{i} w_{ij} o_{i})\times(1-sigmoid(\sum_{i} w_{ij} o_{i}))\times o_{i}</script><p>这里将公式化为了输入-隐藏层的下标，隐藏-输出层权值更新同理。<br><img src="/2018/12/24/BP神经网络的实现/10.png" title="权重更新表示"><br>得到了修正值之后，设定学习率<script type="math/tex">\alpha</script>,然后得到更新权值如下：</p>
+<script type="math/tex; mode=display">
+w_{jk}=w_{jk}-\alpha\frac{\partial E}{\partial w_{jk}}</script><p>虽然一次更新的量十分微小，但是训练集量足够预测效果将十分优秀。<br>以上基本就是BP神经网络的工作原理，接下来我们使用python手写一个BP神经网络，并使用mnist手写体训练集来测试效果。</p>
+<h2 id="编码实现"><a href="#编码实现" class="headerlink" title="编码实现"></a>编码实现</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">NeuralN</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self,input_nodes,hidden_nodes,output_nodes,learning_rate)</span>:</span></span><br><span class="line">        self.inodes = input_nodes</span><br><span class="line">        self.hnodes = hidden_nodes</span><br><span class="line">        self.onodes = output_nodes</span><br><span class="line">        </span><br><span class="line">        self.lr = learning_rate</span><br><span class="line">    </span><br><span class="line">        self.wih = np.random.normal(<span class="number">0.0</span>,pow(self.hnodes,<span class="number">-0.5</span>),(self.hnodes,self.inodes))</span><br><span class="line">        self.who = np.random.normal(<span class="number">0.0</span>,pow(self.onodes,<span class="number">-0.5</span>),(self.onodes,self.hnodes))</span><br><span class="line">        </span><br><span class="line">        self.activtion_fun = <span class="keyword">lambda</span> x: special.expit(x)</span><br><span class="line">        </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">train</span><span class="params">(self,inputs_list,targets_list)</span>:</span></span><br><span class="line">        inputs = np.array(inputs_list, ndmin=<span class="number">2</span>).T</span><br><span class="line">        targets = np.array(targets_list,ndmin=<span class="number">2</span>).T</span><br><span class="line">        </span><br><span class="line">        hidden_inputs = np.dot(self.wih,inputs)</span><br><span class="line">        hidden_outputs = self.activtion_fun(hidden_inputs)</span><br><span class="line"><span class="comment">#         print(hidden_outputs.shape)</span></span><br><span class="line">        final_inputs = np.dot(self.who,hidden_outputs)</span><br><span class="line">        final_outputs = self.activtion_fun(final_inputs)</span><br><span class="line">        </span><br><span class="line">        outputs_error = targets - final_outputs</span><br><span class="line">        </span><br><span class="line">        hidden_error = np.dot(self.who.T,outputs_error)</span><br><span class="line">        </span><br><span class="line"><span class="comment">#         print(hidden_error.shape)</span></span><br><span class="line">        print((hidden_error * hidden_outputs * (<span class="number">1</span> - hidden_outputs)).shape)</span><br><span class="line"><span class="comment">#         print('+++++++++++++++++')</span></span><br><span class="line">        print(np.transpose(inputs).shape)</span><br><span class="line">        print(<span class="string">'+++++++++++++++++'</span>)</span><br><span class="line"><span class="comment">#         print(np.dot((outputs_error * final_outputs * (1 - final_outputs)),np.transpose(hidden_outputs)))</span></span><br><span class="line">        </span><br><span class="line">        self.who += self.lr * np.dot((outputs_error * final_outputs * (<span class="number">1.0</span> - final_outputs)), \</span><br><span class="line">                                     np.transpose(hidden_outputs))</span><br><span class="line">        </span><br><span class="line">        self.wih += self.lr * np.dot((hidden_error * hidden_outputs * (<span class="number">1.0</span> - hidden_outputs)), \</span><br><span class="line">                                     np.transpose(inputs))</span><br><span class="line">        <span class="keyword">pass</span></span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">query</span><span class="params">(self,inputs_list)</span>:</span></span><br><span class="line">        inputs = np.array(inputs_list, ndmin=<span class="number">2</span>).T</span><br><span class="line">        </span><br><span class="line">        hidden_inputs = np.dot(self.wih,inputs)</span><br><span class="line">        </span><br><span class="line">        hidden_outputs = self.activtion_fun(hidden_inputs)</span><br><span class="line">        </span><br><span class="line">        final_inputs = np.dot(self.who,hidden_outputs)</span><br><span class="line">        </span><br><span class="line">        final_outputs = self.activtion_fun(final_inputs)</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">return</span> final_outputs</span><br></pre></td></tr></table></figure>
+<p>这里是BP神经网络的基本框架。读取的数据是手写数据集，每个图像都是28x28的矩阵，训练集包含了70000个手写体数据。<strong>这里的不能使用有序的数据进行训练，不然就会取值趋于最后一个特定值。</strong>（之前使用了sklearn自带的数据集，调了一下午QAQ）下面我们开始加载数据，调用框架。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">input_nodes = <span class="number">784</span></span><br><span class="line">hidden_nodes = <span class="number">100</span></span><br><span class="line">output_nodes = <span class="number">10</span></span><br><span class="line">learning_rate = <span class="number">0.3</span></span><br><span class="line"></span><br><span class="line">n = NeuralN(input_nodes,hidden_nodes,output_nodes,learning_rate)</span><br><span class="line"></span><br><span class="line">training_data_file = open(<span class="string">"./mnist_train.csv"</span>,<span class="string">'r'</span>)</span><br><span class="line">training_data_list = training_data_file.readlines()</span><br><span class="line">training_data_file.close()</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> record <span class="keyword">in</span> training_data_list:</span><br><span class="line">    all_values = record.split(<span class="string">','</span>)</span><br><span class="line">    inputs = (np.asfarray(all_values[<span class="number">1</span>:])/<span class="number">255</span>*<span class="number">0.99</span>)+<span class="number">0.01</span></span><br><span class="line">    targets = np.zeros(output_nodes) + <span class="number">0.01</span></span><br><span class="line">    targets[int(all_values[<span class="number">0</span>])] = <span class="number">0.99</span></span><br><span class="line">    n.train(inputs,targets)</span><br><span class="line"></span><br><span class="line"><span class="comment"># train_list = X[:10000,:]</span></span><br><span class="line"><span class="comment"># target_list = Y[:10000]</span></span><br><span class="line"><span class="comment"># i = 0</span></span><br><span class="line"><span class="comment"># for record in train_list:</span></span><br><span class="line"><span class="comment"># #     print(record.shape)</span></span><br><span class="line"><span class="comment">#     inputs_list = (np.asfarray(record[:]/255*0.99)+0.01)</span></span><br><span class="line"><span class="comment"># #     print(inputs_list.shape)</span></span><br><span class="line"><span class="comment">#     targets = np.zeros(output_nodes) + 0.01</span></span><br><span class="line"><span class="comment">#     print(target_list[i])</span></span><br><span class="line"><span class="comment">#     targets[int(target_list[i])] = 0.99</span></span><br><span class="line"><span class="comment">#     i += 1</span></span><br><span class="line"><span class="comment">#     print(i)</span></span><br><span class="line"><span class="comment">#     print(targets)</span></span><br><span class="line"><span class="comment">#     n.train(inputs_list,targets)</span></span><br><span class="line"><span class="comment">#     print()</span></span><br></pre></td></tr></table></figure></p>
+<p>训练完成之后我们开始预测。读取测试集，使用计分表进行积分，输出正确率。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">test_data_file = open(<span class="string">"./mnist_test.csv"</span>,<span class="string">'r'</span>)</span><br><span class="line">test_data_list = test_data_file.readlines()</span><br><span class="line">test_data_file.close()</span><br><span class="line"></span><br><span class="line">scorecard =[]</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> record <span class="keyword">in</span> test_data_list:</span><br><span class="line">    all_values = record.split(<span class="string">','</span>)</span><br><span class="line">    correct_label = int(all_values[<span class="number">0</span>])</span><br><span class="line">    print(correct_label,<span class="string">'correct label'</span>)</span><br><span class="line">    inputs = (np.asfarray(all_values[<span class="number">1</span>:])/<span class="number">255</span>*<span class="number">0.99</span>)+<span class="number">0.01</span></span><br><span class="line">    outputs = n.query(inputs)</span><br><span class="line">    label = np.argmax(outputs)</span><br><span class="line">    print(label,<span class="string">'net answer'</span>)</span><br><span class="line">    <span class="keyword">if</span> label == correct_label:</span><br><span class="line">        scorecard.append(<span class="number">1</span>)</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        scorecard.append(<span class="number">0</span>)</span><br><span class="line"></span><br><span class="line">scorecard_arr = np.array(scorecard)</span><br><span class="line">print(scorecard_arr.sum()/scorecard_arr.size)</span><br></pre></td></tr></table></figure></p>
+<p>最后正确率在93左右。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>整个手写基本参考《python神经网络编程》。这本书基本上详细讲明了BP神经网络和python基本开发方法，这篇博客是在这本书的基础上加上自身的学习经验所作的一个简单总结。因为时间有限，书中很多内容都没有好好总结（公式推导，预测问题，矩阵计算，权重初始随机等）。还有很多可以优化的地方，如学习率优化，隐藏层节点数优化等等。在这之后，卷积神经网络(Convolutional Neural Networks, CNN)是对于BP神经网络而言，在手写体识别具有更好的效果。毕业设计的题目也是使用CNN来进行手写体识别，所以说下一步就开始手写CNN试试。</p>
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><p><a href="https://book.douban.com/subject/30192800/" target="_blank" rel="noopener">《python神经网络编程》</a></p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/机器学习/" rel="tag"># 机器学习</a>
+          
+            <a href="/tags/python/" rel="tag"># python</a>
+          
+            <a href="/tags/神经网络/" rel="tag"># 神经网络</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/12/17/手写ID3决策树/" rel="next" title="手写ID3决策树">
+                <i class="fa fa-chevron-left"></i> 手写ID3决策树
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.png"
+                alt="Allenyep" />
+            
+              <p class="site-author-name" itemprop="name">Allenyep</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">20</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">16</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/Allenyep" target="_blank" title="GitHub"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="https://instagram.com/Allenyep" target="_blank" title="Instagram"><i class="fa fa-fw fa-instagram"></i>Instagram</a>
+                  
+                </span>
+              
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#什么是神经网络-Neural-Network"><span class="nav-number">1.</span> <span class="nav-text">什么是神经网络(Neural Network)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#神经网络的工作原理"><span class="nav-number">2.</span> <span class="nav-text">神经网络的工作原理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#正向传值"><span class="nav-number">2.1.</span> <span class="nav-text">正向传值</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#反向传播-BackPropagation"><span class="nav-number">2.2.</span> <span class="nav-text">反向传播(BackPropagation)</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#更新权重"><span class="nav-number">2.2.1.</span> <span class="nav-text">更新权重</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#编码实现"><span class="nav-number">3.</span> <span class="nav-text">编码实现</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-number">4.</span> <span class="nav-text">总结</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考链接"><span class="nav-number">5.</span> <span class="nav-text">参考链接</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2017 &mdash; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Allenyep</span>
+
+  
+
+  
+</div>
+
+
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动 v3.6.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/theme-next/hexo-theme-next">NexT.Muse</a> v6.2.0</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.2.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.2.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.2.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.2.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.2.0"></script>
+
+
+
+  
+
+  
+    <script id="dsq-count-scr" src="https://allen.disqus.com/count.js" async></script>
+  
+
+  
+    <script type="text/javascript">
+      var disqus_config = function () {
+        this.page.url = 'www.allenyep.cn/2018/12/24/BP神经网络的实现/';
+        this.page.identifier = '2018/12/24/BP神经网络的实现/';
+        this.page.title = 'BP神经网络的实现';
+      };
+      function loadComments () {
+        var d = document, s = d.createElement('script');
+        s.src = 'https://allen.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      }
+      
+        loadComments();
+      
+    </script>
+  
+
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+
+  
+    
+      <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+<script type="text/javascript" src="//cdn.jsdelivr.net/npm/mathjax@2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+    
+  
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+<script type="text/javascript">
+    var host = "allenyep.cn";
+    if ((host == window.location.host) && (window.location.protocol != "https:"))
+        window.location.protocol = "https";
+</script>
+</html>
