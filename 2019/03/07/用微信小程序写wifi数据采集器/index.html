@@ -115,8 +115,8 @@
 <meta property="og:description" content="为了采集龙头寺火车北站的wifi数据，临时学了点微信小程序开发">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="/2019/03/07/用微信小程序写wifi数据采集器/1.png">
-<meta property="og:image" content="/2019/03/07/用微信小程序写wifi数据采集器/1.png">
-<meta property="og:updated_time" content="2019-03-07T09:01:04.050Z">
+<meta property="og:image" content="/2019/03/07/用微信小程序写wifi数据采集器/2.png">
+<meta property="og:updated_time" content="2019-03-07T09:07:25.890Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="用微信小程序写wifi数据采集器">
 <meta name="twitter:description" content="为了采集龙头寺火车北站的wifi数据，临时学了点微信小程序开发">
@@ -343,7 +343,7 @@
                 
               
 
-              <time title="创建时间：2019-03-07 15:59:41 / 修改时间：17:01:04" itemprop="dateCreated datePublished" datetime="2019-03-07T15:59:41+08:00">2019-03-07</time>
+              <time title="创建时间：2019-03-07 15:59:41 / 修改时间：17:07:25" itemprop="dateCreated datePublished" datetime="2019-03-07T15:59:41+08:00">2019-03-07</time>
             
 
             
@@ -397,7 +397,7 @@
 <p>JSON在小程序中作为数据传输的标准格式。整个微信的启动如下：”微信客户端会先根据 logs.json 配置生成一个界面，顶部的颜色和文字你都可以在这个 json 文件里边定义好。紧接着客户端就会装载这个页面的 WXML 结构和 WXSS 样式。最后客户端会装载 logs.js”，简单说来，小程序分为逻辑+视图的模块，逻辑块由JS操作，绑定数据，功能开发都是逻辑部分。框架的视图层由 WXML 与 WXSS 编写，由组件来进行展示。组件和H5当中的组件类似，参考微信开发指南进行选择并绑定逻辑。</p>
 <img src="/2019/03/07/用微信小程序写wifi数据采集器/1.png" title="小程序模块">
 <p>因为开发功能十分简单：利用手机读取WIFI数据，将WIFI数据写入数据库即可。按照模板修改后大概界面如下</p>
-<img src="/2019/03/07/用微信小程序写wifi数据采集器/1.png" title="数据采集界面">
+<img src="/2019/03/07/用微信小程序写wifi数据采集器/2.png" title="数据采集界面">
 <p>数据采集之后，利用小程序云开发的功能，将数据存储在云端。云开发自动构建了NoSQL数据库以供存放数据。小程序数据的绑定方法和之前写的前端方式不太像，有点类似与VUE的MVVM模式。</p>
 <figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">data: &#123;</span><br><span class="line"> startError: '',//初始化错误提示</span><br><span class="line"> wifiListError: false, //wifi列表错误显示开关</span><br><span class="line"> wifiListErrorInfo: '',//wifi列表错误详细</span><br><span class="line"> system: '', //版本号</span><br><span class="line"> platform: '', //系统 android</span><br><span class="line"> ssid: 'wifi帐号',//wifi帐号(必填)</span><br><span class="line"> pass: 'wifi密码',//无线网密码(必填)</span><br><span class="line"> bssid: '',//设备号 自动获取</span><br><span class="line"> endError: '',//连接最后的提示</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>将所有数据变量放入JS中，HTML只负责样式和布局，所有的功能也同步封装到JS下。</p>
@@ -448,6 +448,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/04/15/AdaBoost算法原理/" rel="prev" title="">
+                 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -526,7 +530,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">21</span>
+                    <span class="site-state-item-count">22</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -540,6 +544,8 @@
                 <div class="site-state-item site-state-tags">
                   <a href="/tags/index.html">
                     
+                    
+                      
                     
                       
                     
