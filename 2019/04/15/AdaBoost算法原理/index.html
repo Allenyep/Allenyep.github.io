@@ -106,14 +106,21 @@
 
 
 
-  <meta property="og:type" content="article">
-<meta property="og:title" content="Allenyep的博客">
+  <meta name="description" content="看了一下AdaBoost算法">
+<meta name="keywords" content="机器学习,算法">
+<meta property="og:type" content="article">
+<meta property="og:title" content="AdaBoost算法原理">
 <meta property="og:url" content="www.allenyep.cn/2019/04/15/AdaBoost算法原理/index.html">
 <meta property="og:site_name" content="Allenyep的博客">
+<meta property="og:description" content="看了一下AdaBoost算法">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-04-22T03:01:53.278Z">
+<meta property="og:image" content="/2019/04/15/AdaBoost算法原理/1.png">
+<meta property="og:image" content="/2019/04/15/AdaBoost算法原理/2.png">
+<meta property="og:updated_time" content="2019-04-29T08:04:33.552Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Allenyep的博客">
+<meta name="twitter:title" content="AdaBoost算法原理">
+<meta name="twitter:description" content="看了一下AdaBoost算法">
+<meta name="twitter:image" content="/2019/04/15/AdaBoost算法原理/1.png">
 
 
 
@@ -130,7 +137,7 @@
   };
 </script>
 
-  <title> | Allenyep的博客</title>
+  <title>AdaBoost算法原理 | Allenyep的博客</title>
   
 
 
@@ -311,7 +318,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">
+          <h1 class="post-title" itemprop="name headline">AdaBoost算法原理
               
             
           </h1>
@@ -336,7 +343,7 @@
                 
               
 
-              <time title="创建时间：2019-04-15 00:00:00" itemprop="dateCreated datePublished" datetime="2019-04-15T00:00:00+08:00">2019-04-15</time>
+              <time title="创建时间：2019-04-15 14:35:14" itemprop="dateCreated datePublished" datetime="2019-04-15T14:35:14+08:00">2019-04-15</time>
             
 
             
@@ -353,7 +360,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-04-22 11:01:53" itemprop="dateModified" datetime="2019-04-22T11:01:53+08:00">2019-04-22</time>
+                <time title="修改时间：2019-04-29 16:04:33" itemprop="dateModified" datetime="2019-04-29T16:04:33+08:00">2019-04-29</time>
               
             
           </span>
@@ -397,7 +404,102 @@
       
 
       
-        
+        <p><center>看了一下AdaBoost算法</center><br><a id="more"></a></p>
+<h1 id="提升方法"><a href="#提升方法" class="headerlink" title="提升方法"></a>提升方法</h1><p>提升（Boosting）方法是一种常用的统计学习方法。是集成学习的一种子方法，集成学习通过构建并结合多个学习器来完成学习任务，有时也被称为多分类器系统、基于委员会的学习等。集成学习通过将多个学习器进行结合，常可获得比单一学习器显著优越的泛化性能。<br>对于一个复杂任务来说，将多个专家的判断进行适当的综合得出的判断会比其中任何一个判断要强。</p>
+<p>一个分类，如果存在一个多项式算法能够学习他，并得到很高的正确率，那么这个算法称为强学习器，反之如果正确率只是稍大于随机猜测（50%），则称为弱学习器。在实际情况中，我们往往会发现弱学习器比强学习器更容易获得，所以就有了能否把弱学习器提升（boosting）为强学习器的疑问。</p>
+<p><strong>大多数boost方法会改变数据的概率分布（改变数据权值）</strong>，具体而言就是提高前一轮训练中被错分类的数据的权值，降低正确分类数据的权值，使得被错误分类的数据在下轮的训练中更受关注；然后根据不同分布调用弱学习算法得到一系列弱学习器实现的，再将这些学习器线性组合，具体组合方法是误差率小的学习器会被增大权值，误差率大的学习器会被减小权值，典型代表adaboost算法。<br><img src="/2019/04/15/AdaBoost算法原理/1.png" title="boosting方法"></p>
+<h1 id="AdaBoost算法"><a href="#AdaBoost算法" class="headerlink" title="AdaBoost算法"></a>AdaBoost算法</h1><p>现在给定一个二分类训练集：</p>
+<script type="math/tex; mode=display">
+T={(x_1,y_1),(x_2,y_2),……,(x_N,y_N)}</script><p>其中<script type="math/tex">y_i \in [-1,1]</script></p>
+<p>算法步骤如下：</p>
+<p>（1）初始化训练数据的权值分布，</p>
+<script type="math/tex; mode=display">
+D_1=({w_{11}},…，{w_{1i}},…，{w_{1N}})， {w_{1i}}=1/N,i=1,2,…，N</script><p>（2） 指定生成T个学习器，即进行t=1,2,…，T迭代。</p>
+<p>（3）对于第t次迭代，根据前一次迭代得到的权值分布<script type="math/tex">D_t</script>训练数据集，得到弱分类器</p>
+<script type="math/tex; mode=display">
+G_t(x):X→\{ - 1,1\}</script><p>（4）计算<script type="math/tex">G_t(x)</script>在训练数据上的分类误差率：</p>
+<script type="math/tex; mode=display">
+e_t=P(G_t(x_i)\ne y_i)=\sum\limits_{i=1}^{N} {w_{1i}I(G_t(x_i)\ne y_i)}</script><p>（5）计算当前学习器<script type="math/tex">G_t(x)</script>的权值</p>
+<script type="math/tex; mode=display">
+\alpha_t=\frac{1}{2} log \frac{1-e_t}{e_t}</script><p>这个权值是用在最后线性组合时乘在分类器前的，仔细观察这个函数式不难发现当<script type="math/tex">e_t \le1/2</script>时，<script type="math/tex">\alpha_t>0</script>,并且随着<script type="math/tex">e_t</script>的减小而增大，也就是说分类误差越小分类器的权值越大，这里还可以看出可以看出权值分布Dt通过影响<script type="math/tex">e_t</script>来影响了<script type="math/tex">\alpha_t</script>，这是Dt的第一个影响。 </p>
+<p>（6）更新权值分布<script type="math/tex">D_{t+1}(x)</script>更新式如下：</p>
+<script type="math/tex; mode=display">
+D_{t+1}=({w_{t+1,1}},…，{w_{t+1,i}},…，{w_{t+1,N}}) \\
+
+w_{t+1,i}=\frac{w_{t,i}}{Z_m}exp(-\alpha_ty_iG_t(x_i))\\ 
+
+Z_M是规范化因子，Z_M = \sum\limits_{i=1}^{N} {w_{t,i}exp(-\alpha_ty_iG_t(x_i)))}</script><p>（7）构建最终的分类器</p>
+<script type="math/tex; mode=display">
+G(x)=sign(\sum\limits_{t=1}^{T} {\alpha_tG_t(x)})</script><h1 id="一个例子"><a href="#一个例子" class="headerlink" title="一个例子"></a>一个例子</h1><p>给定数据集</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>0</th>
+<th>1</th>
+<th>2</th>
+<th>3</th>
+<th>4</th>
+<th>5</th>
+<th>6</th>
+<th>7</th>
+<th>8</th>
+<th>9</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>-1</td>
+<td>-1</td>
+<td>-1</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>-1</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>数据集共有10条数据，根据x的输入得到的y可以分类两类。首先初始化权值分布,因为是第一轮，故所有样本的权重相同。</p>
+<p>对m=1，</p>
+<p>(a)当阈值2.5时分类误差率最低，基本分类器为：</p>
+<script type="math/tex; mode=display">
+G_{x} = \left\{\begin{matrix}
+1, x<2.5\\ 
+-1, x>2.5\end{matrix}\right.</script><p>(b)<script type="math/tex">G_1(x)</script>在训练集的误差率为<script type="math/tex">e_1=P(G_1(x)\neq y_i)=0.3</script></p>
+<p>(c)计算系数<script type="math/tex">\alpha_1=\frac{1}{2} log \frac{1-e_1}{e_1}=0.4236</script></p>
+<p>(d)更新训练数据权值分布<script type="math/tex">D_2,f_1(x)=0.4236G_1(x)</script></p>
+<p>分类器在<script type="math/tex">sign[f_1(x)]</script>上有3个误分类点。</p>
+<p>对m=2，<br>(a)当阈值8.5时分类误差率最低，基本分类器为：</p>
+<script type="math/tex; mode=display">
+G_{x} = \left\{\begin{matrix}
+1, x<8.5\\ 
+-1, x>8.5\end{matrix}\right.</script><p>(b)<script type="math/tex">G_1(x)</script>在训练集的误差率为<script type="math/tex">e_1=0.2143</script></p>
+<p>(c)计算系数<script type="math/tex">\alpha_1=0.4236</script></p>
+<p>(d)更新训练数据权值分布<script type="math/tex">D_2,f_1(x)=0.4236G_1(x)+0.6496G_2(x)</script></p>
+<p>分类器在<script type="math/tex">sign[f_2(x)]</script>上有3个误分类点。</p>
+<p>对m=3，<br>(a)当阈值5.5时分类误差率最低，基本分类器为：</p>
+<script type="math/tex; mode=display">
+G_{x} = \left\{\begin{matrix}
+1, x<5.5\\ 
+-1, x>5.5\end{matrix}\right.</script><p>(b)<script type="math/tex">G_1(x)</script>在训练集的误差率为<script type="math/tex">e_1=0.1820</script></p>
+<p>(c)计算系数<script type="math/tex">\alpha_1=0.7514</script></p>
+<p>(d)更新训练数据权值分布<script type="math/tex">D_2,f_1(x)=0.4236G_1(x)+0.6496G_2(x)+0.7514G_3(x)</script></p>
+<p>分类器在<script type="math/tex">sign[f_3(x)]</script>上有0个误分类点。<br>得到最终分类器<script type="math/tex">G(x)=sign[f_3(x)]</script><br><img src="/2019/04/15/AdaBoost算法原理/2.png" title="分类效果及错误率"></p>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>Adaboost算法是可以看作模型为加法模型，损失函数为指数函数，学习算法为向前分布算法。<br>考虑加法模型</p>
+<script type="math/tex; mode=display">
+f(x)= \sum_{m=1}^{M}\beta_mb(x:\gamma_m)</script><p>其中<script type="math/tex">b(x:\gamma_m)</script>为基函数，<script type="math/tex">\gamma_m</script>为基函数参数，<script type="math/tex">\beta_m</script>为基函数系数。</p>
+<h2 id="Adaboost算法优缺点"><a href="#Adaboost算法优缺点" class="headerlink" title="Adaboost算法优缺点"></a>Adaboost算法优缺点</h2><h3 id="优点"><a href="#优点" class="headerlink" title="优点"></a>优点</h3><p>（1）Adaboost提供一种框架，在框架内可以使用各种方法构建子分类器。可以使用简单的弱分类器，不用对特征进行筛选，也不存在过拟合的现象。 </p>
+<p>（2）Adaboost算法不需要弱分类器的先验知识，最后得到的强分类器的分类精度依赖于所有弱分类器。无论是应用于人造数据还是真实数据，Adaboost都能显著的提高学习精度。</p>
+<p>（3）Adaboost算法不需要预先知道弱分类器的错误率上限，且最后得到的强分类器的分类精度依赖于所有弱分类器的分类精度，可以深挖分类器的能力。Adaboost可以根据弱分类器的反馈，自适应地调整假定的错误率，执行的效率高。 </p>
+<p>（4）Adaboost可以在不改变训练数据，只改变数据权值分布，使得数据在不同学习器中产生不同作用，类似于重采样。 </p>
+<h3 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h3><p>在Adaboost训练过程中，Adaboost会使得难于分类样本的权值呈指数增长，训练将会过于偏向这类困难的样本，导致Adaboost算法易受噪声干扰。此外，Adaboost依赖于弱分类器，而弱分类器的训练时间往往很长。</p>
+<p>Boost算法簇当中，Adaboost算法作为入门级算法，在平时使用中，GBDT（梯度提升树），xgboost和lightGBM等都是常用算法框架。</p>
+<p>接下来回去看看其他传统机器学习十大算法再总结。</p>
+
       
     </div>
 
@@ -414,6 +516,14 @@
     
 
     <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/机器学习/" rel="tag"># 机器学习</a>
+          
+            <a href="/tags/算法/" rel="tag"># 算法</a>
+          
+        </div>
       
 
       
@@ -491,8 +601,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -564,7 +683,7 @@
                     
                       
                     
-                    <span class="site-state-item-count">18</span>
+                    <span class="site-state-item-count">19</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>
@@ -604,6 +723,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#提升方法"><span class="nav-number">1.</span> <span class="nav-text">提升方法</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#AdaBoost算法"><span class="nav-number">2.</span> <span class="nav-text">AdaBoost算法</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#一个例子"><span class="nav-number">3.</span> <span class="nav-text">一个例子</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#总结"><span class="nav-number">4.</span> <span class="nav-text">总结</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Adaboost算法优缺点"><span class="nav-number">4.1.</span> <span class="nav-text">Adaboost算法优缺点</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#优点"><span class="nav-number">4.1.1.</span> <span class="nav-text">优点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#缺点"><span class="nav-number">4.1.2.</span> <span class="nav-text">缺点</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -761,7 +896,7 @@
       var disqus_config = function () {
         this.page.url = 'www.allenyep.cn/2019/04/15/AdaBoost算法原理/';
         this.page.identifier = '2019/04/15/AdaBoost算法原理/';
-        this.page.title = '';
+        this.page.title = 'AdaBoost算法原理';
       };
       function loadComments () {
         var d = document, s = d.createElement('script');
@@ -772,7 +907,7 @@
       
         loadComments();
       
-    </script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+    </script>
   
 
 
@@ -816,6 +951,29 @@
   
   
 
+  
+    
+      <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+<script type="text/javascript" src="//cdn.jsdelivr.net/npm/mathjax@2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+    
   
 
 
