@@ -1,0 +1,980 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-CN">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=6.2.0" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.2.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.2.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.2.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.2.0" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '6.2.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="开源学习组织Datawhale对外开放了一个机器学习与数据挖掘的算法兴趣班，这里开始用于打卡工作，这次是报班认真学习西瓜书，希望能有所收获。">
+<meta name="keywords" content="机器学习,线性回归,西瓜书">
+<meta property="og:type" content="article">
+<meta property="og:title" content="[西瓜书]学习笔记一:绪论与线性模型">
+<meta property="og:url" content="www.allenyep.cn/2019/05/11/西瓜书-学习笔记一-绪论与线性模型/index.html">
+<meta property="og:site_name" content="Allenyep的博客">
+<meta property="og:description" content="开源学习组织Datawhale对外开放了一个机器学习与数据挖掘的算法兴趣班，这里开始用于打卡工作，这次是报班认真学习西瓜书，希望能有所收获。">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="/2019/05/11/西瓜书-学习笔记一-绪论与线性模型/4.png">
+<meta property="og:image" content="/2019/05/11/西瓜书-学习笔记一-绪论与线性模型/1.png">
+<meta property="og:image" content="/2019/05/11/西瓜书-学习笔记一-绪论与线性模型/2.png">
+<meta property="og:image" content="/2019/05/11/西瓜书-学习笔记一-绪论与线性模型/3.png">
+<meta property="og:image" content="/2019/05/11/西瓜书-学习笔记一-绪论与线性模型/5.png">
+<meta property="og:image" content="/2019/05/11/西瓜书-学习笔记一-绪论与线性模型/6.png">
+<meta property="og:image" content="/2019/05/11/西瓜书-学习笔记一-绪论与线性模型/7.png">
+<meta property="og:image" content="/2019/05/11/西瓜书-学习笔记一-绪论与线性模型/8.png">
+<meta property="og:image" content="/2019/05/11/西瓜书-学习笔记一-绪论与线性模型/9.png">
+<meta property="og:image" content="/2019/05/11/西瓜书-学习笔记一-绪论与线性模型/10.png">
+<meta property="og:image" content="/2019/05/11/西瓜书-学习笔记一-绪论与线性模型/11.png">
+<meta property="og:updated_time" content="2019-05-13T13:59:51.951Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="[西瓜书]学习笔记一:绪论与线性模型">
+<meta name="twitter:description" content="开源学习组织Datawhale对外开放了一个机器学习与数据挖掘的算法兴趣班，这里开始用于打卡工作，这次是报班认真学习西瓜书，希望能有所收获。">
+<meta name="twitter:image" content="/2019/05/11/西瓜书-学习笔记一-绪论与线性模型/4.png">
+
+
+
+
+
+
+  <link rel="canonical" href="www.allenyep.cn/2019/05/11/西瓜书-学习笔记一-绪论与线性模型/"/>
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>[西瓜书]学习笔记一:绪论与线性模型 | Allenyep的博客</title>
+  
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Allenyep的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">keep young,keep simple</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />首页</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+    <a href="/about/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-user"></i> <br />关于</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+    <a href="/tags/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />标签</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档</a>
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="www.allenyep.cn/2019/05/11/西瓜书-学习笔记一-绪论与线性模型/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Allenyep">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Allenyep的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">[西瓜书]学习笔记一:绪论与线性模型
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-05-11 16:16:15" itemprop="dateCreated datePublished" datetime="2019-05-11T16:16:15+08:00">2019-05-11</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-05-13 21:59:51" itemprop="dateModified" datetime="2019-05-13T21:59:51+08:00">2019-05-13</time>
+              
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/05/11/西瓜书-学习笔记一-绪论与线性模型/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2019/05/11/西瓜书-学习笔记一-绪论与线性模型/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><center>开源学习组织Datawhale对外开放了一个机器学习与数据挖掘的算法兴趣班，这里开始用于打卡工作，这次是报班认真学习西瓜书，希望能有所收获。</center><br><a id="more"></a></p>
+<p>西瓜书读书笔记，从零开始的西瓜书</p>
+<h1 id="绪论"><a href="#绪论" class="headerlink" title="绪论"></a>绪论</h1><p>开篇总是最激动人心的，西瓜书按照周志华先生的说法，这是一本“入门级教科书”。入门阶段需要做的，是弄清基本理念、了结领域概貌。再“按图索骥”，进一步对需要的知识点进行研究。最后再“多读几遍”，初入门径后，数月后再阅，可能会有新得。</p>
+<h2 id="引例"><a href="#引例" class="headerlink" title="引例"></a>引例</h2><p>古往今来，依靠经验对事物进行判断是人类长久所养成的一种思维方式，依靠这种方式，可以对自身所处环境进行分析。例如，根据西瓜的色泽、根蒂，敲声等来判断这是否是一个好西瓜。这种思维方式符合人类的习性，对于计算机而言，让它利用现有规则与经验，来帮助人类进行判断。这就是机器学习。</p>
+<p>计算机中，“经验”以“数据”的方式存在，机器学习研究的主要内容，就是研究通过数据产生“模型”的算法，即“学习算法(learning algorithm)”。</p>
+<p>形式化定义，假设：</p>
+<ul>
+<li>P：计算机程序在某任务类T上的性能。</li>
+<li>T：计算机程序希望实现的任务类。</li>
+<li>E：表示经验，即历史的数据集。</li>
+</ul>
+<p>若该计算机程序通过利用经验E在任务T上获得了性能P的改善，则称该程序对E进行了学习。</p>
+<h3 id="术语说明"><a href="#术语说明" class="headerlink" title="术语说明"></a>术语说明</h3><p>机器学习首先要有数据，数据的集合称为<strong>数据集（data set）</strong>。每条数据是对现有事物或者对象的一种描述，称为<strong>样本（sample）</strong>、示例（instance）。如（色泽=青绿，根蒂=蜷缩，敲声=浊响）这样一个样本描述一个西瓜的特性，每个特性也叫做属性（attribute）、<strong>特征（feature）</strong>。所有属性能构成一个二维表格（这里有数据库概念或者excel的二维表格就很好理解），叫做<strong>样本空间（sample space）</strong>，样本个数可以理解为空间维度（线性代数概念，类比矩阵）。</p>
+<p>从<strong>训练集（training set）</strong>中学习得到模型的过程称为<strong>训练（training）</strong>，学习过程是为了找出或者逼近真相。</p>
+<p>训练完成后，需要对未得到结果的数据进行预测。像（（色泽=青绿，根蒂=蜷缩，敲声=浊响），好瓜）这类数据是已知结果的数据，其实可以简单理解为通过已知去求未知。上例当中的结果-“好瓜”被称为<strong>label</strong>。</p>
+<p>对于离散的数据进行预测，如判断好瓜坏瓜，可以看作<strong>分类（classfication）</strong>问题。若是连续值进行预测，如西瓜成熟度0.85，0.9等，被称为<strong>回归（regression）</strong>问题。</p>
+<p>对于机器学习而言，大体被分为两类。一是通过已有label推测未知结果，称为<strong>监督学习（supervised learning）</strong>，二是让算法自动划分组进行聚类(clustering)，每个组称为簇（cluster），这种方法被称为<strong>无监督学习（unsupervised learning）</strong>。</p>
+<p>关于特征的划分，例如身高的取值“高”、“矮”可以转化为{1.0，0.0}，瓜类的取值西瓜，南瓜，黄瓜可以转化为(0，0，1)，(0,1,0),(1,0,0)。</p>
+<h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><p><strong>“奥卡姆剃刀”原则</strong>：“若有多个假设与观察一致，则选最简单的那个。”</p>
+<p>注意： 奥卡姆剃刀并非唯一可行的原则；</p>
+<p>对于一个学习算法a,若它在某问题上比学习算法b好,则必然存在另一些问题,在那里b比a好.即”没有免费的午餐”定理(No Free Lunch Theorem,NFL).因此要谈论算法的相对优劣,必须要针对具体的学习问题</p>
+<h1 id="线性模型"><a href="#线性模型" class="headerlink" title="线性模型"></a>线性模型</h1><h2 id="最小二乘法"><a href="#最小二乘法" class="headerlink" title="最小二乘法"></a>最小二乘法</h2><p>高中数学课本必修3中，曾经出现过“最小二乘法”的概念，根据给定(x,y)点集，拟合出效果最好的一条直线y。这里所指的效果，指的就是整体点集合的误差(<strong>均方误差</strong>)最小。即：试图找到一条直线，使所有样本到直线上的<strong>欧氏距离</strong>之和最小。<br>在拟合出直线y后，对于一个未知的x值，我们可以预测出对应的y值，这就是一个线性回归问题。</p>
+<script type="math/tex; mode=display">
+\omega = \frac{\sum xy-n\bar{x}\bar{y}}{\sum x^{2}-n\bar{x}^{2}}\\
+b = \bar{y} - b\bar{x}</script><p><strong>欧氏距离</strong>：在m维空间中〖两个点之间的真实距离〗或〖向量的自然长度（该点到原点的距离）〗</p>
+<h2 id="一元线性回归"><a href="#一元线性回归" class="headerlink" title="一元线性回归"></a>一元线性回归</h2><p>在确定好<script type="math/tex">\omega</script>和b之后，模型就构建完成了。<br>为了使得均方误差</p>
+<script type="math/tex; mode=display">
+E(f;D)=\frac{1}{m}\sum_{m}^{i=1}(f(x_{i}-y_{i}))^{2}</script><p>达到最小，即对误差平方和求最小即可。</p>
+<p>如何求最小？</p>
+<p><strong>求导</strong>。高中知识来了，如<script type="math/tex">f(x)=x^{2}</script>这样的函数，求解极小值的方法。分别对<script type="math/tex">\omega</script>和b求偏导，并使其为0进行求解。这样的函数，都是凹函数，其最小值点一般在函数的极小值点处，也就是偏导数为0的点。</p>
+<p>对应的解分别为<br><img src="/2019/05/11/西瓜书-学习笔记一-绪论与线性模型/4.png"></p>
+<h2 id="多元线性回归"><a href="#多元线性回归" class="headerlink" title="多元线性回归"></a>多元线性回归</h2><p>扩展到高维表示</p>
+<script type="math/tex; mode=display">
+f(x) = \omega^{T}x_{i}+b</script><p>其中，<script type="math/tex">\omega</script>是多个a的线性组合，当<script type="math/tex">\omega</script>和b确定之后，线性模型就可以建立。这称为多元线性回归</p>
+<p>关于线性回归的推导，西瓜书和南瓜书都给出了详细推导，这里不再详述，简单总结下也是求导找到极值点得到极值,找到最小均方误差，进而得到部分最优<script type="math/tex">\omega</script>。重点记录那些我不懂的。在多元线性空间中，为了将b收入<script type="math/tex">\omega</script>当中，将X扩展一列并令其全为1。<br><img src="/2019/05/11/西瓜书-学习笔记一-绪论与线性模型/1.png"><br><img src="/2019/05/11/西瓜书-学习笔记一-绪论与线性模型/2.png"><br><img src="/2019/05/11/西瓜书-学习笔记一-绪论与线性模型/3.png"><br>现实情况下<script type="math/tex">X^{T}X</script>往往并非满秩矩阵或非奇异矩阵，即特征的个数超过了样本的个数，这种时候往往需要引入正则化(regularization)。</p>
+<h2 id="对数几率回归"><a href="#对数几率回归" class="headerlink" title="对数几率回归"></a>对数几率回归</h2><p>为了求取输入空间到输出空间的非线性映射，考虑将模型改写为</p>
+<script type="math/tex; mode=display">
+lny = \omega^{T}x_{i}+b</script><p>对数函数将线性回归模型的预测值和真实标记联系起来，这对于分类任务而言十分重要。分类意味着并非连续的结果，只需要将输出划分。例如在二分类问题中，输出标记<script type="math/tex">y\in \left \{ 0,1 \right \}</script>。将线性回归中连续值转换为标记值，我们需要找到一个映射函数。</p>
+<p>理想的函数是单位越阶函数，输出大于0判正，小于0判负。然而它是不连续的，需要一个连续的函数来替代。<strong>对数几率函数(logistic fucntion)</strong></p>
+<script type="math/tex; mode=display">
+y = \frac{1}{1+e^{-z}}</script><p>常用于代替，其图像对比如下<br><img src="/2019/05/11/西瓜书-学习笔记一-绪论与线性模型/5.png"><br>对应的模型称为“对数几率回归（logistic regression）”，虽然被称作回归，但是它实际上是一种分类方法。式中y可以理解为样本x被视作正例的可能性（后验概率估计<script type="math/tex">p(y=1|x)</script>），则对数几率表示为</p>
+<script type="math/tex; mode=display">
+log\frac{y}{1-y} = \omega^{T}x_{i}+b</script><p>由式</p>
+<script type="math/tex; mode=display">
+y = \frac{1}{1+e^{-\omega^{T}x_{i}+b}}</script><p>变换而来。通过极大似然法来估计<script type="math/tex">\omega</script>和b，首先将上式重写<br><img src="/2019/05/11/西瓜书-学习笔记一-绪论与线性模型/6.png"><br>目标设置为：最大化每个样本属于真实标记的概率之和，即<br><img src="/2019/05/11/西瓜书-学习笔记一-绪论与线性模型/7.png"><br>令<script type="math/tex">\beta =(\omega;b)</script>上式最大化可等价于最小化</p>
+<script type="math/tex; mode=display">
+l(\beta ) = \sum_{m}^{i=1}(-y_{i}\beta^{T}\hat{x_{i}}+ln(1+e^{\beta^{T}\hat{x_{i}}}))</script><p>推导过程由南瓜书3.27说明。对最小<script type="math/tex">\beta^{*}</script>可以使用梯度下降法，牛顿法进行求解。</p>
+<h2 id="线性判别分析-LDA"><a href="#线性判别分析-LDA" class="headerlink" title="线性判别分析(LDA)"></a>线性判别分析(LDA)</h2><p>线性判别分析（Linear Discriminant Analysis，简称LDA）,其基本思想是：将训练样本投影到一条直线上，使得同类的样例尽可能近，不同类的样例尽可能远。<br><img src="/2019/05/11/西瓜书-学习笔记一-绪论与线性模型/8.png"><br>类中心之间的距离尽可能大，即</p>
+<script type="math/tex; mode=display">
+||\omega ^{T}\mu _{0}-\omega ^{T}\mu _{1}||^{2}_{2}</script><p>投影点的协方差尽可能小，即</p>
+<script type="math/tex; mode=display">
+\omega ^{T}\Sigma_{0}\omega+\omega ^{T}\Sigma_{1}\omega</script><p>其中，<script type="math/tex">\mu,\Sigma</script>表示均值向量，协方差矩阵。因此得到了LDA的最大化目标：</p>
+<script type="math/tex; mode=display">
+J = \frac{||\omega ^{T}\mu _{0}-\omega ^{T}\mu _{1}||^{2}_{2}}{\omega ^{T}\Sigma_{0}\omega+\omega ^{T}\Sigma _{1}\omega}</script><p>为了进一步简化J，定义了两个散度矩阵。</p>
+<ul>
+<li>类内散度矩阵（within-class scatter matrix）<img src="/2019/05/11/西瓜书-学习笔记一-绪论与线性模型/9.png"></li>
+<li>类间散度矩阵(between-class scaltter matrix)<img src="/2019/05/11/西瓜书-学习笔记一-绪论与线性模型/10.png">
+由此最大化目标可重写为：<script type="math/tex; mode=display">
+J=\frac{\omega^{T}S_{b}\omega}{\omega^{T}S_{\omega}\omega}</script>即<script type="math/tex">S_{b}</script>与<script type="math/tex">S_{\omega}</script>的“广义瑞利商”。从而分类问题转化为最优化求解<script type="math/tex">\omega</script>的问题，当求解出<script type="math/tex">\omega</script>后，对新的样本进行分类时，只需将该样本点投影到这条直线上，根据与各个类别的中心值进行比较，从而判定出新样本与哪个类别距离最近。同时注意到J的分子分母都是关于<script type="math/tex">\omega</script>的二次项，因此其解大小与<script type="math/tex">\omega</script>无关，只与其方向相关。使用拉格朗日乘子法对其求解。<img src="/2019/05/11/西瓜书-学习笔记一-绪论与线性模型/11.png">
+</li>
+</ul>
+<h2 id="分类学习的拆分策略"><a href="#分类学习的拆分策略" class="headerlink" title="分类学习的拆分策略"></a>分类学习的拆分策略</h2><h2 id="类别不平衡问题"><a href="#类别不平衡问题" class="headerlink" title="类别不平衡问题"></a>类别不平衡问题</h2>
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/机器学习/" rel="tag"># 机器学习</a>
+          
+            <a href="/tags/线性回归/" rel="tag"># 线性回归</a>
+          
+            <a href="/tags/西瓜书/" rel="tag"># 西瓜书</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/04/15/AdaBoost算法原理/" rel="next" title="AdaBoost算法原理">
+                <i class="fa fa-chevron-left"></i> AdaBoost算法原理
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.png"
+                alt="Allenyep" />
+            
+              <p class="site-author-name" itemprop="name">Allenyep</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">23</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">21</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/Allenyep" target="_blank" title="GitHub"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="https://instagram.com/Allenyep" target="_blank" title="Instagram"><i class="fa fa-fw fa-instagram"></i>Instagram</a>
+                  
+                </span>
+              
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#绪论"><span class="nav-number">1.</span> <span class="nav-text">绪论</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#引例"><span class="nav-number">1.1.</span> <span class="nav-text">引例</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#术语说明"><span class="nav-number">1.1.1.</span> <span class="nav-text">术语说明</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#其他"><span class="nav-number">1.2.</span> <span class="nav-text">其他</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#线性模型"><span class="nav-number">2.</span> <span class="nav-text">线性模型</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#最小二乘法"><span class="nav-number">2.1.</span> <span class="nav-text">最小二乘法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#一元线性回归"><span class="nav-number">2.2.</span> <span class="nav-text">一元线性回归</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#多元线性回归"><span class="nav-number">2.3.</span> <span class="nav-text">多元线性回归</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#对数几率回归"><span class="nav-number">2.4.</span> <span class="nav-text">对数几率回归</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#线性判别分析-LDA"><span class="nav-number">2.5.</span> <span class="nav-text">线性判别分析(LDA)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#分类学习的拆分策略"><span class="nav-number">2.6.</span> <span class="nav-text">分类学习的拆分策略</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#类别不平衡问题"><span class="nav-number">2.7.</span> <span class="nav-text">类别不平衡问题</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2017 &mdash; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Allenyep</span>
+
+  
+
+  
+</div>
+
+
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动 v3.6.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/theme-next/hexo-theme-next">NexT.Muse</a> v6.2.0</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.2.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.2.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.2.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.2.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.2.0"></script>
+
+
+
+  
+
+  
+    <script id="dsq-count-scr" src="https://allen.disqus.com/count.js" async></script>
+  
+
+  
+    <script type="text/javascript">
+      var disqus_config = function () {
+        this.page.url = 'www.allenyep.cn/2019/05/11/西瓜书-学习笔记一-绪论与线性模型/';
+        this.page.identifier = '2019/05/11/西瓜书-学习笔记一-绪论与线性模型/';
+        this.page.title = '[西瓜书]学习笔记一:绪论与线性模型';
+      };
+      function loadComments () {
+        var d = document, s = d.createElement('script');
+        s.src = 'https://allen.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      }
+      
+        loadComments();
+      
+    </script>
+  
+
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+
+  
+    
+      <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+<script type="text/javascript" src="//cdn.jsdelivr.net/npm/mathjax@2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+    
+  
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+<script type="text/javascript">
+    var host = "allenyep.cn";
+    if ((host == window.location.host) && (window.location.protocol != "https:"))
+        window.location.protocol = "https";
+</script>
+</html>
