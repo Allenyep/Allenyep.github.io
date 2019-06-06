@@ -174,7 +174,8 @@
 <meta property="og:image" content="/2019/05/24/西瓜书-学习笔记三-支持向量机/26.png">
 <meta property="og:image" content="/2019/05/24/西瓜书-学习笔记三-支持向量机/27.png">
 <meta property="og:image" content="/2019/05/24/西瓜书-学习笔记三-支持向量机/28.png">
-<meta property="og:updated_time" content="2019-05-30T13:11:23.499Z">
+<meta property="og:image" content="/2019/05/24/西瓜书-学习笔记三-支持向量机/29.png">
+<meta property="og:updated_time" content="2019-06-04T08:15:38.721Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="[西瓜书]学习笔记三:支持向量机">
 <meta name="twitter:description" content="支持向量机：名字高大上，数学推导也很复杂，也很好用">
@@ -418,7 +419,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-05-30 21:11:23" itemprop="dateModified" datetime="2019-05-30T21:11:23+08:00">2019-05-30</time>
+                <time title="修改时间：2019-06-04 16:15:38" itemprop="dateModified" datetime="2019-06-04T16:15:38+08:00">2019-06-04</time>
               
             
           </span>
@@ -491,7 +492,7 @@ L(\omega ,b,\alpha )=\frac{1}{2}||\omega ||^{2}+\sum_{i=1}^{m}\alpha _{i}(1-y_{i
 \omega =\sum_{i=1}^{m}\alpha _{i}y_{i}x_{i} \\
 0 = \sum_{i=1}^{m}\alpha _{i}y_{i}</script><p>将上两式代入拉格朗日函数（南瓜书中有详细推导），得到基本型到对偶问题</p>
 <script type="math/tex; mode=display">
-max_{\alpha } \sum_{i=1}^{m}\alpha_{i}-\frac{1}{2}\sum_{i=1}^{m}\sum_{j=1}^{m}\alpha_{i}\alpha_{j}y_{i}y_{j}x_{i}^{T}x_{j} \
+max_{\alpha } \sum_{i=1}^{m}\alpha_{i}-\frac{1}{2}\sum_{i=1}^{m}\sum_{j=1}^{m}\alpha_{i}\alpha_{j}y_{i}y_{j}x_{i}^{T}x_{j} \\
 s.t. \sum_{i=1}^{m}\alpha _{i}y_{i} = 0 , \alpha _{i}\geq 0</script><p>此问题需要满足KKT条件（这里不深究），这样就将原问题的求最小变成了对偶问题求最大（用对偶这个词还是很形象），接下来便可以先求L对w和b的极小，再求L对α的极大。</p>
 <p>α极大值是通过SMO算法进行求解，其基本思路是先固定α之外所有参数，然后求α到极值。因为式子存在约束，若α之外其他所有变量都被固定，则α可被其他变量导出。</p>
 <p>最后根据所求α可计算出对应<script type="math/tex">\omega</script>和b，得到分类超平面函数。在对新的点进行预测时，实际上就是将数据点x*代入分类函数f(x)=w’x+b中，若f(x)&gt;0，则为正类，f(x)&lt;0，则为负类，根据前面推导得出的w与b，分类函数如下所示，此时便出现了上面所提到的内积形式。</p>
@@ -532,7 +533,19 @@ f(x) =\omega ^{T} \phi (x)+b</script><p>相应的解法如上节，列出新的�
 <h2 id="正则化"><a href="#正则化" class="headerlink" title="正则化"></a>正则化</h2><p>如果把对率损失函数作为核函数代替0/1函数，几乎能得到对率回归模型。更深入的说，这些模型的性质与所替代的函数直接相关，但他们具有一定的共性：优化目标中的第一项来描述超平面划分的间隔的大小，第二项来表示训练集当中所存在的误差。一般的形式如下：</p>
 <script type="math/tex; mode=display">
 min \Omega(f) = C\sum_{i=1}^{m}l(f(x_{i}),y_{i})</script><p>其中<script type="math/tex">\Omega(f)</script>称为结构风险，用于描述模型f某些性质；第二项称为经验风险，用于描述模型和训练数据的契合度。C值用于将前两者进行折中。上式因此被称为“正则化”问题。<br><img src="/2019/05/24/西瓜书-学习笔记三-支持向量机/28.png"></p>
-<h1 id="支持向量回归"><a href="#支持向量回归" class="headerlink" title="支持向量回归"></a>支持向量回归</h1>
+<h1 id="支持向量回归"><a href="#支持向量回归" class="headerlink" title="支持向量回归"></a>支持向量回归</h1><p>现在我们来考虑回归问题。</p>
+<p>对样本(x,y)而言，传统回归模型通常基于模型输出f(x)值与真实值y之间的差值作为损失值，当且仅当f(x)=y时损失才为0。支持向量回归(Support Vector Regression,SVR)假设f(x)与y之间能容忍的最大偏差<script type="math/tex">\varepsilon</script>,当损失大于<script type="math/tex">\varepsilon</script>才开始计算损失值。</p>
+<p>如下图所示，以f(x)为中心建立了一个宽度为<script type="math/tex">2\varepsilon</script>的间隔带。</p>
+<img src="/2019/05/24/西瓜书-学习笔记三-支持向量机/29.png">
+<p>因此将SVR形式化为</p>
+<script type="math/tex; mode=display">
+min\frac{1}{2}||\omega ||^{2}+C\sum_{i=1}^{m}(\xi_{i}+\hat{\xi_{i}})</script><p>解法和以上的解放完全相同。引入拉格朗日乘子，构造拉格朗日函数；求偏导；求对偶问题；满足KKT条件；带入化简可得：</p>
+<script type="math/tex; mode=display">
+f(x)=\sum_{i=1}^{m}(\hat{\alpha_{i}}-\alpha_{i})x_{i}^{T}x_{i}+b</script><p>引入核方法，可得：</p>
+<script type="math/tex; mode=display">
+f(x)=\sum_{i=1}^{m}(\hat{\alpha_{i}}-\alpha_{i})k(x,x_{i})+b</script><h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>以上就是支持向量机的总结，SVM的确是十分好用的算法，分类和回归都是对它而言可用的。其中的公式推导的确很复杂，但是基本流程都是一样的，拉格朗日-&gt;偏导-&gt;回带-&gt;对偶问题。</p>
+<p>西瓜书当中关于SVM的部分还有好多没有理解透彻的点，希望将来再读的时候能有更多收获。</p>
+
       
     </div>
 
@@ -578,6 +591,10 @@ min \Omega(f) = C\sum_{i=1}^{m}l(f(x_{i}),y_{i})</script><p>其中<script type="
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/06/04/西瓜书-学习笔记四-神经网络/" rel="prev" title="[西瓜书]学习笔记四:神经网络">
+                [西瓜书]学习笔记四:神经网络 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -665,7 +682,7 @@ min \Omega(f) = C\sum_{i=1}^{m}l(f(x_{i}),y_{i})</script><p>其中<script type="
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">25</span>
+                    <span class="site-state-item-count">26</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -776,7 +793,7 @@ min \Omega(f) = C\sum_{i=1}^{m}l(f(x_{i}),y_{i})</script><p>其中<script type="
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#支持向量"><span class="nav-number">1.</span> <span class="nav-text">支持向量</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#超平面"><span class="nav-number">1.1.</span> <span class="nav-text">超平面</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#间隔"><span class="nav-number">1.2.</span> <span class="nav-text">间隔</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#函数间隔"><span class="nav-number">1.2.1.</span> <span class="nav-text">函数间隔</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#几何间隔"><span class="nav-number">1.2.2.</span> <span class="nav-text">几何间隔</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#最大间隔与支持向量"><span class="nav-number">1.2.3.</span> <span class="nav-text">最大间隔与支持向量</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#对偶问题"><span class="nav-number">2.</span> <span class="nav-text">对偶问题</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#核函数"><span class="nav-number">3.</span> <span class="nav-text">核函数</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#软间隔和正则化"><span class="nav-number">4.</span> <span class="nav-text">软间隔和正则化</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#软间隔"><span class="nav-number">4.1.</span> <span class="nav-text">软间隔</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#正则化"><span class="nav-number">4.2.</span> <span class="nav-text">正则化</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#支持向量回归"><span class="nav-number">5.</span> <span class="nav-text">支持向量回归</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#支持向量"><span class="nav-number">1.</span> <span class="nav-text">支持向量</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#超平面"><span class="nav-number">1.1.</span> <span class="nav-text">超平面</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#间隔"><span class="nav-number">1.2.</span> <span class="nav-text">间隔</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#函数间隔"><span class="nav-number">1.2.1.</span> <span class="nav-text">函数间隔</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#几何间隔"><span class="nav-number">1.2.2.</span> <span class="nav-text">几何间隔</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#最大间隔与支持向量"><span class="nav-number">1.2.3.</span> <span class="nav-text">最大间隔与支持向量</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#对偶问题"><span class="nav-number">2.</span> <span class="nav-text">对偶问题</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#核函数"><span class="nav-number">3.</span> <span class="nav-text">核函数</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#软间隔和正则化"><span class="nav-number">4.</span> <span class="nav-text">软间隔和正则化</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#软间隔"><span class="nav-number">4.1.</span> <span class="nav-text">软间隔</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#正则化"><span class="nav-number">4.2.</span> <span class="nav-text">正则化</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#支持向量回归"><span class="nav-number">5.</span> <span class="nav-text">支持向量回归</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#总结"><span class="nav-number">6.</span> <span class="nav-text">总结</span></a></li></ol></div>
             
 
           </div>
