@@ -151,8 +151,8 @@
 <meta property="og:image" content="/2019/06/04/西瓜书-学习笔记四-神经网络/3.png">
 <meta property="og:image" content="/2019/06/04/西瓜书-学习笔记四-神经网络/4.png">
 <meta property="og:image" content="/2019/06/04/西瓜书-学习笔记四-神经网络/5.png">
-<meta property="og:image" content="/2019/06/04/西瓜书-学习笔记四-神经网络/5.png">
-<meta property="og:updated_time" content="2019-06-06T05:12:01.463Z">
+<meta property="og:image" content="/2019/06/04/西瓜书-学习笔记四-神经网络/6.png">
+<meta property="og:updated_time" content="2019-06-06T05:13:38.542Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="[西瓜书]学习笔记四:神经网络">
 <meta name="twitter:description" content="深度学习入门基础模型，是一个没有神经的神经网络">
@@ -396,7 +396,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-06-06 13:12:01" itemprop="dateModified" datetime="2019-06-06T13:12:01+08:00">2019-06-06</time>
+                <time title="修改时间：2019-06-06 13:13:38" itemprop="dateModified" datetime="2019-06-06T13:13:38+08:00">2019-06-06</time>
               
             
           </span>
@@ -451,7 +451,7 @@
 <h2 id="Boltzman机"><a href="#Boltzman机" class="headerlink" title="Boltzman机"></a>Boltzman机</h2><p>这类模型为网络状态定义了一个“能量”，能量达到最小时网络即达到理想状态，网络的训练就是最小化这个能量函数。Boltzman机神经元分为两层：显层和隐层。前者表示数据的输入输出，后者表示数据的内在表达。Boltzman机中神经元都是布尔类型，1表示激活，0表示抑制。网络中的神经元不依赖输入值的顺序进行更新，则网络最终达到Boltzman分布。标准Boltzman机是一个全连接图，很难解决现实任务，现实中常采用受限Boltzman机，它仅保留显层和隐层的连接，简化了原结构。<br><img src="/2019/06/04/西瓜书-学习笔记四-神经网络/5.png"></p>
 <h1 id="深度学习简介"><a href="#深度学习简介" class="headerlink" title="深度学习简介"></a>深度学习简介</h1><p>典型的深度学习模型就是很深层的神经网络。然而多隐层难以直接用经典算法（BP算法）训练，因为误差在多隐层内逆向传播时，往往会发散而不能收敛到稳定状态。</p>
 <p>无监督逐层训练是一种有效手段，其基本思想就是每次训练一层隐结点，将上一层隐结点的输出作为输入，本层隐结点的输出作为下层输入，这称为“预训练”。预训练完成后再对整个网络进行微调。这个做法可以看作将大量参数分组，每组都找到比较好的设置，进而结合起来寻求全局最优。</p>
-<p>另一种方法是“权共享”，即让一组神经元使用相同的连接权。卷积神经网络（Convolutional Neural Network,CNN）就是这样一种方式，通过卷积池化操作，提取局部特征；在这每个特征平面当中，每个神经元都使用的相同的连接权值，进而减少了训练参数数目。具体的流程如下图。<br><img src="/2019/06/04/西瓜书-学习笔记四-神经网络/5.png"></p>
+<p>另一种方法是“权共享”，即让一组神经元使用相同的连接权。卷积神经网络（Convolutional Neural Network,CNN）就是这样一种方式，通过卷积池化操作，提取局部特征；在这每个特征平面当中，每个神经元都使用的相同的连接权值，进而减少了训练参数数目。具体的流程如下图。<br><img src="/2019/06/04/西瓜书-学习笔记四-神经网络/6.png"></p>
 <p>从另一角度来看待深度学习，多层堆叠，上层处理都可以看作对输入信号进行加工，将输入转换为与输出目标更为密切的表示。转换完成后，用“简单模型”即可完成复杂的分类等任务。深度学习即可以理解为进行“特征学习”或“表示学习”。这在机器学习方法中，往往称之为“特征工程”，这里进一步将特征工程自动化，以求达到全自动数据分析的效果了。</p>
 <h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>神经网络部分内容比较少，加之以前实现过相关代码。本章内容都是扩展之前神经网络的内容，深度学习这块在图像处理，自然语言处理和语音方面有独特的优势。</p>
 
@@ -500,6 +500,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/06/20/西瓜书-学习笔记五-贝叶斯分类器/" rel="prev" title="[西瓜书]学习笔记五:贝叶斯分类器">
+                [西瓜书]学习笔记五:贝叶斯分类器 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -587,7 +591,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">26</span>
+                    <span class="site-state-item-count">27</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -648,7 +652,9 @@
                     
                       
                     
-                    <span class="site-state-item-count">23</span>
+                      
+                    
+                    <span class="site-state-item-count">24</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>

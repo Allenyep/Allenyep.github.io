@@ -1,0 +1,1041 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-CN">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+    
+    <link href="//fonts.css.network/css?family=Monda:300,300italic,400,400italic,700,700italic|PT Mono:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=6.2.0" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.2.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.2.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.2.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.2.0" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '6.2.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="贝叶斯：机遇理论中一个问题的解">
+<meta name="keywords" content="机器学习,西瓜书,贝叶斯">
+<meta property="og:type" content="article">
+<meta property="og:title" content="[西瓜书]学习笔记五:贝叶斯分类器">
+<meta property="og:url" content="www.allenyep.cn/2019/06/20/西瓜书-学习笔记五-贝叶斯分类器/index.html">
+<meta property="og:site_name" content="Allenyep的博客">
+<meta property="og:description" content="贝叶斯：机遇理论中一个问题的解">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="/2019/06/20/西瓜书-学习笔记五-贝叶斯分类器/1.png">
+<meta property="og:image" content="/2019/06/20/西瓜书-学习笔记五-贝叶斯分类器/2.png">
+<meta property="og:image" content="/2019/06/20/西瓜书-学习笔记五-贝叶斯分类器/3.png">
+<meta property="og:image" content="/2019/06/20/西瓜书-学习笔记五-贝叶斯分类器/4.png">
+<meta property="og:image" content="/2019/06/20/西瓜书-学习笔记五-贝叶斯分类器/5.png">
+<meta property="og:image" content="/2019/06/20/西瓜书-学习笔记五-贝叶斯分类器/6.png">
+<meta property="og:image" content="/2019/06/20/西瓜书-学习笔记五-贝叶斯分类器/7.png">
+<meta property="og:image" content="/2019/06/20/西瓜书-学习笔记五-贝叶斯分类器/8.png">
+<meta property="og:image" content="/2019/06/20/西瓜书-学习笔记五-贝叶斯分类器/9.png">
+<meta property="og:updated_time" content="2019-06-20T08:59:45.036Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="[西瓜书]学习笔记五:贝叶斯分类器">
+<meta name="twitter:description" content="贝叶斯：机遇理论中一个问题的解">
+<meta name="twitter:image" content="/2019/06/20/西瓜书-学习笔记五-贝叶斯分类器/1.png">
+
+
+
+
+
+
+  <link rel="canonical" href="www.allenyep.cn/2019/06/20/西瓜书-学习笔记五-贝叶斯分类器/"/>
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>[西瓜书]学习笔记五:贝叶斯分类器 | Allenyep的博客</title>
+  
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Allenyep的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">keep young,keep simple</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />首页</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+    <a href="/about/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-user"></i> <br />关于</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+    <a href="/tags/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />标签</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档</a>
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="www.allenyep.cn/2019/06/20/西瓜书-学习笔记五-贝叶斯分类器/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Allenyep">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Allenyep的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">[西瓜书]学习笔记五:贝叶斯分类器
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-06-20 09:42:27 / 修改时间：16:59:45" itemprop="dateCreated datePublished" datetime="2019-06-20T09:42:27+08:00">2019-06-20</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/06/20/西瓜书-学习笔记五-贝叶斯分类器/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2019/06/20/西瓜书-学习笔记五-贝叶斯分类器/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><center>贝叶斯：机遇理论中一个问题的解</center><br><a id="more"></a></p>
+<h1 id="贝叶斯基础"><a href="#贝叶斯基础" class="headerlink" title="贝叶斯基础"></a>贝叶斯基础</h1><p>在《概率论与数理统计》当中，我们学过了贝叶斯公式。公式表示如下：</p>
+<script type="math/tex; mode=display">
+P(A|B) = \frac{P(A)P(B|A)}{P(B)}</script><ul>
+<li>先验概率： 根据以往经验和分析得到的概率。</li>
+<li>后验概率：后验概率是基于新的信息，修正原来的先验概率后所获得的更接近实际情况的概率估计。</li>
+</ul>
+<p>公式的具体表征就是条件概率的转换，利用先验概率和后验概率对条件概率重新评估。</p>
+<p>在贝叶斯出现之前，都是以频率派都思维来进行思考。</p>
+<ul>
+<li><p>频率派把需要推断的参数θ看做是固定的未知常数，即概率虽然是未知的，但最起码是确定的一个值，同时，样本X是随机的，所以频率派重点研究样本空间，大部分的概率计算都是针对样本X的分布。</p>
+</li>
+<li><p>贝叶斯派的观点则截然相反，他们认为参数是随机变量，而样本X 是固定的，由于样本是固定的，所以他们重点研究的是参数的分布。</p>
+</li>
+</ul>
+<p>在贝叶斯公式中，若将上述定义中样本空间的划分Bi看做为类标，A看做为一个新的样本，则很容易将条件概率理解为样本A是类别Bi的概率。在机器学习训练模型的过程中，往往我们都试图去优化一个风险函数，因此在概率框架下我们也可以为贝叶斯定义“条件风险”(conditional risk)。</p>
+<img src="/2019/06/20/西瓜书-学习笔记五-贝叶斯分类器/1.png">
+<p>我们需要寻找一个判定准则最小化所有样本的条件风险总和，因此就有了贝叶斯判定准则(Bayes decision rule):为最小化总体风险，只需在每个样本上选择那个使得条件风险最小的类标。</p>
+<script type="math/tex; mode=display">
+h(x)=arg max P(c|x)</script><p>即对于每个样本x，选择其后验概率P(c|x)最大所对应的类标，能使得总体风险函数最小，从而将原问题转化为估计后验概率P(c|x)。一般这里有两种策略来对后验概率进行估计：</p>
+<ul>
+<li>判别式模型：直接对 P(c|x)进行建模求解。例我们前面所介绍的决策树、神经网络、SVM都是属于判别式模型。</li>
+<li>生成式模型：通过先对联合分布P(x,c)建模，从而进一步求解 P(c|x)。</li>
+</ul>
+<p>贝叶斯公式属于生成式模型，由此对于给定的样本x，P(x)与类标无关，P(c)称为类先验概率，p(x|c)称为类条件概率。这时估计后验概率P(c|x)就变成为估计类先验概率和类条件概率的问题。</p>
+<p>为了更好的理解贝叶斯在分类中的应用，给出一个wiki上的例子进行说明。</p>
+<img src="/2019/06/20/西瓜书-学习笔记五-贝叶斯分类器/2.png">
+<p>对于类先验概率P(c)，p(c)就是样本空间中各类样本所占的比例，根据大数定理(当样本足够多时，频率趋于稳定等于其概率)，这样当训练样本充足时，p(c)可以使用各类出现的频率来代替。因此只剩下类条件概率p(x|c)，它表达的意思是在类别c中出现x的概率，它涉及到属性的联合概率问题，若只有一个离散属性还好，当属性多时采用频率估计起来就十分困难，因此这里一般采用极大似然法进行估计。</p>
+<h1 id="极大似然估计"><a href="#极大似然估计" class="headerlink" title="极大似然估计"></a>极大似然估计</h1><p>极大似然估计(Maximum Likelihood Estimation，简称MLE)，是一种根据数据采样来估计概率分布的经典方法。常用的策略是先假定总体具有某种确定的概率分布，再基于训练样本对概率分布的参数进行估计。运用到类条件概率p(x|c)中，假设p(x|c)服从一个参数为θ的分布，问题就变为根据已知的训练样本来估计θ。极大似然法的核心思想就是：估计出的参数使得已知样本出现的概率最大，即使得训练数据的似然最大。</p>
+<img src="/2019/06/20/西瓜书-学习笔记五-贝叶斯分类器/3.png">
+<p>贝叶斯分类器的训练过程就是参数估计。总结最大似然法估计参数的过程，一般分为以下四个步骤：</p>
+<ul>
+<li>1.写出似然函数；</li>
+<li>2.对似然函数取对数，并整理；</li>
+<li>3.求导数，令偏导数为0，得到似然方程组；</li>
+<li>4.解似然方程组，得到所有参数即为所求。</li>
+</ul>
+<p>采用最大似然法估计参数的效果很大程度上依赖于作出的假设是否合理，是否符合潜在的真实数据分布。这就需要大量的经验知识，搞统计越来越值钱也是这个道理，大牛们掐指一算比我们搬砖几天更有效果。</p>
+<h1 id="朴素贝叶斯分类器"><a href="#朴素贝叶斯分类器" class="headerlink" title="朴素贝叶斯分类器"></a>朴素贝叶斯分类器</h1><p>基于贝叶斯公式来估计后验概率p(x|c)的主要问题在于，首先需要根据经验来假设联合概率分布，其次当属性很多时，训练样本往往覆盖不够，参数的估计会出现很大的偏差。朴素贝叶斯分类器(naive Bayes classifier)采用了“属性条件独立性假设”，即样本数据的所有属性之间相互独立。因此贝叶斯式转换为下式。</p>
+<script type="math/tex; mode=display">
+p(c|x)=\frac{P(c)P(x|c)}{P(c)}=\frac{P(c)}{P(x)}\prod_{i=1}^{d}P(x_{i}|c)</script><p>西瓜书给出了一个分类的例子。朴素贝叶斯分类器的训练过程就是根据训练集D来估计类先验概率P(c)。离散属性考虑对应样本的频率，连续属性考虑其概率密度函数。计算好每个概率值后累乘得到相应类别的概率。</p>
+<img src="/2019/06/20/西瓜书-学习笔记五-贝叶斯分类器/4.png">
+<p>需要注意的是：若某个属性值在训练集中和某个类别没有一起出现过（例子当中的敲声），这样会抹掉其它的属性信息，因为该样本的类条件概率被计算为0。因此在估计概率值时，常常用进行平滑（smoothing）处理，拉普拉斯修正（Laplacian correction）就是其中的一种经典方法，具体计算方法如下：</p>
+<script type="math/tex; mode=display">
+P(c)=\frac{|D_{c}|+1}{|D|+N}</script><p>当训练集越大时，拉普拉斯修正引入的影响越来越小。对于贝叶斯分类器，模型的训练就是参数估计，因此可以事先将所有的概率储存好，当有新样本需要判定时，直接查表计算即可。</p>
+<h1 id="半朴素贝叶斯"><a href="#半朴素贝叶斯" class="headerlink" title="半朴素贝叶斯"></a>半朴素贝叶斯</h1><p>为了降低后验概率p(x|c)的计算困难，在朴素贝叶斯当中引入了属性条件独立性的假设，然而这在现实当中很难成立。对独立条件进行一定程度上的放松，就是“半朴素贝叶斯分类器”的学习方法。</p>
+<p>假定每个属性只依赖另外的一个。这样，更能准确描述真实情况。式改写如下。</p>
+<script type="math/tex; mode=display">
+P(c|x)\propto P(c)\prod_{i=1}^{d}P(x_{i}|c,pa_{i})</script><p>现在问题就转换为确定每个属性的父属性，不同的做法产生不同的分类器。</p>
+<img src="/2019/06/20/西瓜书-学习笔记五-贝叶斯分类器/5.png">
+<p>那么确定如何依赖？</p>
+<ol>
+<li><p>SOPDE方法。这种方法是假定所有的属性都依赖于共同的一个父属性。</p>
+</li>
+<li><p>TAN方法。每个属性依赖的另外的属性由最大带权生成树来确定。</p>
+<p> （1）. 先求每个属性之间的互信息来作为他们之间的权值。</p>
+<p> （2）构件完全图。权重是刚才求得的互信息。然后用最大带权生成树算法求得此图的最大带权的生成树。</p>
+<p> （3）找一个根变量，然后依次将图变为有向图。</p>
+<p> （4）添加类别y到每个属性的的有向边。</p>
+</li>
+</ol>
+<h1 id="贝叶斯网"><a href="#贝叶斯网" class="headerlink" title="贝叶斯网"></a>贝叶斯网</h1><p>贝叶斯网络借助有向无环图(DAG)来刻画属性之间的依赖关系，使用条件概率表(CPT)描述联合条件概率分布。</p>
+<img src="/2019/06/20/西瓜书-学习笔记五-贝叶斯分类器/6.png" title="图结构以条件概率表">
+<p>其表达式为：</p>
+<script type="math/tex; mode=display">
+p(x)=\prod_{i\epsilon I}p(x_{i}|x_{pa(i)})</script><p>其中x表示其属性集</p>
+<h2 id="结构"><a href="#结构" class="headerlink" title="结构"></a>结构</h2><p>贝叶斯网络有三种依赖关系，如下图所示。</p>
+<img src="/2019/06/20/西瓜书-学习笔记五-贝叶斯分类器/7.png">
+<ul>
+<li>第一种同父结构，被看作$P(a,b,c)=P(c)<em>P(a|c)</em>P(b|c)$ ，即在c给定的条件下，a，b被阻断(blocked)，是独立的。</li>
+<li>第二种V型结构，$P(a,b,c) = P(a)<em>P(b)</em>P(c|a,b)$，即在c未知的条件下，a、b被阻断(blocked)，是独立的。</li>
+<li>第三种顺序结构，$P(a,b,c)=P(a)<em>P(c|a)</em>P(b|c)$，  即：在c给定的条件下，a，b被阻断(blocked)，是独立的。（这个就是马尔可夫链）</li>
+</ul>
+<h2 id="学习"><a href="#学习" class="headerlink" title="学习"></a>学习</h2><p>若网络结构（属性间依赖关系）已知，只需要对样本计数，估计每个结点条件概率即可完成学习过程。第一步就是找到最恰当的贝叶斯网。</p>
+<p>“评分搜索”是求解的常用方法。先定义评分函数，通常基于信息论准则，它将学习问题看作数据压缩任务。它的目标数选择综合编码长度最短的贝叶斯网络，称为“最小长度描述”(MDL)准则。</p>
+<p>给定训练集D和贝叶斯网B，评分函数可些为：</p>
+<script type="math/tex; mode=display">
+s(B|D) = f(\theta)|B|-LL(B|D)</script><p>其中|B|为贝叶斯网的参数个数,$f(\theta)$表示每个参数所需字节数，</p>
+<script type="math/tex; mode=display">
+LL(B|D) =  \sum_{i=1}^{m}logP_{B}(x_{i})</script><p>表示贝叶斯网的对数似然。由此学习任务转化为一个优化任务，寻找一个贝叶斯网B使得评分函数s(B|D)最小。</p>
+<p>根据$f(\theta)$的不同可以得到不同的评分函数。从所有网络结构空间中搜素最优贝叶斯网结构是一个NP难问题，难以快速求解。常用的策略有贪心法和网络结构约束法。</p>
+<h2 id="推断"><a href="#推断" class="headerlink" title="推断"></a>推断</h2><p>训练完成之后，就能用来推断，即通过一些属性变量的值来推测其他属性的取值。最理想的情况是根据贝叶斯的联合概率分布来精确计算后验概率，然而这样的“精确推断”是NP难的问题。即在网络结点多连接稠密时，需要借助“近似推断”，在有限时间求得近似解。</p>
+<p>贝叶斯网的近似推断常常使用吉布斯采样来完成，这是一种随机采样方法。它先随机产生一个与证据E=e一致的样本$q^{0}$作为初始点，然后从当前样本出发产生下一个样本。实质上是在样本子空间中进行随机漫步的过程，是一个马尔可夫链。当第t步($t \rightarrow \infty $)时必趋于一个平稳分布，采样算法流程如下图。</p>
+<img src="/2019/06/20/西瓜书-学习笔记五-贝叶斯分类器/8.png" title="吉布斯采样算法">
+<p>由于马尔可夫链需要长时间才能趋于平稳分布，因此吉布斯采样收敛速度较慢。且贝叶斯网中存在极端概率会导致吉布斯采样错误估计。</p>
+<h1 id="EM算法"><a href="#EM算法" class="headerlink" title="EM算法"></a>EM算法</h1><p>EM算法是一种迭代算法，主要应用于训练集样本不完整即存在隐变量时的情形（例如某个属性值未知），通过其独特的“两步走”策略能较好地估计出隐变量的值。每次迭代有两步组成：E步，求期望；M步，求极大值。因此被称为期望极大算法（expectation maximization algorithm）。</p>
+<h2 id="基本思想"><a href="#基本思想" class="headerlink" title="基本思想"></a>基本思想</h2><p>若样本服从的分布参数θ已知，则可以根据已观测到的训练样本推断出隐变量Z的期望值（E步），若Z的值已知则运用最大似然法估计出新的θ值（M步）。重复这个过程直到Z和θ值不再发生变化。</p>
+<p>简单来讲：假设我们想估计A和B这两个参数，在开始状态下二者都是未知的，但如果知道了A的信息就可以得到B的信息，反过来知道了B也就得到了A。可以考虑首先赋予A某种初值，以此得到B的估计值，然后从B的当前值出发，重新估计A的取值，这个过程一直持续到收敛为止。</p>
+<p>现在再来回想聚类的代表算法K-Means：【首先随机选择类中心=&gt;将样本点划分到类簇中=&gt;重新计算类中心=&gt;不断迭代直至收敛】，不难发现这个过程和EM迭代的方法极其相似，事实上，若将样本的类别看做为“隐变量”（latent variable）Z，类中心看作样本的分布参数θ，K-Means就是通过EM算法来进行迭代的，与我们这里不同的是，K-Means的目标是最小化样本点到其对应类中心的距离和，上述为极大化似然函数。</p>
+<h2 id="推导"><a href="#推导" class="headerlink" title="推导"></a>推导</h2><p>令X表示观测变量集，Z表示隐变量集，$\Theta$表示模型参数。最大化对数似然</p>
+<script type="math/tex; mode=display">
+LL(\Theta | X,Z)=lnP(X,Z|\Theta)</script><p>由于Z是隐变量，无法直接求解，通过对Z计算期望来最大化已观测数据的对数边际似然。</p>
+<script type="math/tex; mode=display">
+LL(\Theta | X) = lnP(X|\Theta)=ln\sum_{Z}P(X,Z|\Theta)</script><img src="/2019/06/20/西瓜书-学习笔记五-贝叶斯分类器/9.png">
+<h1 id="参考链接及书目"><a href="#参考链接及书目" class="headerlink" title="参考链接及书目"></a>参考链接及书目</h1><p>统计学习方法，李航</p>
+<p>机器学习，周志华</p>
+<p><a href="https://blog.csdn.net/zdy0_2004/article/details/41096141?tdsourcetag=s_pctim_aiomsg" target="_blank" rel="noopener">https://blog.csdn.net/zdy0_2004/article/details/41096141?tdsourcetag=s_pctim_aiomsg</a></p>
+<p><a href="https://www.cnblogs.com/zhoulujun/p/8893393.html?tdsourcetag=s_pctim_aiomsg" target="_blank" rel="noopener">https://www.cnblogs.com/zhoulujun/p/8893393.html?tdsourcetag=s_pctim_aiomsg</a></p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/机器学习/" rel="tag"># 机器学习</a>
+          
+            <a href="/tags/西瓜书/" rel="tag"># 西瓜书</a>
+          
+            <a href="/tags/贝叶斯/" rel="tag"># 贝叶斯</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/06/04/西瓜书-学习笔记四-神经网络/" rel="next" title="[西瓜书]学习笔记四:神经网络">
+                <i class="fa fa-chevron-left"></i> [西瓜书]学习笔记四:神经网络
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.png"
+                alt="Allenyep" />
+            
+              <p class="site-author-name" itemprop="name">Allenyep</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">27</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">24</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/Allenyep" target="_blank" title="GitHub"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="https://instagram.com/Allenyep" target="_blank" title="Instagram"><i class="fa fa-fw fa-instagram"></i>Instagram</a>
+                  
+                </span>
+              
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#贝叶斯基础"><span class="nav-number">1.</span> <span class="nav-text">贝叶斯基础</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#极大似然估计"><span class="nav-number">2.</span> <span class="nav-text">极大似然估计</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#朴素贝叶斯分类器"><span class="nav-number">3.</span> <span class="nav-text">朴素贝叶斯分类器</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#半朴素贝叶斯"><span class="nav-number">4.</span> <span class="nav-text">半朴素贝叶斯</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#贝叶斯网"><span class="nav-number">5.</span> <span class="nav-text">贝叶斯网</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#结构"><span class="nav-number">5.1.</span> <span class="nav-text">结构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#学习"><span class="nav-number">5.2.</span> <span class="nav-text">学习</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#推断"><span class="nav-number">5.3.</span> <span class="nav-text">推断</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#EM算法"><span class="nav-number">6.</span> <span class="nav-text">EM算法</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#基本思想"><span class="nav-number">6.1.</span> <span class="nav-text">基本思想</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#推导"><span class="nav-number">6.2.</span> <span class="nav-text">推导</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考链接及书目"><span class="nav-number">7.</span> <span class="nav-text">参考链接及书目</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2017 &mdash; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Allenyep</span>
+
+  
+
+  
+</div>
+
+
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动 v3.6.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/theme-next/hexo-theme-next">NexT.Muse</a> v6.2.0</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.2.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.2.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.2.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.2.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.2.0"></script>
+
+
+
+  
+
+  
+    <script id="dsq-count-scr" src="https://allen.disqus.com/count.js" async></script>
+  
+
+  
+    <script type="text/javascript">
+      var disqus_config = function () {
+        this.page.url = 'www.allenyep.cn/2019/06/20/西瓜书-学习笔记五-贝叶斯分类器/';
+        this.page.identifier = '2019/06/20/西瓜书-学习笔记五-贝叶斯分类器/';
+        this.page.title = '[西瓜书]学习笔记五:贝叶斯分类器';
+      };
+      function loadComments () {
+        var d = document, s = d.createElement('script');
+        s.src = 'https://allen.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      }
+      
+        loadComments();
+      
+    </script>
+  
+
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+
+  
+    
+      <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+<script type="text/javascript" src="//cdn.jsdelivr.net/npm/mathjax@2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+    
+  
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+<script type="text/javascript">
+    var host = "allenyep.cn";
+    if ((host == window.location.host) && (window.location.protocol != "https:"))
+        window.location.protocol = "https";
+</script>
+</html>
