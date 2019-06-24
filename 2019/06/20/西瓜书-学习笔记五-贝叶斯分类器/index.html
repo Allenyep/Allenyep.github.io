@@ -155,7 +155,7 @@
 <meta property="og:image" content="/2019/06/20/西瓜书-学习笔记五-贝叶斯分类器/7.png">
 <meta property="og:image" content="/2019/06/20/西瓜书-学习笔记五-贝叶斯分类器/8.png">
 <meta property="og:image" content="/2019/06/20/西瓜书-学习笔记五-贝叶斯分类器/9.png">
-<meta property="og:updated_time" content="2019-06-20T08:59:45.036Z">
+<meta property="og:updated_time" content="2019-06-20T09:08:33.097Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="[西瓜书]学习笔记五:贝叶斯分类器">
 <meta name="twitter:description" content="贝叶斯：机遇理论中一个问题的解">
@@ -382,7 +382,7 @@
                 
               
 
-              <time title="创建时间：2019-06-20 09:42:27 / 修改时间：16:59:45" itemprop="dateCreated datePublished" datetime="2019-06-20T09:42:27+08:00">2019-06-20</time>
+              <time title="创建时间：2019-06-20 09:42:27 / 修改时间：17:08:33" itemprop="dateCreated datePublished" datetime="2019-06-20T09:42:27+08:00">2019-06-20</time>
             
 
             
@@ -500,9 +500,9 @@ p(x)=\prod_{i\epsilon I}p(x_{i}|x_{pa(i)})</script><p>其中x表示其属性集<
 <h2 id="结构"><a href="#结构" class="headerlink" title="结构"></a>结构</h2><p>贝叶斯网络有三种依赖关系，如下图所示。</p>
 <img src="/2019/06/20/西瓜书-学习笔记五-贝叶斯分类器/7.png">
 <ul>
-<li>第一种同父结构，被看作$P(a,b,c)=P(c)<em>P(a|c)</em>P(b|c)$ ，即在c给定的条件下，a，b被阻断(blocked)，是独立的。</li>
-<li>第二种V型结构，$P(a,b,c) = P(a)<em>P(b)</em>P(c|a,b)$，即在c未知的条件下，a、b被阻断(blocked)，是独立的。</li>
-<li>第三种顺序结构，$P(a,b,c)=P(a)<em>P(c|a)</em>P(b|c)$，  即：在c给定的条件下，a，b被阻断(blocked)，是独立的。（这个就是马尔可夫链）</li>
+<li>第一种同父结构，被看作<script type="math/tex">P(a,b,c)=P(c)*P(a|c)*P(b|c)</script> ，即在c给定的条件下，a，b被阻断(blocked)，是独立的。</li>
+<li>第二种V型结构，<script type="math/tex">P(a,b,c) = P(a)*P(b)*P(c|a,b)</script>，即在c未知的条件下，a、b被阻断(blocked)，是独立的。</li>
+<li>第三种顺序结构，<script type="math/tex">P(a,b,c)=P(a)*P(c|a)*P(b|c)</script>，  即：在c给定的条件下，a，b被阻断(blocked)，是独立的。（这个就是马尔可夫链）</li>
 </ul>
 <h2 id="学习"><a href="#学习" class="headerlink" title="学习"></a>学习</h2><p>若网络结构（属性间依赖关系）已知，只需要对样本计数，估计每个结点条件概率即可完成学习过程。第一步就是找到最恰当的贝叶斯网。</p>
 <p>“评分搜索”是求解的常用方法。先定义评分函数，通常基于信息论准则，它将学习问题看作数据压缩任务。它的目标数选择综合编码长度最短的贝叶斯网络，称为“最小长度描述”(MDL)准则。</p>
@@ -575,6 +575,10 @@ LL(\Theta | X) = lnP(X|\Theta)=ln\sum_{Z}P(X,Z|\Theta)</script><img src="/2019/0
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/06/21/西瓜书-学习笔记六-模型评估及选择/" rel="prev" title="[西瓜书]学习笔记六:模型评估及选择">
+                [西瓜书]学习笔记六:模型评估及选择 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -662,7 +666,7 @@ LL(\Theta | X) = lnP(X|\Theta)=ln\sum_{Z}P(X,Z|\Theta)</script><img src="/2019/0
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">27</span>
+                    <span class="site-state-item-count">28</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
