@@ -153,7 +153,9 @@
 <meta property="og:image" content="/2019/06/21/西瓜书-学习笔记六-模型评估及选择/5.png">
 <meta property="og:image" content="/2019/06/21/西瓜书-学习笔记六-模型评估及选择/6.png">
 <meta property="og:image" content="/2019/06/21/西瓜书-学习笔记六-模型评估及选择/7.png">
-<meta property="og:updated_time" content="2019-06-24T13:26:00.501Z">
+<meta property="og:image" content="/2019/06/21/西瓜书-学习笔记六-模型评估及选择/8.png">
+<meta property="og:image" content="/2019/06/21/西瓜书-学习笔记六-模型评估及选择/9.png">
+<meta property="og:updated_time" content="2019-06-28T01:17:58.513Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="[西瓜书]学习笔记六:模型评估及选择">
 <meta name="twitter:description" content="模型评估：关于怎么评价训练完成的模型">
@@ -397,7 +399,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-06-24 21:26:00" itemprop="dateModified" datetime="2019-06-24T21:26:00+08:00">2019-06-24</time>
+                <time title="修改时间：2019-06-28 09:17:58" itemprop="dateModified" datetime="2019-06-28T09:17:58+08:00">2019-06-28</time>
               
             
           </span>
@@ -493,6 +495,10 @@ FPR=\frac{FP}{TN+FP}</script><img src="/2019/06/21/西瓜书-学习笔记六-模
 <p>接下来，我们从高到低，依次将“Score”值作为阈值threshold，当测试样本属于正样本的概率大于或等于这个threshold时，我们认为它为正样本，否则为负样本。举例来说，对于图中的第4个样本，其“Score”值为0.6，那么样本1，2，3，4都被认为是正样本，因为它们的“Score”值都大于等于0.6，而其他样本则都认为是负样本。每次选取一个不同的threshold，我们就可以得到一组FPR和TPR，即ROC曲线上的一点。这样一来，我们一共得到了20组FPR和TPR的值，将它们画在ROC曲线的结果如下图：</p>
 <img src="/2019/06/21/西瓜书-学习笔记六-模型评估及选择/7.png">
 <p>AUC(Area under Curve)：Roc曲线下的面积，介于0.1和1之间。Auc作为数值可以直观的评价分类器的好坏，值越大越好。首先AUC值是一个概率值，当你随机挑选一个正样本以及负样本，当前的分类算法根据计算得到的Score值将这个正样本排在负样本前面的概率就是AUC值，AUC值越大，当前分类算法越有可能将正样本排在负样本前面，从而能够更好地分类。</p>
+<h2 id="代价敏感错误率与代价曲线"><a href="#代价敏感错误率与代价曲线" class="headerlink" title="代价敏感错误率与代价曲线"></a>代价敏感错误率与代价曲线</h2><p>将学习器的犯错同等对待，但在现实生活中，将正例预测成假例与将假例预测成正例的代价常常是不一样的，例如：将无疾病—&gt;有疾病只是增多了检查，但有疾病—&gt;无疾病却是增加了生命危险。以二分类为例，由此引入了“代价矩阵”（cost matrix）</p>
+<img src="/2019/06/21/西瓜书-学习笔记六-模型评估及选择/8.png">
+<p>在非均等错误代价下，我们希望的是最小化“总体代价”，同样对于ROC曲线，在非均等错误代价下，演变成了“代价曲线”。代价曲线的绘制很简单：设ROC曲线上一点的坐标为(TPR，FPR) ，则可相应计算出FNR，然后在代价平面上绘制一条从(0，FPR) 到(1，FNR) 的线段，线段下的面积即表示了该条件下的期望总体代价；如此将ROC 曲线土的每个点转化为代价平面上的一条线段，然后取所有线段的下界，围成的面积即为在所有条件下学习器的期望总体代价，如图所示：</p>
+<img src="/2019/06/21/西瓜书-学习笔记六-模型评估及选择/9.png">
 <h1 id="比较检验"><a href="#比较检验" class="headerlink" title="比较检验"></a>比较检验</h1><h1 id="偏差和方差"><a href="#偏差和方差" class="headerlink" title="偏差和方差"></a>偏差和方差</h1>
       
     </div>
@@ -737,7 +743,7 @@ FPR=\frac{FP}{TN+FP}</script><img src="/2019/06/21/西瓜书-学习笔记六-模
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#误差与过拟合"><span class="nav-number">1.</span> <span class="nav-text">误差与过拟合</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#评估方法"><span class="nav-number">2.</span> <span class="nav-text">评估方法</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#留出法"><span class="nav-number">2.1.</span> <span class="nav-text">留出法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#交叉验证法"><span class="nav-number">2.2.</span> <span class="nav-text">交叉验证法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#自助法"><span class="nav-number">2.3.</span> <span class="nav-text">自助法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#调参"><span class="nav-number">2.4.</span> <span class="nav-text">调参</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#性能度量"><span class="nav-number">3.</span> <span class="nav-text">性能度量</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#分类当中的性能度量"><span class="nav-number">3.1.</span> <span class="nav-text">分类当中的性能度量</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#查准率，查全率和F1"><span class="nav-number">3.2.</span> <span class="nav-text">查准率，查全率和F1</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ROC和AUC"><span class="nav-number">3.3.</span> <span class="nav-text">ROC和AUC</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#比较检验"><span class="nav-number">4.</span> <span class="nav-text">比较检验</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#偏差和方差"><span class="nav-number">5.</span> <span class="nav-text">偏差和方差</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#误差与过拟合"><span class="nav-number">1.</span> <span class="nav-text">误差与过拟合</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#评估方法"><span class="nav-number">2.</span> <span class="nav-text">评估方法</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#留出法"><span class="nav-number">2.1.</span> <span class="nav-text">留出法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#交叉验证法"><span class="nav-number">2.2.</span> <span class="nav-text">交叉验证法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#自助法"><span class="nav-number">2.3.</span> <span class="nav-text">自助法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#调参"><span class="nav-number">2.4.</span> <span class="nav-text">调参</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#性能度量"><span class="nav-number">3.</span> <span class="nav-text">性能度量</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#分类当中的性能度量"><span class="nav-number">3.1.</span> <span class="nav-text">分类当中的性能度量</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#查准率，查全率和F1"><span class="nav-number">3.2.</span> <span class="nav-text">查准率，查全率和F1</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ROC和AUC"><span class="nav-number">3.3.</span> <span class="nav-text">ROC和AUC</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#代价敏感错误率与代价曲线"><span class="nav-number">3.4.</span> <span class="nav-text">代价敏感错误率与代价曲线</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#比较检验"><span class="nav-number">4.</span> <span class="nav-text">比较检验</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#偏差和方差"><span class="nav-number">5.</span> <span class="nav-text">偏差和方差</span></a></li></ol></div>
             
 
           </div>
