@@ -146,7 +146,7 @@
 <meta property="og:site_name" content="Allenyep的博客">
 <meta property="og:description" content="我把hexo从GitHub迁移到了自己的VPS">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2020-03-13T13:23:22.735Z">
+<meta property="og:updated_time" content="2020-03-13T13:27:05.897Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Hexo博客迁移">
 <meta name="twitter:description" content="我把hexo从GitHub迁移到了自己的VPS">
@@ -372,7 +372,7 @@
                 
               
 
-              <time title="创建时间：2020-03-13 20:15:51 / 修改时间：21:23:22" itemprop="dateCreated datePublished" datetime="2020-03-13T20:15:51+08:00">2020-03-13</time>
+              <time title="创建时间：2020-03-13 20:15:51 / 修改时间：21:27:05" itemprop="dateCreated datePublished" datetime="2020-03-13T20:15:51+08:00">2020-03-13</time>
             
 
             
@@ -432,7 +432,7 @@
 </ol>
 <h1 id="阿里云服务端配置"><a href="#阿里云服务端配置" class="headerlink" title="阿里云服务端配置"></a>阿里云服务端配置</h1><p>领取到机器之后，首先选择机器的操作系统，我装的是ubuntu16，因为搭建的是web应用，所以需要去安全组里面打开80端口。</p>
 <p>服务端首先我们需要装两个软件：Git和Nginx，用来保存博客和转发代理。</p>
-<h2 id="git安装"><a href="#git安装" class="headerlink" title="git安装"></a>git安装</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install git</span><br></pre></td></tr></table></figure>
+<h2 id="git安装"><a href="#git安装" class="headerlink" title="git安装"></a>git安装</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install git</span><br></pre></td></tr></table></figure>
 <h2 id="Nginx安装"><a href="#Nginx安装" class="headerlink" title="Nginx安装"></a>Nginx安装</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install nginx</span><br></pre></td></tr></table></figure>
 <p>安装完后分别输入git —version、nginx -v，出现相应版本号即为安装成功</p>
 <p>安装好这两项之后，我们需要新建一个专门推送更新博客的用户，然后配置对应的博客存放文件夹和web访问文件夹。</p>
@@ -457,7 +457,8 @@
 <p>在文件中添加以下内容<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">#!/bin/bash</span><br><span class="line">git --work-tree=/var/www/hexo --git-dir=/var/repo/hexoBlog.git checkout -f</span><br></pre></td></tr></table></figure></p>
 <p>保存退出，并修改权限使其成为可执行文件<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chmod +x /var/repo/hexoBlog.git/hooks/post-receive</span><br></pre></td></tr></table></figure></p>
 <p>这样子服务端的配置就完成了，我在配置这里的部分花费了好多时间。</p>
-<h2 id="客户端（本地）配置"><a href="#客户端（本地）配置" class="headerlink" title="客户端（本地）配置"></a>客户端（本地）配置</h2><p>因为在本地已经有hexo的博客源码，我只需要修改配置文件<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">```</span><br><span class="line">deploy:</span><br><span class="line">    type: git</span><br><span class="line">    repo: git@服务器的公网IP地址:/var/repo/hexoBlog.git</span><br><span class="line">    branch: master</span><br></pre></td></tr></table></figure></p>
+<h2 id="客户端（本地）配置"><a href="#客户端（本地）配置" class="headerlink" title="客户端（本地）配置"></a>客户端（本地）配置</h2><p>因为在本地已经有hexo的博客源码，我只需要修改配置文件_config.yml就可以直接推送到VPS。找到deploy部分，修改repo链接。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">deploy:</span><br><span class="line">    type: git</span><br><span class="line">    repo: git@服务器的公网IP地址:/var/repo/hexoBlog.git</span><br><span class="line">    branch: master</span><br></pre></td></tr></table></figure>
 <p>修改完成后，测试部署一下<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo g &amp;&amp; hexo d</span><br></pre></td></tr></table></figure></p>
 <p>然后http访问一下就完成了</p>
 <h1 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h1><p>主要问题是客户端无法deploy到服务端，钩子没有自动触发两个问题，下面说一下解决方案。</p>
