@@ -146,7 +146,7 @@
 <meta property="og:site_name" content="Allenyep的博客">
 <meta property="og:description" content="我把hexo从GitHub迁移到了自己的VPS">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2020-03-13T13:27:05.897Z">
+<meta property="og:updated_time" content="2020-03-13T13:31:09.328Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Hexo博客迁移">
 <meta name="twitter:description" content="我把hexo从GitHub迁移到了自己的VPS">
@@ -372,7 +372,7 @@
                 
               
 
-              <time title="创建时间：2020-03-13 20:15:51 / 修改时间：21:27:05" itemprop="dateCreated datePublished" datetime="2020-03-13T20:15:51+08:00">2020-03-13</time>
+              <time title="创建时间：2020-03-13 20:15:51 / 修改时间：21:31:09" itemprop="dateCreated datePublished" datetime="2020-03-13T20:15:51+08:00">2020-03-13</time>
             
 
             
@@ -449,7 +449,7 @@
 <p>然后新建blog仓库<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd /var/repo</span><br><span class="line">git init --bare hexoBlog.git</span><br></pre></td></tr></table></figure></p>
 <h2 id="配置Nginx托管目录"><a href="#配置Nginx托管目录" class="headerlink" title="配置Nginx托管目录"></a>配置Nginx托管目录</h2><p>新建一个文件夹用于托管nginx的转发，并设置权限。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo mkdir -p /var/www/hexo</span><br><span class="line">sudo chown -R $USER:$USER /var/www/hexo</span><br><span class="line">sudo chmod -R 755 /var/www/hexo</span><br></pre></td></tr></table></figure></p>
 <p>然后配置nginx<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">#ubuntu配置命令是这个，centOS不一样</span><br><span class="line">sudo vim /etc/nginx/sites-available/default</span><br></pre></td></tr></table></figure></p>
-<p>找到root配置项，改为<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">```</span><br><span class="line">server &#123;</span><br><span class="line">    listen 80 default_server; listen [::]:80 default_server ipv6only=on;</span><br><span class="line">    root html;</span><br><span class="line">    index index.html index.htm;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">#改为</span><br><span class="line">server &#123;</span><br><span class="line">    listen 80 default_server;</span><br><span class="line">    listen [::]:80 default_server ipv6only=on;</span><br><span class="line">    root /var/www/hexo;</span><br><span class="line">    index index.html index.htm;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>找到root配置项，改为/var/www/hexo,只修改root行就可以了<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">server &#123;</span><br><span class="line">    listen 80 default_server; listen [::]:80 default_server ipv6only=on;</span><br><span class="line">    root html;</span><br><span class="line">    index index.html index.htm;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">#改为</span><br><span class="line">server &#123;</span><br><span class="line">    listen 80 default_server;</span><br><span class="line">    listen [::]:80 default_server ipv6only=on;</span><br><span class="line">    root /var/www/hexo;</span><br><span class="line">    index index.html index.htm;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <p>保存退出，重启 Nginx 服务，使改动生效<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># ubuntu的命令，其他系统也不一样</span><br><span class="line">sudo /etc/init.d/nginx restart</span><br></pre></td></tr></table></figure></p>
 <p>可以测试ip访问一下，如果配置前能访问配置后无法访问说明修改成功了。</p>
 <h2 id="创建Git钩子"><a href="#创建Git钩子" class="headerlink" title="创建Git钩子"></a>创建Git钩子</h2><p>钩子，就是用来触发关键事件的工具。当我们提交的时候，git钩子可以自动的将我们提交的博客转输到nginx的文件夹下，这样就可以简化很多工作了。</p>
@@ -499,8 +499,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2020/03/09/阿里实习电话面试/" rel="next" title="阿里实习电话面试">
-                <i class="fa fa-chevron-left"></i> 阿里实习电话面试
+              <a href="/2020/03/04/腾讯实习面试/" rel="next" title="暑期实习面试">
+                <i class="fa fa-chevron-left"></i> 暑期实习面试
               </a>
             
           </div>
@@ -508,6 +508,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/04/03/面试之HashMap/" rel="prev" title="面试之HashMap">
+                面试之HashMap <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
