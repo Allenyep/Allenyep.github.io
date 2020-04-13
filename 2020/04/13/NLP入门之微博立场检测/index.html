@@ -1,0 +1,975 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-CN">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic|PT Mono:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=6.2.0" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.2.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.2.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.2.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.2.0" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '6.2.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="第一次参加NLP的比赛，也算是了解一下文本相关">
+<meta name="keywords" content="机器学习,自然语言处理">
+<meta property="og:type" content="article">
+<meta property="og:title" content="NLP入门之微博立场检测">
+<meta property="og:url" content="http://yoursite.com/2020/04/13/NLP入门之微博立场检测/index.html">
+<meta property="og:site_name" content="Allenyep的博客">
+<meta property="og:description" content="第一次参加NLP的比赛，也算是了解一下文本相关">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2020-04-13T15:38:22.803Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="NLP入门之微博立场检测">
+<meta name="twitter:description" content="第一次参加NLP的比赛，也算是了解一下文本相关">
+
+
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2020/04/13/NLP入门之微博立场检测/"/>
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>NLP入门之微博立场检测 | Allenyep的博客</title>
+  
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Allenyep的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">keep young,keep simple</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />首页</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+    <a href="/about/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-user"></i> <br />关于</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+    <a href="/tags/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />标签</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档</a>
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/04/13/NLP入门之微博立场检测/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Allenyep">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Allenyep的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">NLP入门之微博立场检测
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2020-04-13 18:24:20 / 修改时间：23:38:22" itemprop="dateCreated datePublished" datetime="2020-04-13T18:24:20+08:00">2020-04-13</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2020/04/13/NLP入门之微博立场检测/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2020/04/13/NLP入门之微博立场检测/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <center>第一次参加NLP的比赛，也算是了解一下文本相关</center>
+
+<a id="more"></a>
+<p>比赛地址：<a href="https://god.yanxishe.com/44" target="_blank" rel="noopener">https://god.yanxishe.com/44</a></p>
+<p>之间参与的比赛都是数据类型的比赛，从来没接触过文本类型的任务。对文本的处理还不了解，现在稍微熟悉了一点。比赛给出的数据是weibo的一段评论数据，标注了每段评论数据的情感倾向，有正负未知三种类别。比赛目标就是对文本进行分类，评价标准是准确度。</p>
+<h1 id="文本分类的基本步骤"><a href="#文本分类的基本步骤" class="headerlink" title="文本分类的基本步骤"></a>文本分类的基本步骤</h1><p>和一般的分类任务相同，文本比赛的处理流程也是文本向量化（如TF-IDF，词频统计），然后进行特征提取，放入分类模型，参数调优，提升准确率。</p>
+<h2 id="数据导入"><a href="#数据导入" class="headerlink" title="数据导入"></a>数据导入</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> xgboost <span class="keyword">as</span> xgb</span><br><span class="line"><span class="keyword">from</span> tqdm <span class="keyword">import</span> tqdm</span><br><span class="line"><span class="keyword">from</span> sklearn.svm <span class="keyword">import</span> SVC</span><br><span class="line"><span class="keyword">from</span> keras.models <span class="keyword">import</span> Sequential</span><br><span class="line"><span class="keyword">from</span> keras.layers.recurrent <span class="keyword">import</span> LSTM, GRU</span><br><span class="line"><span class="keyword">from</span> keras.layers.core <span class="keyword">import</span> Dense, Activation, Dropout</span><br><span class="line"><span class="keyword">from</span> keras.layers.embeddings <span class="keyword">import</span> Embedding</span><br><span class="line"><span class="keyword">from</span> keras.layers.normalization <span class="keyword">import</span> BatchNormalization</span><br><span class="line"><span class="keyword">from</span> keras.utils <span class="keyword">import</span> np_utils</span><br><span class="line"><span class="keyword">from</span> sklearn <span class="keyword">import</span> preprocessing, decomposition, model_selection, metrics, pipeline</span><br><span class="line"><span class="keyword">from</span> sklearn.model_selection <span class="keyword">import</span> GridSearchCV</span><br><span class="line"><span class="keyword">from</span> sklearn.feature_extraction.text <span class="keyword">import</span> TfidfVectorizer, CountVectorizer</span><br><span class="line"><span class="keyword">from</span> sklearn.decomposition <span class="keyword">import</span> TruncatedSVD</span><br><span class="line"><span class="keyword">from</span> sklearn.linear_model <span class="keyword">import</span> LogisticRegression</span><br><span class="line"><span class="keyword">from</span> sklearn.model_selection <span class="keyword">import</span> train_test_split</span><br><span class="line"><span class="keyword">from</span> sklearn.naive_bayes <span class="keyword">import</span> MultinomialNB</span><br><span class="line"><span class="keyword">from</span> keras.layers <span class="keyword">import</span> GlobalMaxPooling1D, Conv1D, MaxPooling1D, Flatten, Bidirectional, SpatialDropout1D</span><br><span class="line"><span class="keyword">from</span> keras.preprocessing <span class="keyword">import</span> sequence, text</span><br><span class="line"><span class="keyword">from</span> keras.callbacks <span class="keyword">import</span> EarlyStopping</span><br><span class="line"><span class="keyword">from</span> nltk <span class="keyword">import</span> word_tokenize</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">df_train = pd.read_csv(<span class="string">'./train.csv'</span>,sep=<span class="string">'\t'</span>)  <span class="comment"># 数据读取</span></span><br><span class="line">df_test = pd.read_csv(<span class="string">'./test.csv'</span>,sep=<span class="string">'\t'</span>)</span><br><span class="line">print(df_train.shape)</span><br><span class="line">print(df_test.shape)</span><br><span class="line"></span><br><span class="line">df_train.info()</span><br></pre></td></tr></table></figure>
+<p>导入数据后，简单查看数据，剔除或补全异常值，同时我们对label进行编码，导入中文停用词表。中文停用词指的是频繁出现在语句中的助词，对于词向量的转换没有意义，因此在分词之后需要剔除。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">df_train.stance = df_train.stance.fillna(<span class="string">'NONE'</span>)</span><br><span class="line">df_train = df_train.reset_index(drop=<span class="keyword">True</span>)</span><br><span class="line"></span><br><span class="line">label_unique = df_train[<span class="string">'stance'</span>].unique()</span><br><span class="line">nb_class = len(label_unique)</span><br><span class="line"></span><br><span class="line">label_dict = &#123;<span class="string">'AGAINST'</span>:<span class="number">0</span>,<span class="string">'FAVOR'</span>:<span class="number">1</span>,<span class="string">'NONE'</span>:<span class="number">2</span>&#125;</span><br><span class="line"></span><br><span class="line">label_dict2 = &#123;<span class="number">0</span>:<span class="string">'AGAINST'</span>,<span class="number">1</span>:<span class="string">'FAVOR'</span>,<span class="number">2</span>:<span class="string">'NONE'</span>&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">with</span> open(<span class="string">'./stopwords.txt'</span>,encoding=<span class="string">'utf8'</span>) <span class="keyword">as</span> f:</span><br><span class="line">    content = f.read()</span><br><span class="line">    stopWordList = content.splitlines()</span><br><span class="line">len(stopWordList)</span><br></pre></td></tr></table></figure>
+<h2 id="分词"><a href="#分词" class="headerlink" title="分词"></a>分词</h2><p>中文分词和英文分词不同，后者的划分很大程度上是单词的划分，中文的分词需要依靠分词工具，这里选用的jieba分词，同时对训练集标签进行映射。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">df_train[<span class="string">'label'</span>] = df_train[<span class="string">'stance'</span>].apply(<span class="keyword">lambda</span> x : label_dict.get(x))</span><br><span class="line">df_train[<span class="string">'cut_text'</span>] = df_train[<span class="string">'text'</span>].apply(<span class="keyword">lambda</span> x : <span class="string">" "</span>.join(jieba.cut(x,cut_all=<span class="keyword">False</span>)))</span><br><span class="line">df_test[<span class="string">'cut_text'</span>] = df_test[<span class="string">'text'</span>].apply(<span class="keyword">lambda</span> x : <span class="string">" "</span>.join(jieba.cut(x,cut_all=<span class="keyword">False</span>)))</span><br><span class="line"></span><br><span class="line">train_text = list(df_train[<span class="string">'cut_text'</span>].values)</span><br><span class="line">test_text = list(df_test[<span class="string">'cut_text'</span>].values)</span><br><span class="line">totle_text = train_text + test_text</span><br></pre></td></tr></table></figure>
+<p>值得注意的是，分词是任何中文文本分类的起点，分词的质量会直接影响到后面的模型效果。在这里，作为演示有点偷懒，其实你还可以：</p>
+<ul>
+<li>设置可靠的自定义词典，以便分词更精准；</li>
+<li>采用分词效果更好的分词器，如pyltp、THULAC、Hanlp等；</li>
+<li>编写预处理类，就像下面要谈到的数字特征归一化，去掉文本中的#@￥%……&amp;等等。</li>
+</ul>
+<h2 id="TF-IDF"><a href="#TF-IDF" class="headerlink" title="TF-IDF"></a>TF-IDF</h2><p>TF-IDF（Term Frequency-InversDocument Frequency）是一种常用于信息处理和数据挖掘的加权技术。该技术采用一种统计方法，根据字词的在文本中出现的次数和在整个语料中出现的文档频率来计算一个字词在整个语料中的重要程度。它的优点是能过滤掉一些常见的却无关紧要本的词语，同时保留影响整个文本的重要字词。</p>
+<p>简单来说，就是利用词频和文本频率来计算这个词在整个语料库的重要性，将词语转换为数字，进而判断整个句子的类别。</p>
+<p>Scikit-Learn中TF-IDF权重计算方法主要用到两个类：CountVectorizer和TfidfTransformer。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">vectorizer = TfidfVectorizer(ngram_range=(<span class="number">1</span>, <span class="number">2</span>),max_df=<span class="number">0.5</span>,stop_words=stopWordList)</span><br><span class="line">vectorizer.fit(totle_text)  <span class="comment"># 构造tfidf矩阵</span></span><br><span class="line">df_train[<span class="string">'label'</span>] = df_train[<span class="string">'stance'</span>].map(label_dict)</span><br><span class="line">X = vectorizer.transform(train_text)</span><br><span class="line">y = df_train[<span class="string">'label'</span>].values</span><br><span class="line">X_test = vectorizer.transform(test_text)</span><br><span class="line"></span><br><span class="line"><span class="comment">#创建一个向量计数器对象</span></span><br><span class="line">count_vect = CountVectorizer(analyzer=<span class="string">'word'</span>, token_pattern=<span class="string">r'\w&#123;1,&#125;'</span>)</span><br><span class="line">count_vect.fit(totle_text)</span><br><span class="line"><span class="comment">#使用向量计数器对象转换训练集和验证集</span></span><br><span class="line">xtrain_count =  count_vect.transform(train_text)</span><br><span class="line">xvalid_count =  count_vect.transform(test_text)</span><br></pre></td></tr></table></figure>
+<h2 id="模型"><a href="#模型" class="headerlink" title="模型"></a>模型</h2><h3 id="朴素贝叶斯"><a href="#朴素贝叶斯" class="headerlink" title="朴素贝叶斯"></a>朴素贝叶斯</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line">skf = StratifiedKFold(n_splits=<span class="number">5</span>,random_state=<span class="number">42</span>,shuffle=<span class="keyword">True</span>)</span><br><span class="line"></span><br><span class="line">oof_train = np.zeros((len(df_train),nb_class))</span><br><span class="line">oof_test = np.zeros((len(df_test),nb_class))</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> idx,(tr_in,te_in) <span class="keyword">in</span> enumerate(skf.split(X,y)):</span><br><span class="line">    X_train = X[tr_in]</span><br><span class="line">    X_valid = X[te_in]</span><br><span class="line">    y_train = y[tr_in]</span><br><span class="line">    y_valid = y[te_in]</span><br><span class="line">    </span><br><span class="line">    clf = MultinomialNB(alpha=<span class="number">.25</span>)</span><br><span class="line"><span class="comment">#     clf = LinearSVC()</span></span><br><span class="line">    clf.fit(X_train,y_train)</span><br><span class="line">    y_pred = clf.predict_proba(X_valid)</span><br><span class="line">    </span><br><span class="line">    oof_train[te_in] = y_pred</span><br><span class="line">    oof_test = oof_test + clf.predict_proba(X_test) / skf.n_splits</span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用包大人推荐的方法</span></span><br><span class="line">x1 = np.array(oof_train)</span><br><span class="line">y1 = np.array(y)</span><br><span class="line"><span class="keyword">from</span> scipy <span class="keyword">import</span> optimize</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">fun</span><span class="params">(x)</span>:</span></span><br><span class="line">    tmp = np.hstack([x[<span class="number">0</span>] * x1[:, <span class="number">0</span>].reshape(<span class="number">-1</span>, <span class="number">1</span>), x[<span class="number">1</span>] * x1[:, <span class="number">1</span>].reshape(<span class="number">-1</span>, <span class="number">1</span>), x[<span class="number">2</span>] * x1[:, <span class="number">2</span>].reshape(<span class="number">-1</span>, <span class="number">1</span>)])</span><br><span class="line">    <span class="keyword">return</span> - accuracy_score(y1, np.argmax(tmp, axis=<span class="number">1</span>))</span><br><span class="line">x0 = np.asarray((<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>))</span><br><span class="line">res = optimize.fmin_powell(fun, x0)</span><br><span class="line"></span><br><span class="line">xx_score = accuracy_score(y,np.argmax(oof_train,axis=<span class="number">1</span>))</span><br><span class="line">print(<span class="string">'原始score'</span>,xx_score)</span><br><span class="line"></span><br><span class="line">xx_cv = accuracy_score(y,np.argmax(oof_train * res,axis=<span class="number">1</span>))</span><br><span class="line">print(<span class="string">'修正后的'</span>,xx_cv)</span><br><span class="line"></span><br><span class="line">result = df_test[[<span class="string">'text'</span>]].copy()</span><br><span class="line">result[<span class="string">'stance'</span>] = np.argmax(oof_test * res,axis=<span class="number">1</span>)</span><br><span class="line">result[<span class="string">'label'</span>] = result[<span class="string">'stance'</span>].map(label_dict2)</span><br><span class="line">result[[<span class="string">'label'</span>]].to_csv(<span class="string">'./baseline_NB_&#123;&#125;.csv'</span>.format(str(xx_cv).split(<span class="string">'.'</span>)[<span class="number">1</span>]),header=<span class="keyword">None</span>,)</span><br></pre></td></tr></table></figure>
+<h3 id="SVM"><a href="#SVM" class="headerlink" title="SVM"></a>SVM</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line">skf = StratifiedKFold(n_splits=<span class="number">5</span>,random_state=<span class="number">42</span>,shuffle=<span class="keyword">True</span>)</span><br><span class="line"></span><br><span class="line">oof_train = np.zeros((len(df_train),nb_class))</span><br><span class="line">oof_test = np.zeros((len(df_test),nb_class))</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> idx,(tr_in,te_in) <span class="keyword">in</span> enumerate(skf.split(X,y)):</span><br><span class="line">    X_train = X[tr_in]</span><br><span class="line">    X_valid = X[te_in]</span><br><span class="line">    y_train = y[tr_in]</span><br><span class="line">    y_valid = y[te_in]</span><br><span class="line">    </span><br><span class="line"><span class="comment">#     clf = MultinomialNB(alpha=.25)</span></span><br><span class="line">    clf = SVC(C=<span class="number">1.0</span>, probability=<span class="keyword">True</span>) <span class="comment"># since we need probabilities</span></span><br><span class="line"><span class="comment">#     clf = LinearSVC()</span></span><br><span class="line">    clf.fit(X_train,y_train)</span><br><span class="line">    y_pred = clf.predict_proba(X_valid)</span><br><span class="line">    </span><br><span class="line">    oof_train[te_in] = y_pred</span><br><span class="line">    oof_test = oof_test + clf.predict_proba(X_test) / skf.n_splits</span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用包大人推荐的方法</span></span><br><span class="line">x1 = np.array(oof_train)</span><br><span class="line">y1 = np.array(y)</span><br><span class="line"><span class="keyword">from</span> scipy <span class="keyword">import</span> optimize</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">fun</span><span class="params">(x)</span>:</span></span><br><span class="line">    tmp = np.hstack([x[<span class="number">0</span>] * x1[:, <span class="number">0</span>].reshape(<span class="number">-1</span>, <span class="number">1</span>), x[<span class="number">1</span>] * x1[:, <span class="number">1</span>].reshape(<span class="number">-1</span>, <span class="number">1</span>), x[<span class="number">2</span>] * x1[:, <span class="number">2</span>].reshape(<span class="number">-1</span>, <span class="number">1</span>)])</span><br><span class="line">    <span class="keyword">return</span> - accuracy_score(y1, np.argmax(tmp, axis=<span class="number">1</span>))</span><br><span class="line">x0 = np.asarray((<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>))</span><br><span class="line">res = optimize.fmin_powell(fun, x0)</span><br><span class="line"></span><br><span class="line">xx_score = accuracy_score(y,np.argmax(oof_train,axis=<span class="number">1</span>))</span><br><span class="line">print(<span class="string">'原始score'</span>,xx_score)</span><br><span class="line"></span><br><span class="line">xx_cv = accuracy_score(y,np.argmax(oof_train * res,axis=<span class="number">1</span>))</span><br><span class="line">print(<span class="string">'修正后的'</span>,xx_cv)</span><br><span class="line"></span><br><span class="line">clf = SVC(C=<span class="number">1.0</span>, probability=<span class="keyword">True</span>) <span class="comment"># since we need probabilities</span></span><br><span class="line">clf.fit(X, y)</span><br><span class="line">predictions = clf.predict_proba(X_test)</span><br><span class="line"></span><br><span class="line"><span class="comment"># print ("accuracy: %0.6f " % accuracy(predictions.argmax(axis=-1),np.array(ans_final['label'])))</span></span><br><span class="line"></span><br><span class="line">result = df_test[[<span class="string">'text'</span>]].copy()</span><br><span class="line">result[<span class="string">'stance'</span>] = np.argmax(predictions,axis=<span class="number">-1</span>)</span><br><span class="line">result[<span class="string">'label'</span>] = result[<span class="string">'stance'</span>].map(label_dict2)</span><br><span class="line">result[[<span class="string">'label'</span>]].to_csv(<span class="string">'./SVM_&#123;&#125;.csv'</span>.format(str(xx_cv).split(<span class="string">'.'</span>)[<span class="number">1</span>]),header=<span class="keyword">None</span>,)</span><br></pre></td></tr></table></figure>
+<h3 id="LGB"><a href="#LGB" class="headerlink" title="LGB"></a>LGB</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line">param </span><br><span class="line">= &#123; </span><br><span class="line">    <span class="string">'boosting_type'</span>: <span class="string">'gbdt'</span>,  </span><br><span class="line">    <span class="string">'objective'</span>: <span class="string">'multiclass'</span>,  </span><br><span class="line">    <span class="string">'num_class'</span>: <span class="number">3</span>,  </span><br><span class="line">    <span class="string">'metric'</span>: <span class="string">'multi_error'</span>,  </span><br><span class="line">    <span class="string">'num_leaves'</span>: <span class="number">300</span>,  </span><br><span class="line"><span class="comment">#     'min_data_in_leaf': 500,  </span></span><br><span class="line">    <span class="string">'learning_rate'</span>: <span class="number">0.01</span>,  </span><br><span class="line">    <span class="string">'feature_fraction'</span>: <span class="number">0.8</span>,  </span><br><span class="line">    <span class="string">'bagging_fraction'</span>: <span class="number">0.8</span>,  </span><br><span class="line"><span class="comment">#     'bagging_freq': 5, </span></span><br><span class="line">    <span class="string">'lambda_l1'</span>: <span class="number">0.4</span>,  </span><br><span class="line">    <span class="string">'lambda_l2'</span>: <span class="number">0.5</span>,  </span><br><span class="line"><span class="comment">#     'min_gain_to_split': 0.2,  </span></span><br><span class="line">    <span class="string">'verbose'</span>: <span class="number">-1</span>,</span><br><span class="line"><span class="comment">#     'num_threads':4,</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">num_class = <span class="number">3</span></span><br><span class="line">X_train = X</span><br><span class="line">y_train = y</span><br><span class="line"> </span><br><span class="line"><span class="comment"># 五折交叉验证</span></span><br><span class="line">folds = KFold(n_splits=<span class="number">5</span>, shuffle=<span class="keyword">False</span>, random_state=<span class="number">2019</span>)</span><br><span class="line">oof = np.zeros([X_train.shape[<span class="number">0</span>],num_class])</span><br><span class="line">predictions = np.zeros([X_test.shape[<span class="number">0</span>],num_class])</span><br><span class="line"> </span><br><span class="line"><span class="keyword">for</span> fold_, (trn_idx, val_idx) <span class="keyword">in</span> enumerate(folds.split(X_train, y_train)):</span><br><span class="line">    print(<span class="string">"fold n°&#123;&#125;"</span>.format(fold_+<span class="number">1</span>))</span><br><span class="line">    trn_data = lgb.Dataset(X_train[trn_idx], y_train[trn_idx])</span><br><span class="line">    val_data = lgb.Dataset(X_train[val_idx], y_train[val_idx])</span><br><span class="line"> </span><br><span class="line">    num_round = <span class="number">1000</span></span><br><span class="line">    clf = lgb.train(param, </span><br><span class="line">                    trn_data, </span><br><span class="line">                    num_round, </span><br><span class="line">                    valid_sets = [trn_data, val_data], </span><br><span class="line">                    verbose_eval = <span class="number">100</span>, </span><br><span class="line">                    early_stopping_rounds = <span class="number">100</span>)</span><br><span class="line">    <span class="comment">#oof[val_idx] = clf.predict(X_train[val_idx], num_iteration=clf.best_iteration)    </span></span><br><span class="line">    predictions += clf.predict(X_test, num_iteration=clf.best_iteration) / folds.n_splits</span><br><span class="line">    <span class="comment">#print(predictions)</span></span><br><span class="line">print(predictions)</span><br><span class="line"></span><br><span class="line">df_test[<span class="string">'label'</span>] = predictions.argmax(axis=<span class="number">-1</span>)</span><br><span class="line">df_test[<span class="string">'stance'</span>] = df_test[<span class="string">'label'</span>].map(label_dict2)</span><br><span class="line"></span><br><span class="line">df_result = df_test.loc[:, [<span class="string">'stance'</span>]]</span><br><span class="line">df_result.to_csv(<span class="string">'./lightgbm_.csv'</span>,header=<span class="keyword">None</span>)</span><br></pre></td></tr></table></figure>
+<h2 id="数据处理"><a href="#数据处理" class="headerlink" title="数据处理"></a>数据处理</h2><p>使用奇异值分解（SVD）来减少TF-IDF的特征数量，同时将数据标准化。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">svd = decomposition.TruncatedSVD(n_components=<span class="number">150</span>)</span><br><span class="line">svd.fit(xtrain_tfv)</span><br><span class="line">xtrain_svd = svd.transform(xtrain_tfv)</span><br><span class="line">xtest_svd = svd.transform(xtest_tfv)</span><br><span class="line"></span><br><span class="line">scl = preprocessing.StandardScaler()</span><br><span class="line">scl.fit(xtrain_svd)</span><br><span class="line">xtrain_svd_scl = scl.transform(xtrain_svd)</span><br><span class="line">xtest_svd_scl = scl.transform(xtest_svd)</span><br><span class="line"></span><br><span class="line">clf = SVC(C=<span class="number">1.0</span>, probability=<span class="keyword">True</span>) <span class="comment"># since we need probabilities</span></span><br><span class="line">clf.fit(xtrain_svd_scl, y)</span><br><span class="line">predictions = clf.predict_proba(xtest_svd_scl)</span><br><span class="line"></span><br><span class="line"><span class="keyword">print</span> (<span class="string">"accuracy: %0.6f "</span> % accuracy(predictions.argmax(axis=<span class="number">-1</span>),np.array(ans_final[<span class="string">'label'</span>])))</span><br><span class="line"></span><br><span class="line">clf = SVC(C=<span class="number">1.0</span>, probability=<span class="keyword">True</span>) <span class="comment"># since we need probabilities</span></span><br><span class="line">clf.fit(xtrain_tfv, y)</span><br><span class="line">predictions = clf.predict_proba(xtest_tfv)</span><br><span class="line"></span><br><span class="line"><span class="keyword">print</span> (<span class="string">"accuracy: %0.6f "</span> % accuracy(predictions.argmax(axis=<span class="number">-1</span>),np.array(ans_final[<span class="string">'label'</span>])))</span><br></pre></td></tr></table></figure>
+<h2 id="词嵌入Word2Vec"><a href="#词嵌入Word2Vec" class="headerlink" title="词嵌入Word2Vec"></a>词嵌入Word2Vec</h2><p>将高维稀疏的词向量转移到低维空间，相比较于TF-IDF，效果可能更好。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line">train_text = list(df_train[<span class="string">'cut_text'</span>].values)</span><br><span class="line">test_text = list(df_test[<span class="string">'cut_text'</span>].values)</span><br><span class="line">totle_text = train_text + test_text</span><br><span class="line"></span><br><span class="line">all_text = []</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> totle_text:</span><br><span class="line">    tmp = i.split(sep=<span class="string">' '</span>)</span><br><span class="line">    all_text.extend(tmp)</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> gensim</span><br><span class="line">model = gensim.models.Word2Vec(all_text, size=<span class="number">200</span>, iter=<span class="number">10</span>, sg=<span class="number">1</span>, window=<span class="number">5</span>,  min_count=<span class="number">5</span>,  negative=<span class="number">3</span>, sample=<span class="number">0.001</span>, hs=<span class="number">1</span>, workers=<span class="number">4</span>)  </span><br><span class="line"><span class="comment"># (sentences, sg=1, size=100,  window=5,  min_count=5,  negative=3, sample=0.001, hs=1, workers=4)  </span></span><br><span class="line"></span><br><span class="line">embeddings_index = dict(zip(model.wv.index2word, model.wv.syn0))</span><br><span class="line"></span><br><span class="line">print(<span class="string">'Found %s word vectors.'</span> % len(embeddings_index))</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">sent2vec</span><span class="params">(s)</span>:</span></span><br><span class="line">    words = str(s).lower()</span><br><span class="line">    words = word_tokenize(words)</span><br><span class="line"><span class="comment">#     words = [w for w in words if not w in stopWordList]</span></span><br><span class="line"><span class="comment">#     words = [w for w in words if w.isalpha()]</span></span><br><span class="line">    M = []</span><br><span class="line">    <span class="keyword">for</span> w <span class="keyword">in</span> words:</span><br><span class="line">        <span class="keyword">try</span>:</span><br><span class="line">            M.append(embeddings_index[w])</span><br><span class="line">        <span class="keyword">except</span>:</span><br><span class="line">            <span class="keyword">continue</span></span><br><span class="line">    M = np.array(M)</span><br><span class="line">    v = M.sum(axis=<span class="number">0</span>)</span><br><span class="line">    <span class="keyword">if</span> type(v) != np.ndarray:</span><br><span class="line">        <span class="keyword">return</span> np.zeros(<span class="number">200</span>)</span><br><span class="line">    <span class="keyword">return</span> v / np.sqrt((v ** <span class="number">2</span>).sum())</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_contentVector</span><span class="params">(cutWords, word2vec_model)</span>:</span></span><br><span class="line">    vector_list = [word2vec_model.wv[k] <span class="keyword">for</span> k <span class="keyword">in</span> cutWords <span class="keyword">if</span> k <span class="keyword">in</span> word2vec_model]</span><br><span class="line">    contentVector = np.array(vector_list).mean(axis=<span class="number">0</span>)</span><br><span class="line">    <span class="keyword">return</span> contentVector</span><br><span class="line"></span><br><span class="line">xtrain_w2v  = [get_contentVector(x,model) <span class="keyword">for</span> x <span class="keyword">in</span> tqdm(train_text)]</span><br><span class="line">xvalid_w2v  = [get_contentVector(x,model) <span class="keyword">for</span> x <span class="keyword">in</span> tqdm(test_text)]</span><br><span class="line"></span><br><span class="line">xtrain_w2v  = np.array(xtrain_w2v)</span><br><span class="line">xvalid_w2v  = np.array(xvalid_w2v)</span><br></pre></td></tr></table></figure>
+<p>这一步之后，继续使用模型进行分类。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#LGB</span></span><br><span class="line">clf = lgb.LGBMClassifier(max_depth=<span class="number">7</span>, n_estimators=<span class="number">200</span>, colsample_bytree=<span class="number">0.8</span>, </span><br><span class="line">                        subsample=<span class="number">0.8</span>, nthread=<span class="number">10</span>, learning_rate=<span class="number">0.1</span>, silent=<span class="keyword">False</span>)</span><br><span class="line">clf.fit(xtrain_w2v, y)</span><br><span class="line">predictions = clf.predict_proba(xvalid_w2v)</span><br><span class="line"></span><br><span class="line"><span class="keyword">print</span> (<span class="string">"accuracy: %0.6f "</span> % accuracy(predictions.argmax(axis=<span class="number">-1</span>),np.array(ans_final[<span class="string">'label'</span>])))</span><br><span class="line"><span class="comment">#逻辑回归</span></span><br><span class="line">clf = LogisticRegression(C=<span class="number">1.0</span>,solver=<span class="string">'lbfgs'</span>,multi_class=<span class="string">'multinomial'</span>)</span><br><span class="line">clf.fit(xtrain_w2v, y)</span><br><span class="line">predictions = clf.predict_proba(xvalid_w2v)</span><br><span class="line"></span><br><span class="line"><span class="keyword">print</span> (<span class="string">"accuracy: %0.6f "</span> % accuracy(predictions.argmax(axis=<span class="number">-1</span>),np.array(ans_final[<span class="string">'label'</span>])))</span><br><span class="line"><span class="comment">#SVM</span></span><br><span class="line">clf = SVC(C=<span class="number">1.0</span>, probability=<span class="keyword">True</span>) <span class="comment"># since we need probabilities</span></span><br><span class="line">clf.fit(xtrain_w2v, y)</span><br><span class="line">predictions = clf.predict_proba(xvalid_w2v)</span><br><span class="line"></span><br><span class="line"><span class="keyword">print</span> (<span class="string">"accuracy: %0.6f "</span> % accuracy(predictions.argmax(axis=<span class="number">-1</span>),np.array(ans_final[<span class="string">'label'</span>])))</span><br></pre></td></tr></table></figure>
+<h2 id="深度学习"><a href="#深度学习" class="headerlink" title="深度学习"></a>深度学习</h2><h2 id="BERT"><a href="#BERT" class="headerlink" title="BERT"></a>BERT</h2><h1 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h1><p><a href="https://zhuanlan.zhihu.com/p/64602471" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/64602471</a></p>
+<p><a href="https://zhuanlan.zhihu.com/p/66506214" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/66506214</a></p>
+<p><a href="https://github.com/ZeroLeon/Chinese_htlData_Classification_with_BERT/blob/master/Chinese_htlData_Classification_with_BERT.ipynb" target="_blank" rel="noopener">https://github.com/ZeroLeon/Chinese_htlData_Classification_with_BERT/blob/master/Chinese_htlData_Classification_with_BERT.ipynb</a></p>
+<p><a href="https://github.com/cy576013581/text-classification/blob/master/Fasttext/fasttext.py" target="_blank" rel="noopener">https://github.com/cy576013581/text-classification/blob/master/Fasttext/fasttext.py</a></p>
+<p><a href="https://github.com/real-brilliant/bert_chinese_pytorch/blob/master/bert.py" target="_blank" rel="noopener">https://github.com/real-brilliant/bert_chinese_pytorch/blob/master/bert.py</a></p>
+<p><a href="https://blog.csdn.net/Real_Brilliant/article/details/84880528?depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-2&amp;utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-2" target="_blank" rel="noopener">https://blog.csdn.net/Real_Brilliant/article/details/84880528?depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-2&amp;utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-2</a></p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/机器学习/" rel="tag"># 机器学习</a>
+          
+            <a href="/tags/自然语言处理/" rel="tag"># 自然语言处理</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/04/03/面试之HashMap/" rel="next" title="面试之HashMap">
+                <i class="fa fa-chevron-left"></i> 面试之HashMap
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.png"
+                alt="Allenyep" />
+            
+              <p class="site-author-name" itemprop="name">Allenyep</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">39</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">30</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/Allenyep" target="_blank" title="GitHub"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="https://instagram.com/Allenyep" target="_blank" title="Instagram"><i class="fa fa-fw fa-instagram"></i>Instagram</a>
+                  
+                </span>
+              
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#文本分类的基本步骤"><span class="nav-number">1.</span> <span class="nav-text">文本分类的基本步骤</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#数据导入"><span class="nav-number">1.1.</span> <span class="nav-text">数据导入</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#分词"><span class="nav-number">1.2.</span> <span class="nav-text">分词</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#TF-IDF"><span class="nav-number">1.3.</span> <span class="nav-text">TF-IDF</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#模型"><span class="nav-number">1.4.</span> <span class="nav-text">模型</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#朴素贝叶斯"><span class="nav-number">1.4.1.</span> <span class="nav-text">朴素贝叶斯</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SVM"><span class="nav-number">1.4.2.</span> <span class="nav-text">SVM</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#LGB"><span class="nav-number">1.4.3.</span> <span class="nav-text">LGB</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数据处理"><span class="nav-number">1.5.</span> <span class="nav-text">数据处理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#词嵌入Word2Vec"><span class="nav-number">1.6.</span> <span class="nav-text">词嵌入Word2Vec</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#深度学习"><span class="nav-number">1.7.</span> <span class="nav-text">深度学习</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#BERT"><span class="nav-number">1.8.</span> <span class="nav-text">BERT</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考链接"><span class="nav-number">2.</span> <span class="nav-text">参考链接</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2017 &mdash; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Allenyep</span>
+  <a href="https://www.allenyep.cn/">渝ICP备17000605号-1</a> 
+
+  
+
+  
+</div>
+
+
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动 v3.6.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/theme-next/hexo-theme-next">NexT.Muse</a> v6.2.0</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.2.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.2.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.2.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.2.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.2.0"></script>
+
+
+
+  
+
+  
+    <script id="dsq-count-scr" src="https://allen.disqus.com/count.js" async></script>
+  
+
+  
+    <script type="text/javascript">
+      var disqus_config = function () {
+        this.page.url = 'http://yoursite.com/2020/04/13/NLP入门之微博立场检测/';
+        this.page.identifier = '2020/04/13/NLP入门之微博立场检测/';
+        this.page.title = 'NLP入门之微博立场检测';
+      };
+      function loadComments () {
+        var d = document, s = d.createElement('script');
+        s.src = 'https://allen.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      }
+      
+        loadComments();
+      
+    </script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config("");
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+  
+
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+
+  
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+<script type="text/javascript">
+    var host = "allenyep.cn";
+    if ((host == window.location.host) && (window.location.protocol != "https:"))
+        window.location.protocol = "https";
+</script>
+</html>
